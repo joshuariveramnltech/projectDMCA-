@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bootstrap4',
     'taggit',
+    'administrator.apps.AdministratorConfig',
     'account.apps.AccountConfig',
     'faculty.apps.FacultyConfig',
     'guest.apps.GuestConfig',
