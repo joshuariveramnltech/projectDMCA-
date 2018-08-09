@@ -52,7 +52,7 @@
             </ul>
            
         {% else %}
-        <a href="{% url 'account:login' %}" class="nav-link">Log-in</a>
+        <a href="{% url 'account:login' %}" class="nav-link"></a>
         {% endif %}
         </nav>       
     </div>
@@ -112,15 +112,6 @@
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
 
-    <!--Floating Action Button INIT-->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var elems = document.querySelectorAll('.fixed-action-btn');
-            var instances = M.FloatingActionButton.init(elems, {
-                direction: 'top'
-                });
-        });
-    </script>
-    <!--End of Floating Action Button INIT-->
+   
 </body>
 </html>
