@@ -38,7 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bootstrap4',
-    'account.apps.AccountConfig'
+    'taggit',
+    'account.apps.AccountConfig',
+    'faculty.apps.FacultyConfig',
+    'guest.apps.GuestConfig',
+    'student.apps.StudentConfig',
+    'staff.apps.StaffConfig',
 ]
 
 MIDDLEWARE = [
@@ -124,7 +129,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Manila'
 
 USE_I18N = True
 
