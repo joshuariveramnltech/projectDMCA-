@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}Divine Miracle Christian Academy|Dashboard{% endblock title %}
 {% block content %}
+{% load staticfiles %}
     
     <!-- Dropdown Structure -->
 <ul id="dropdown1" class="dropdown-content">
@@ -8,12 +9,12 @@
         <li><a href="#!">two</a></li>
         <li class="divider"></li>
         <li><a href="#!">three</a></li>
-        <li> <a href="{% url 'account:logout' %}" class="nav-link red accent white-text">Logout</a></li>
+        <li> <a href="{% url 'account:logout' %}" class="nav-link red white-text">Logout</a></li>
       </ul>
 
       <nav class="black-text">
         <div class="nav-wrapper grey lighten-2 ">
-          <a href="#!" class="brand-logo black-text " >Divine Miracle Christian Academy</a>
+          <a href="#!" class="brand-logo responsive-img left" ><img src="{% static "img/DMCA logo.png" %}" style="height: 50px;">Divine Miracle Christian Academy</a>
           <ul class="right hide-on-med-and-down ">
             <li><a href="sass.html">Sass</a></li>
             
