@@ -1,13 +1,12 @@
 {% extends 'base.html' %}
 {% block title %}Divine Miracle Christian Academy|Login{% endblock title %}
 {% block content %}
+<div>
+<div style="height: 100px;"></div>
     <div>
-        {% if form.errors %}
-            <p>Your username and password didn't match. Please try again.</p>
-        {% endif %}
+        
         <form action="." method="POST">
             {% csrf_token %}
-<<<<<<< HEAD
            
             
             <!-- CARD CONATINER-->
@@ -35,23 +34,22 @@
                 </form>
               </div>
                       <p>This app is under development</p>
+                      {% if form.errors %}
+            <p>Your username and password didn't match. Please try again.</p>
+        {% endif %}
                     </div>
                     <div class="card-action center">
-                      <button type="submit" class="btn waves-effect waves-light orange darken-2 "><i class="material-icons right">send</i> LOGIN</button>
+                      <button type="submit" class="btn waves-effect waves-light orange darken-2 "><i class="material-icons right">send</i> Submit</button>
                     </div>
                   </div>
                 </div>
               </div>
 
-=======
-            <label for="id_username">Username:</label> <input type="text" name="username" autofocus maxlength="254" required id="id_username" />
-            <label for="id_password">Password:</label> <input type="password" name="password" required id="id_password" />  
-            <button type="submit" class="btn btn-primary">Login</button>
-            
->>>>>>> 424cdbb09c903f183bf9050b077b15fbfbee08cb
           
                   
     
         </form>
     </div>
+    <div style="height: 100px;"></div>
+</div>
 {% endblock content %}
