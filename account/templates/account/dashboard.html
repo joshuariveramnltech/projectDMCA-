@@ -1,6 +1,27 @@
 {% extends 'base.html' %}
 {% block title %}Divine Miracle Christian Academy|Dashboard{% endblock title %}
 {% block content %}
+{% load staticfiles %}
+
+
+
+    <!--sidenav structure-->
+   
+    <ul id="slide-out" class="sidenav">
+        <li><div class="user-view">
+        <div class="background">
+        <img src="images/office.jpg">
+        </div>
+          <a href="#user"><img class="circle" src="images/yuna.jpg"></a>
+          <a href="#name"><span class="black-text name">{{ user.first_name }}</span></a>
+          <a href="#email"><span class="black-text email">jdandturk@gmail.com</span></a>
+        </div></li>
+        <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
+        <li><a href="#!">Second Link</a></li>
+        <li><div class="divider"></div></li>
+        <li><a class="subheader">Subheader</a></li>
+        <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+      </ul>
     
     <!-- Dropdown Structure -->
 <ul id="dropdown1" class="dropdown-content">
@@ -13,8 +34,10 @@
 
       <nav class="black-text">
         <div class="nav-wrapper grey lighten-2 ">
-          <a href="#!" class="brand-logo black-text " >Divine Miracle Christian Academy</a>
+            <button data-target="slide-out" class="btn sidenav-trigger align-left"><i class="material-icons">menu</i></button>
+          <a href="#!" class="brand-logo responsive-img left" ><img src="{% static "img/DMCA logo.png" %}" style="height: 50px;">Divine Miracle Christian Academy</a>
           <ul class="right hide-on-med-and-down ">
+              
             <li><a href="sass.html">Sass</a></li>
             
             <!-- Dropdown Trigger -->
@@ -37,7 +60,7 @@
             </ul>
     </div>
     Welcome
-    Hello {{ request.user.first_name }}
+    Hello {{ user.first_name }}
      <!-- FLOATING ACTION BUTTON -->
      <div class="fixed-action-btn">
             <a class="btn-floating btn-large red">
@@ -70,6 +93,17 @@
             var instances = M.Dropdown.init(elems, {
                 hover: 'true'
             });
+        });
+
+    </script>
+
+    <!--sidenav INIT-->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+           var elems = document.querySelectorAll('.sidenav');
+           var instances = M.Sidenav.init(elems, {
+            draggable: 'true'
+           });
         });
 
     </script>
