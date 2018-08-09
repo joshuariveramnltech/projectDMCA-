@@ -29,25 +29,25 @@
 
 </head>
 <body id="landing">
-    <div class="navbar">
+    <div class="navbar black-text">
         <nav class="navbar navbar-expand-sm grey lighten-2">
             {% if request.user.is_authenticated %}
-            <ul class="navbar-nav blue">
+            <ul class="navbar-nav blue black-text">
                 <li><h5>Divine Miracle Christian Academy</h5></li>
                 <li {% if section == "dashboard" %} class="nav-item" {% endif %}>
-                <a href="{% url 'account:dashboard' %}" class="nav-link">My dashboard</a>
+                <a href="{% url 'account:dashboard' %}" class="nav-link black-text">My dashboard</a>
                 </li>
                 <li {% if section == "images" %} class="nav-item" {% endif %}>
-                    <a href="#" class="nav-link ">Images</a>
+                    <a href="#" class="nav-link black-text ">Images</a>
                 </li>
                 <li {% if section == "people" %} class="nav-item" {% endif %}>
-                    <a href="#" class="nav-link">People</a>
+                    <a href="#" class="nav-link black-text">People</a>
                 </li>
                 <li class="nav-item nav-link">
                     Hello {{ request.user.first_name }}
                 </li>
                 <li class="nav-item right">
-                    <a href="{% url 'account:logout' %}" class="nav-link">Logout</a>
+                    <a href="{% url 'account:logout' %}" class="nav-link black-text">Logout</a>
                 </li>
             </ul>
            
