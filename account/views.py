@@ -1,14 +1,15 @@
-from django.shortcuts import render, reverse
+from django.shortcuts import render, reverse, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 # from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegistrationForm
 # Create your views here.
-
+from django.contrib.auth.models import User
 
 @login_required
 def dashboard(request):
-    return render(request, 'dashboard.html', {})
+    user = get_object_or_404(User, username=request.user.username)
+    return render(request, 'dashboard.html', {'user': user})
 
 
 @login_required
