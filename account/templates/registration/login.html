@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}Divine Miracle Christian Academy|Login{% endblock title %}
 {% block content %}
+{% load static %}
 <div>
 <div style="height: 100px;"></div>
     <div>
@@ -11,21 +12,25 @@
             
             <!-- CARD CONATINER-->
         <div class="container">
-                <div class="col s12 m6 center">
+                <div class="grid-example col s6 m12 center">
                   <div class="card blue-grey darken-1 z-depth-4">
                     <div class="card-content white-text">
-                      <span class="card-title">Login</span>
+                      <div class="row">
+                        <div class="center-align"><img src="{% static "img/DMCA logo.png" %}" alt="" class="circle responsive-img" style="height: 200px;"></div>
+                      </div>
+                      <span class="card-title flow-text">Login</span>
+                     
                       <!-- text input box-->
 
             <div class="container">
                 <form class="center">
                   <div class="row">
-                    <div class="input-field">
+                    <div class="input-field flow-text">
                       <i class="material-icons prefix">account_circle</i>
                       <input type="text" name="username" autofocus maxlength="254" required id="id_username" />
                       <label for="id_username">Username:</label>
                     </div>
-                    <div class="input-field">
+                    <div class="input-field flow-text">
                       <i class="material-icons prefix">visibility_off</i>
                       <input type="password" name="password" required id="id_password" />  
                       <label for="id_password">Password:</label>
