@@ -1,10 +1,11 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.conf import settings
-# Create your models here.
+from phonenumber_field.modelfields import PhoneNumberField
+# Create your models here
 
 
-class StudentInfo(models.Model):
+class Profile(models.Model):
     LEVEL_CHOICES = (
         ('nursery', 'Nursery'), ('kinder', 'Kinder'),
         ('grade_1','Grade_1'), ('grade_2','Grade_2'),
@@ -17,6 +18,12 @@ class StudentInfo(models.Model):
     )
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     level = models.CharField(max_length=200, choices=LEVEL_CHOICES, blank=True, null=True)
-    section = models.CharField(max_length=200, choices=LEVEL_CHOICES, blank=True, null=True)
-    guardian = models.CharField(max_length=200)
+    section = models.CharField(max_length=200, choices=SECTION_CHOICES, blank=True, null=True)
+    address = models.CharField(max_length=200, blank=True, null=True)
+    guardian = models.CharField(max_length=200, blank=True, null=True)
+    contact = PhoneNumberField(blank=True)
+
+
+    def __str__(self):
+        return self.user.username
     

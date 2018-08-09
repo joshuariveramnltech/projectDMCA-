@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'phonenumber_field',
     'bootstrap4',
     'taggit',
     'administrator.apps.AdministratorConfig',
@@ -65,7 +66,8 @@ TEMPLATES = [
         'DIRS': [
             os.path.join(BASE_DIR, 'account\\templates'),
             os.path.join(BASE_DIR, 'account\\templates\\account'),
-            os.path.join(BASE_DIR, 'account\\templates\\account\\registration'), 
+            os.path.join(BASE_DIR, 'account\\templates\\account\\registration'),
+            os.path.join(BASE_DIR, 'administrator\\templates'), 
             ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -143,14 +145,22 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),os.path.join(BASE_DIR, 'static/img') ]
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'static/img') 
+    ]
 
-LOGIN_URL = 'account:login'
+LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'account:dashboard'
-LOGOUT_URL = 'account:logout'
-LOGOUT_REDIRECT_URL = 'account:login'
+LOGOUT_REDIRECT_URL = 'login'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'sungakim816@gmail.com'
+EMAIL_HOST_PASSWORD = 'K!Mjyiu8767hukjyi'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+PHONENUMBER_DEFAULT_REGION = 'PH'

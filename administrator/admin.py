@@ -1,8 +1,8 @@
 from django.contrib import admin
-from .models import StudentInfo
+from .models import Profile
 # Register your models here.
 
 
-@admin.register(StudentInfo)
-class CreateStudentAccount(admin.ModelAdmin):
-    pass
+@admin.register(Profile)
+class AdminProfile(admin.ModelAdmin):
+    list_display = ['user', 'level','section']

@@ -6,6 +6,5 @@ from . import views
 app_name = "administrator"
 
 urlpatterns = [
-    path('create_student/', views.create_student, name='create_user'),
-
+    path('create_user/', views.create_user, name='create_user'),
 ]
