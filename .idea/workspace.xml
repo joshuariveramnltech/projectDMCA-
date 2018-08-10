@@ -3,16 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="eacd0693-db27-4127-9472-24cc6fc014e6" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/account/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/account/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/account/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/account/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/account/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/account/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/administrator/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/administrator/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/administrator/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/administrator/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/administrator/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/administrator/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/administrator/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/administrator/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/faculty/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/faculty/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/student/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/student/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/student/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/student/models.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -51,13 +41,13 @@
           <entry key="gitignore" value="7" />
           <entry key="js" value="11" />
           <entry key="py" value="1582" />
-          <entry key="txt" value="56" />
+          <entry key="txt" value="132" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="JavaScript" value="11" />
-          <entry key="PLAIN_TEXT" value="63" />
+          <entry key="PLAIN_TEXT" value="139" />
           <entry key="Python" value="1582" />
         </counts>
       </usages-collector>
@@ -85,8 +75,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/account/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="280">
-              <caret line="37" column="34" selection-start-line="37" selection-start-column="34" selection-end-line="37" selection-end-column="34" />
+            <state relative-caret-position="331">
+              <caret line="40" column="28" lean-forward="true" selection-start-line="40" selection-start-column="28" selection-end-line="40" selection-end-column="28" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
               </folding>
@@ -209,11 +199,6 @@
               <item name="projectDMCA" type="b2602c69:ProjectViewProjectNode" />
               <item name="projectDMCA" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="projectDMCA" type="b2602c69:ProjectViewProjectNode" />
-              <item name="projectDMCA" type="462c0819:PsiDirectoryNode" />
-              <item name="account" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -259,14 +244,21 @@
       <option name="project" value="LOCAL" />
       <updated>1533867741959</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="add Address, Level, Section, and Student Models to Account Application">
+      <created>1533890990506</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1533890990506</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25285172" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24904943" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -281,7 +273,7 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.32884097" />
+      <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.32884097" />
       <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.5006337" side_tool="true" weight="0.32884097" />
       <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.49936628" weight="0.3301887" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -325,7 +317,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Modify EMAIL_HOST_USER and EMAIL_HOST_PASSWORD" />
-    <option name="LAST_COMMIT_MESSAGE" value="Modify EMAIL_HOST_USER and EMAIL_HOST_PASSWORD" />
+    <MESSAGE value="add Address, Level, Section, and Student Models to Account Application" />
+    <option name="LAST_COMMIT_MESSAGE" value="add Address, Level, Section, and Student Models to Account Application" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/static/main.css">
@@ -458,8 +451,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/account/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="37" column="34" selection-start-line="37" selection-start-column="34" selection-end-line="37" selection-end-column="34" />
+        <state relative-caret-position="331">
+          <caret line="40" column="28" lean-forward="true" selection-start-line="40" selection-start-column="28" selection-end-line="40" selection-end-column="28" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
           </folding>

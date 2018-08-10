@@ -10,6 +10,20 @@ class StudentModelAdmin(admin.ModelAdmin):
 	search_fields = ['user', 'level', 'section']
 
 
+@admin.register(models.Faculty)
+class FacultyModelAdmin(admin.ModelAdmin):
+	list_display = ['user', 'level', 'section']
+	list_filter = ['user', 'level', 'section']
+	search_fields = ['user', 'level', 'section']
+
+
+@admin.register(models.Staff)
+class StaffModelAdmin(admin.ModelAdmin):
+	list_display = ['user', 'position']
+	list_filter = ['user', 'position']
+	search_fields = ['user', 'position']
+
+
 @admin.register(models.Address)
 class AddressModelAdmin(admin.ModelAdmin):
 	list_display = ['brgy', 'town', 'province']
@@ -26,4 +40,4 @@ class LevelModelAdmin(admin.ModelAdmin):
 @admin.register(models.Section)
 class SectionModelAdmin(admin.ModelAdmin):
 	list_display = ['section', 'level', ]
-	search_fields = ['section', ]
+	search_fields = ['section', 'level', ]

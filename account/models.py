@@ -53,5 +53,33 @@ class Student(models.Model):
 		return self.user.username
 
 
+class Faculty(models.Model):
+	user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+	account = models.ForeignKey(Group, on_delete=None, default=2)
+	level = models.ForeignKey(Level, on_delete=None)
+	section = models.ForeignKey(Section, on_delete=None)
+	birthday = models.DateField()
+	address = models.ForeignKey(Address, on_delete=None)
+	phone_regex = RegexValidator(regex=r'^\+?1?\d{9,12}$', message="Accepted Format:+639999999999. Up to 12 digits allowed.")
+	phone_number = models.CharField(validators=[phone_regex, ], max_length=15, blank=True)  # validators should be a list
+
+	class Meta:
+		verbose_name_plural = 'Faculties'
+
+	def __str__(self):
+		return self.user.username
+
+
+class Staff(models.Model):
+	user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+	account = models.ForeignKey(Group, on_delete=None, default=3)
+	position = models.CharField(max_length=200)
+	birthday = models.DateField()
+	address = models.ForeignKey(Address, on_delete=None)
+	phone_regex = RegexValidator(regex=r'^\+?1?\d{9,12}$', message="Accepted Format:+639999999999. Up to 12 digits allowed.")
+	phone_number = models.CharField(validators=[phone_regex, ], max_length=15, blank=True)  # validators should be a list
+
+	def __str__(self):
+		return self.user.username
 
 
