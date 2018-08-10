@@ -3,7 +3,6 @@ from taggit.managers import TaggableManager
 from django.conf import settings
 from django.utils import timezone
 from django.urls import reverse
-from django.contrib.auth.models import User
 # Create your models here.
 
 
@@ -22,14 +21,11 @@ class Announcement(models.Model):
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='draft')
 
-    
     def get_absolute_url(self):
         return reverse("faculty:post_announcement", args=[self.publish.year, self.publish.month, self.publish.day, self.slug])
-
 
     class Meta:
         ordering = ('-publish', )
 
-    
     def __str__(self):
         return self.title

@@ -5,7 +5,6 @@ from django.contrib.auth.decorators import login_required
 from .forms import UserRegistrationForm
 from django.contrib.auth.models import Group
 from django.contrib import messages
-from .models import Profile
 # Create your views here.
 
 
@@ -21,7 +20,6 @@ def create_user(request):
             new_user.save()
             target_group = Group.objects.get(name=form.cleaned_data['account_type'])
             target_group.user_set.add(new_user)
-            Profile.objects.create(user=new_user)
         else:
             messages.error(request, 'Error updating your Profile')
             return HttpResponse('User Created Succesfully')
