@@ -14,7 +14,7 @@
         </div>
           <a href="#user"><img class="circle" src="images/yuna.jpg"></a>
           <a href="#name"><span class="black-text name">{{ user.first_name }}</span></a>
-          <a href="#email"><span class="black-text email">jdandturk@gmail.com</span></a>
+          <a href="#email"><span class="black-text email">{{ user.email }}</span></a>
         </div></li>
         <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
         <li><a href="#!">Second Link</a></li>
@@ -35,7 +35,7 @@
       <nav class="black-text">
         <div class="nav-wrapper grey lighten-2 ">
             <button data-target="slide-out" class="btn sidenav-trigger align-left"><i class="material-icons">menu</i></button>
-          <a href="#!" class="brand-logo responsive-img left" ><img src="{% static "img/DMCA logo.png" %}" style="height: 50px;">Divine Miracle Christian Academy</a>
+          <a href="#!" class="brand-logo responsive-img left black-text" ><img src="{% static "img/DMCA logo.png" %}" style="height: 50px;">Divine Miracle Christian Academy</a>
           <ul class="right hide-on-med-and-down ">
               
             <li><a href="sass.html">Sass</a></li>
