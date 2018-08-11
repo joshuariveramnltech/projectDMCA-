@@ -17,7 +17,6 @@ class UserRegistrationForm(forms.ModelForm):
         model = User
         fields = ['username', 'first_name', 'last_name', 'email']
 
-
     def clean_password2(self):
         cleaned_data = self.cleaned_data # self here pertains to the UserRegistrationForm Itself
         if cleaned_data['password1'] != cleaned_data['password2']:
