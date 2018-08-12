@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Divine Miracle Christian Academy|Administrator|View Users</title>
+</head>
+<body>
+    <a href="{% url 'administrator:create_user' %}">Add New User</a><br/>
+     {% for user in users %}
+        Full Name: {{ user.get_full_name }} <a href="{% url 'administrator:delete_user' user.id %}">Delete</a>
+        <a href="{% url 'administrator:edit_user' user.id %}">Edit</a>
+
+        <ul>
+            <li>User ID: {{ user.id }}</li>
+            <li>UserName: {{ user.username }}</li>
+            <li>Email: {{ user.email }}</li>
+            <li>Email: {{ user.groups.group }}</li>
+
+        </ul>
+        {% endfor %}
+
+</body>
+</html>

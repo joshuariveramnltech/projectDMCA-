@@ -5,25 +5,18 @@ from django.core.validators import RegexValidator
 # Create your models here.
 
 
-class Level(models.Model):
+class LevelAndSection(models.Model):
 	LEVEL_CHOICES = (
 		('nursery', 'Nursery'), ('kinder', 'Kinder'),
-		('grade1', 'Grade1'), ('grade2','Grade2'),
+		('grade1', 'Grade1'), ('grade2', 'Grade2'),
 		('grade3', 'Grade3'), ('grade4', 'Grade4'),
 		('grade5', 'Grade5'), ('grade6', 'Grade6'),
 	)
-	level = models.CharField(max_length=15, choices=LEVEL_CHOICES, default='nursery', unique=True)
-
-	def __str__(self):
-		return self.level
-
-
-class Section(models.Model):
-	level = models.OneToOneField(Level, on_delete=None)
+	level = models.CharField(max_length=15, choices=LEVEL_CHOICES, default='nursery')
 	section = models.CharField(max_length=25)
 
 	def __str__(self):
-		return self.section
+		return self.level + " " + self.section
 
 
 class Address(models.Model):
@@ -35,51 +28,32 @@ class Address(models.Model):
 		verbose_name_plural = 'Addresses'
 
 	def __str__(self):
-		return self.brgy + ", " + self.town + ", " + self.province
+		return self.brgy + " " + self.town + ", " + self.province
 
 
-class Student(models.Model):
+class Profile(models.Model):
 	user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-	account = models.ForeignKey(Group, on_delete=None, default=1)
-	level = models.ForeignKey(Level, on_delete=None)
-	section = models.ForeignKey(Section, on_delete=None)
-	birthday = models.DateField()
-	guardian = models.CharField(max_length=75)
-	address = models.ForeignKey(Address, on_delete=None)
-	phone_regex = RegexValidator(regex=r'^\+?1?\d{9,12}$', message="Accepted Format:+639999999999. Up to 12 digits allowed.")
-	phone_number = models.CharField(validators=[phone_regex, ], max_length=15, blank=True)  # validators should be a list
+	account = models.ForeignKey(Group, on_delete=None)
+	birthday = models.DateField(blank=True, null=True)
+	address = models.ForeignKey(Address, on_delete=None, blank=True, null=True)
+	phone_regex = RegexValidator(regex=r'^\+?1?\d{9,12}$', message="Accepted Format:+639999999999.")
+	phone_number = models.CharField(validators=[phone_regex, ], max_length=15, blank=True, null=True)
 
 	def __str__(self):
 		return self.user.username
-
-
-class Faculty(models.Model):
-	user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-	account = models.ForeignKey(Group, on_delete=None, default=2)
-	level = models.ForeignKey(Level, on_delete=None)
-	section = models.ForeignKey(Section, on_delete=None)
-	birthday = models.DateField()
-	address = models.ForeignKey(Address, on_delete=None)
-	phone_regex = RegexValidator(regex=r'^\+?1?\d{9,12}$', message="Accepted Format:+639999999999. Up to 12 digits allowed.")
-	phone_number = models.CharField(validators=[phone_regex, ], max_length=15, blank=True)  # validators should be a list
 
 	class Meta:
-		verbose_name_plural = 'Faculties'
-
-	def __str__(self):
-		return self.user.username
+		abstract = True
 
 
-class Staff(models.Model):
-	user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-	account = models.ForeignKey(Group, on_delete=None, default=3)
-	position = models.CharField(max_length=200)
-	birthday = models.DateField()
-	address = models.ForeignKey(Address, on_delete=None)
-	phone_regex = RegexValidator(regex=r'^\+?1?\d{9,12}$', message="Accepted Format:+639999999999. Up to 12 digits allowed.")
-	phone_number = models.CharField(validators=[phone_regex, ], max_length=15, blank=True)  # validators should be a list
-
-	def __str__(self):
-		return self.user.username
+class StudentProfile(Profile):
+	level_and_section = models.ForeignKey(LevelAndSection, on_delete=None, related_name='students', blank=True, null=True)
+	guardian = models.CharField(max_length=200, blank=True, null=True)
 
 
+class FacultyProfile(Profile):
+	level_and_section = models.ForeignKey(LevelAndSection, on_delete=None, related_name='adviser', blank=True, null=True)
+
+
+class StaffProfile(Profile):
+	position = models.CharField(max_length=200, blank=True, null=True)

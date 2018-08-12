@@ -1,27 +1,11 @@
-from django.shortcuts import render, reverse, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect
-# from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .forms import UserRegistrationForm
+from django.contrib.auth.models import User,Group
+
 # Create your views here.
-from django.contrib.auth.models import User
+
 
 @login_required
 def dashboard(request):
     user = get_object_or_404(User, username=request.user.username)
     return render(request, 'dashboard.html', {'user': user})
-
-
-@login_required
-def register(request):
-    if request.method == 'GET':
-        form = UserRegistrationForm()
-    elif request.method == 'POST':
-        form = UserRegistrationForm(request.POST)
-        if form.is_valid():
-            new_user = form.save(commit=False)
-            new_user.set_password(form.cleaned_data['password1'])
-            new_user.save()
-            return HttpResponse("User Created")
-
-    return render(request, 'register.html', {'form': form})

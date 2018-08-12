@@ -1,5 +1,13 @@
+
 {% block content %}
+
     <form method="POST" action=".">
+        {% if form.errors %}
+        {% for error in form.errors %}
+            Error
+        {% endfor %}
+        {% endif %}
+
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="Register" />
