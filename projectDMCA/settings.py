@@ -36,17 +36,16 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
+    'django.contrib.staticfiles', 
+    # custom applications
     'phonenumber_field',
-    'bootstrap4',
     'taggit',
     'administrator.apps.AdministratorConfig',
     'account.apps.AccountConfig',
-    'faculty.apps.FacultyConfig',
-    'guest.apps.GuestConfig',
-    'student.apps.StudentConfig',
-    'staff.apps.StaffConfig',
+    'announcement.apps.AnnouncementConfig',
 ]
+
+AUTH_USER_MODEL = 'account.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -147,7 +146,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
-    os.path.join(BASE_DIR, 'static/img') 
+    os.path.join(BASE_DIR, 'static\\img') 
     ]
 
 LOGIN_URL = 'login'
@@ -161,6 +160,6 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 PHONENUMBER_DEFAULT_REGION = 'PH'
