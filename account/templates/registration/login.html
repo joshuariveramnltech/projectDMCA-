@@ -6,7 +6,7 @@
 <div style="height: 50px;"></div>
     <div>
         
-        <form action="." method="POST">
+        <form action="." method="POST"  onsubmit="loading()">
             {% csrf_token %}
            
             
@@ -45,7 +45,11 @@
                       
                       
         {% endif %} <br><br>
-        <button type="submit" class="btn btn-large hoverable waves-effect waves-light orange accent-3 "><i class="material-icons right">send</i> Submit</button>
+        <button id="sub" type="submit" class="btn btn-large hoverable waves-effect waves-light orange accent-3 "><i class="material-icons right">send</i> Submit</button>
+        <div id="lod" class="progress center" style="visibility: hidden;">
+            <div class="indeterminate"></div>
+            <h8> Logging In</h8>
+          </div>
                     </div>
                     <div class="card-action center">
                       
@@ -64,4 +68,12 @@
     </div>
     <div style="height: 100px;"></div>
 </div>
+<script>
+//LOADING FUNCTION
+  function loading(){
+    document.getElementById("sub").style.visibility='hidden';
+    //document.getElementById("box").style.visibility='hidden';
+    document.getElementById("lod").style.visibility='visible';
+  }
+</script>
 {% endblock content %}
