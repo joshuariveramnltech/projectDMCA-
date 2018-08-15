@@ -1,30 +1,27 @@
 from django import forms
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 # Create forms here
 
+User = get_user_model()
 
 class UserRegistrationForm(forms.ModelForm):
-	ACCOUNTS = (
-		('student', 'Student'),
-		('faculty', 'Faculty'),
-		('staff', 'Staff')
-	)
-	account = forms.ChoiceField(choices=ACCOUNTS)
 	password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
 	password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
 
 	class Meta:
 		model = User
-		fields = ['username', 'first_name', 'last_name', 'email']
+		fields = ['email', 'first_name', 'last_name', 'middle_name']
 
 	def clean_password2(self):
-		cleaned_data = self.cleaned_data  # self here pertains to the UserRegistrationForm Itself
-		if cleaned_data['password1'] != cleaned_data['password2']:
-			raise forms.ValidationError('Password don\'t match!')
-		return cleaned_data['password2']
+		# Check that the two password entries match
+		password1 = self.cleaned_data.get("password1")
+		password2 = self.cleaned_data.get("password2")
+		if password1 and password2 and (password1 != password2):
+			raise forms.ValidationError("Passwords don't match")
+		return password2
 
 
 class UserEditForm(forms.ModelForm):
 	class Meta:
 		model = User
-		fields = ['username', 'first_name', 'last_name', 'email']
+		fields = ['first_name', 'last_name', 'email']

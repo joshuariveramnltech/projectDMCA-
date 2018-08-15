@@ -1,15 +1,36 @@
-
-{% block content %}
-
-    <form method="POST" action=".">
-        {% if form.errors %}
-        {% for error in form.errors %}
-            Error
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+</head>
+<body>
+        <form method="POST" action=".">
+            <input type='hidden' name='csrfmiddlewaretoken' value='JW3wDoIDqXClCtUKJknX1ApwEagEZL32xzVvxf66PazEyDeOhCuUxFhaigpVuEfO' />
+        <p><label for="id_email">Email:</label> <input type="email" name="email" value="sungakim816@gmail.com" maxlength="255" required id="id_email" /></p>
+        <p><label for="id_first_name">First name:</label> <input type="text" name="first_name" maxlength="255" id="id_first_name" /></p>
+        <p><label for="id_last_name">Last name:</label> <input type="text" name="last_name" maxlength="255" id="id_last_name" /></p>
+        <p><label for="id_middle_name">Middle name:</label> <input type="text" name="middle_name" maxlength="255" id="id_middle_name" /></p>
+        <p><label for="id_is_active">Active:</label> <input type="checkbox" name="is_active" id="id_is_active" checked /></p>
+        <p><label for="id_is_student">Student:</label> <input type="checkbox" name="is_student" id="id_is_student" /></p>
+        <p><label for="id_is_teacher">Teacher:</label> <input type="checkbox" name="is_teacher" id="id_is_teacher" /></p>
+        <p><label for="id_is_staff">Staff:</label> <input type="checkbox" name="is_staff" id="id_is_staff" /></p>
+        <p><label for="id_is_superuser">Superuser:</label> <input type="checkbox" name="is_superuser" id="id_is_superuser" /></p>
+        <p><label for="id_password1">Password:</label> <input type="password" name="password1" required id="id_password1" /></p>
+        <ul class="errorlist"><li>Passwords don&#39;t match</li></ul>
+        <p><label for="id_password2">Password confirmation:</label> <input type="password" name="password2" required id="id_password2" /></p>
+                <input type="submit" value="Register" />
+            </form>
+    {% if form.errors %}
+        {% for field in form %}
+            {% for error in field.errors %}
+                {{ error|escape }} <br/>
+            {% endfor %}
         {% endfor %}
-        {% endif %}
-
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Register" />
-    </form>
-{% endblock content %}
+    {% endif %}
+</body>
+</html>

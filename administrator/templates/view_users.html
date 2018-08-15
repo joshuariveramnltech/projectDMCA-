@@ -9,15 +9,13 @@
      {% for user in users %}
         Full Name: {{ user.get_full_name }} <a href="{% url 'administrator:delete_user' user.id %}">Delete</a>
         <a href="{% url 'administrator:edit_user' user.id %}">Edit</a>
-
         <ul>
-            <li>User ID: {{ user.id }}</li>
-            <li>UserName: {{ user.username }}</li>
             <li>Email: {{ user.email }}</li>
-            <li>Email: {{ user.groups.group }}</li>
-
+            <li>Super User: {{ user.is_superuser }}</li>
+            <li>Birthday: {{ user.profile.date_of_birth }}</li>
+            <li>Address: {{ user.profile.address }}</li>
+            <li>Contact Number: {{ user.profile.phone_number }}</li>
         </ul>
         {% endfor %}
-
 </body>
 </html>

@@ -1,35 +1,22 @@
 from django.contrib import admin
-from . import models
+from django.contrib.auth.models import Group
+from .models import Profile, LevelAndSection
+from django.contrib.auth import get_user_model
+from .forms import UserAdmin
+
+
 # Register your models here.
+User = get_user_model()
+admin.site.unregister(Group)
 
+admin.site.register(User, UserAdmin)
 
-@admin.register(models.StudentProfile)
-class StudentModelAdmin(admin.ModelAdmin):
-	list_display = ('user', 'level_and_section', )
-	list_filter = ('user', 'level_and_section')
-	search_fields = ('user', 'level_and_section')
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ['user', 'date_of_birth']
 
-
-@admin.register(models.FacultyProfile)
-class StudentModelAdmin(admin.ModelAdmin):
-	list_display = ('user', 'level_and_section', )
-	list_filter = ('user', 'level_and_section')
-	search_fields = ('user', 'level_and_section')
-
-
-@admin.register(models.StaffProfile)
-class StudentModelAdmin(admin.ModelAdmin):
-	list_display = ('user', 'position', )
-
-
-@admin.register(models.Address)
-class AddressModelAdmin(admin.ModelAdmin):
-	list_display = ['brgy', 'town', 'province']
-	list_filter = ['brgy', 'town', 'province']
-	search_fields = ['brgy', 'town', 'province']
-
-
-@admin.register(models.LevelAndSection)
-class LevelAndSectionModelAdmin(admin.ModelAdmin):
-	list_display = ['level', 'section']
-	search_fields = ['level', 'section']
+@admin.register(LevelAndSection)
+class LevelSectionAdminModel(admin.ModelAdmin):
+    list_display = ['level', 'section']
+    list_filter = ['level', 'section']
+    search_fields = ['level', 'section']
