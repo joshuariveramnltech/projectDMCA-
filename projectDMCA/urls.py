@@ -16,9 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('django.contrib.auth.urls')),
+    path('account/', include('django.contrib.auth.urls')), # login, logout and password_reset form
     path('account/', include('account.urls', namespace='account')),
     path('administrator/', include('administrator.urls', namespace='administrator')),
 ]

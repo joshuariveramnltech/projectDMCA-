@@ -6,9 +6,9 @@ from . import views
 app_name = 'administrator'
 
 urlpatterns = [
-	path('create_user/', views.create_user, name='create_user'),
-	path('create_user/done/', views.create_user_done, name='create_user_done'),
-	path('view_users/', views.view_users, name='view_users'),
-	path('delete_user/<int:user_id>/', views.delete_user, name='delete_user'),
-	path('edit_user/<int:user_id>/', views.delete_user, name='edit_user'),
+	path('dmca/create_user/', views.create_user, name='create_user'),
+ 	path('dmca/create_user/done/', views.create_user_done, name='create_user_done'),
+ 	path('dmca/view_users/', views.view_users, name='view_users'),
+	path('dmca/delete_user/<int:user_id>/', views.delete_user, name='delete_user'),
+ 	path('dmca/edit_user/<int:user_id>/', views.edit_user, name='edit_user'),
 ]

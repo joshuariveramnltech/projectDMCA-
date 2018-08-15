@@ -1,78 +1,75 @@
 from django.shortcuts import render, reverse, get_object_or_404
 from django.http import HttpResponseRedirect
-from django.contrib.auth.decorators import login_required, permission_required
-from .forms import UserRegistrationForm, UserEditForm
-from django.contrib.auth.models import Group, User
+from django.core.exceptions import PermissionDenied
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from account.models import StudentProfile, StaffProfile, FacultyProfile
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.views.generic import View
+from django.contrib.auth import get_user_model
+from account.forms import UserCreationForm, UserChangeForm, ProfileChangeForm
+from account.models import Profile
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 # Create your views here.
 
 
+User = get_user_model()
+
 @login_required
-@permission_required('auth.add_user', raise_exception=True)
 def create_user_done(request):
+	if not request.user.is_staff:
+		raise PermissionDenied		
 	return render(request, 'create_user_done.html', {})
 
 
 @login_required
-@permission_required('auth.add_user', raise_exception=True)
 def create_user(request):
+	if not request.user.is_staff:
+		raise PermissionDenied
+
 	if request.method == 'GET':
-		form = UserRegistrationForm()
-		return render(request, 'create_user.html', {'form': form})
+		form = UserCreationForm()
 	elif request.method == 'POST':
-		form = UserRegistrationForm(request.POST)
+		form = UserCreationForm(data=request.POST)
 		if form.is_valid():
 			cleaned_data = form.cleaned_data
 			new_user = form.save(commit=False)
-			new_user.set_password(form.cleaned_data['password1'])
+			new_user.set_password(cleaned_data['password1'])
 			new_user.save()
-			target_group = Group.objects.get(name=cleaned_data['account'])
-			target_group.user_set.add(new_user)
-			if cleaned_data['account'] == 'student':
-				StudentProfile.objects.create(user=new_user, account=target_group)
-			elif cleaned_data['account'] == 'faculty':
-				FacultyProfile.objects.create(user=new_user, account=target_group)
-			elif cleaned_data['account'] == 'staff':
-				StaffProfile.objects.create(user=new_user, account=target_group)
+			Profile.objects.create(user=new_user)
 			return HttpResponseRedirect(reverse('administrator:create_user_done'))
-		else:
-			return HttpResponseRedirect(reverse('administrator:create_user'))
-
-
-class CreateUserView(LoginRequiredMixin, PermissionRequiredMixin, View):
-	permission_required = ('auth.add_user', 'auth.delete_user')
-	form_class = UserRegistrationForm
-	template_name = 'create_user.html'
-
+			
+	return render(request, 'create_user.html', {'form': form})
 
 @login_required
-@permission_required('auth.delete_user', raise_exception=True)
 def view_users(request):
-	users = User.objects.exclude(is_superuser=True)
+	if not request.user.is_staff:
+		raise PermissionDenied
+	users = User.objects.all().exclude(is_superuser=True)
 	return render(request, 'view_users.html', {'users': users})
 
 
 @login_required
-@permission_required('auth.delete_user', raise_exception=True)
 def delete_user(request, user_id):
+	if not request.user.is_staff:
+		raise PermissionDenied
 	instance = get_object_or_404(User, id=user_id)
 	instance.delete()
 	return HttpResponseRedirect(reverse('administrator:view_users'))
 
 
 @login_required
-@permission_required('auth.delete_user', raise_exception=True)
 def edit_user(request, user_id):
-	user_instance = get_object_or_404(User, id=user_id)
+	if not request.user.is_staff:
+		raise PermissionDenied
+	user_instance = User.objects.get(id=user_id)
 	if request.method == 'GET':
-		form = UserEditForm(instance=user_instance)
+		user_form = UserChangeForm(instance=user_instance)
+		profile_form = ProfileChangeForm(instance=user_instance.profile)
 	elif request.method == 'POST':
-		form = UserEditForm(request.POST or None, instance=user_instance)
-		if form.is_valid():
-			form.save()
-			return HttpResponseRedirect(reverse('administrator:edit_user', kwargs={'user_id': user_id}))
-	context = {'form': form}
+		user_form = UserChangeForm(data=request.POST, instance=user_instance)
+		profile_form = ProfileChangeForm(data=request.POST, instance=user_instance.profile, files=request.FILES)
+		if user_form.is_valid() and profile_form.is_valid():
+			user_form.save()
+			profile_form.save()
+			return HttpResponseRedirect(reverse('administrator:view_users'))
+	context = {'user_form': user_form, 'profile_form': profile_form}
+
 	return render(request, 'edit_user.html', context)
