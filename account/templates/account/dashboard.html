@@ -6,13 +6,13 @@
 
 
     <!--sidenav structure-->
-   
+<div class="main">
     <ul id="slide-out" class="sidenav">
         <li><div class="user-view">
         <div class="background">
-        <img src="images/office.jpg">
+        <!--<img src="">-->
         </div>
-          <a href="#user"><img class="circle" src="images/yuna.jpg"></a>
+          <!--<a href="#user"><img class="circle" src=""></a>-->
           <a href="#name"><span class="black-text name">{{ user.get_full_name }}</span></a>
           <a href="#email"><span class="black-text email">{{ user.email }}</span></a>
         </div></li>
@@ -38,7 +38,7 @@
           <a href="#!" class="brand-logo responsive-img left black-text" ><img src="{% static "img/DMCA logo.png" %}" style="height: 50px;">Divine Miracle Christian Academy</a>
           <ul class="right hide-on-med-and-down ">
               
-            <li><a href="sass.html">Sass</a></li>
+            <li><a href="">Sass</a></li>
             
             <!-- Dropdown Trigger -->
             <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Dropdown<i class="material-icons right">arrow_drop_down</i></a></li>
@@ -73,6 +73,64 @@
               <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
             </ul>
     </div>
+</div>
+
+
+<div class="preloader-background">
+    <div class="preloader-wrapper big active">
+          <div class="spinner-layer spinner-blue">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div><div class="gap-patch">
+              <div class="circle"></div>
+            </div><div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+    
+          <div class="spinner-layer spinner-red">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div><div class="gap-patch">
+              <div class="circle"></div>
+            </div><div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+    
+          <div class="spinner-layer spinner-yellow">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div><div class="gap-patch">
+              <div class="circle"></div>
+            </div><div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+    
+          <div class="spinner-layer spinner-green">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div><div class="gap-patch">
+              <div class="circle"></div>
+            </div><div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+        </div>
+      <p class="blinking loding">Loading</p>
+    </div>
+
+
+    <script>
+       document.addEventListener("DOMContentLoaded", function(){
+	$('.preloader-background').delay(1700).fadeOut('slow');
+	
+	$('.preloader-wrapper')
+		.delay(1700)
+		.fadeOut();
+});
+    </script>
      <!--Floating Action Button INIT-->
      <script>
             document.addEventListener('DOMContentLoaded', function() {
@@ -107,5 +165,6 @@
         });
 
     </script>
+    
 {% endblock content %}
 

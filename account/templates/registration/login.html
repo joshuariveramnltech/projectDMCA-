@@ -13,7 +13,7 @@
       <!-- CARD CONTAINER -->
       <div class="container">
         <div class="grid-example col s6 m12 center">
-          <div class="card blue-grey lighten-5 z-depth-4">
+          <div class="card blue-grey lighten-5 z-depth-4 roundElement">
             <div class="card-content white-text">
               <div class="row">
                 <div class="center-align"><img src="{% static "img/DMCA logo.png" %}" alt="" class="circle responsive-img" style="height: 200px;"></div>
@@ -38,17 +38,17 @@
                       <input type="password" name="password" required id="id_password" />  
                       <label for="id_password">Password:</label>
                       {% if form.errors %}
-                      <span class="helper-text red-text" onload="failed()">Your username and password didn't match. Please try again.</span>
+                      <span class="helper-text red-text">Your username and password didn't match. Please try again.</span>
                     </div>
                   </div>
                 </form>
               </div>          
               {% endif %} 
-              <button id="sub" type="submit" class="btn btn-large hoverable waves-effect waves-light orange accent-3 tooltipped" data-tooltip="Login"><i class="material-icons right">send</i> Login</button>
               <div id="lod" class="progress center" style="visibility: hidden;">
                 <div class="indeterminate"></div>
                 <h8> Logging In</h8>
               </div>
+              <button id="sub" type="submit" class="btn btn-large hoverable waves-effect waves-light orange accent-3 tooltipped" data-tooltip="Login"><i class="material-icons right">send</i> Login</button>
             </div>
             <div class="card-action center">
               
@@ -69,14 +69,9 @@
 <!--LOADING FUNCTION-->
 <script>
   function loading(){
-    document.getElementById("sub").style.visibility='hidden';
-    //document.getElementById("box").style.visibility='hidden';
+    document.getElementById("sub").style.display='hidden';
+    //document.getElementById("exln").style.visibility='hidden';
     document.getElementById("lod").style.visibility='visible';
-  }
-  function failed(){
-    document.getElementById("sub").style.visibility='visible';
-    //document.getElementById("box").style.visibility='hidden';
-    document.getElementById("lod").style.visibility='hidden';
   }
 </script>
 

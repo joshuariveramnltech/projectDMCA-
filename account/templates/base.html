@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <style>
-        #landing{
+      #landing{
         height: 100vh;
         background-image: url('{% static "img/bg.png" %}');
         background-position: center;
@@ -14,7 +14,30 @@
         background-repeat: no-repeat;
         background-attachment: fixed;
         z-index: -1;
-        }
+      }
+      .blinking {
+        animation: blinker 0.5s linear infinite;
+      }
+      @keyframes blinker {  
+        50% { opacity: 0; }
+      }
+      .preloader-background {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #eee;
+        position: fixed;
+        z-index: 999;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
+      .loding{
+        padding-top:120px;
+        margin-left: -60px;
+        opacity: 0.8;
+      } 
     </style>
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -24,8 +47,6 @@
 
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
-
-
 
 </head>
 <body id="landing">
