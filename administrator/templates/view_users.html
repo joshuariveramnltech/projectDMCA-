@@ -11,10 +11,29 @@
         <a href="{% url 'administrator:edit_user' user.id %}">Edit</a>
         <ul>
             <li>Email: {{ user.email }}</li>
-            <li>Super User: {{ user.is_superuser }}</li>
-            <li>Birthday: {{ user.profile.date_of_birth }}</li>
-            <li>Address: {{ user.profile.address }}</li>
+            {% if user.is_student %}
+                <li>Account: Student</li>
+            {% elif user.is_teacher %}
+                <li>Account: Teacher</li>
+            {% elif user.is_staff %}
+                <li>Account: Staff</li>
+            {% endif %}
+            {% if user.is_active %}
+                <li>Account Status: Active</li>
+            {% else %}
+                <li>Account Status: Inactive</li>
+            {% endif %}
+            {% if user.profile.level_and_section %}
+                <li>Level and Section: {{ user.profile.level_and_section.level }} 
+                    Section {{ user.profile.level_and_section.section }}</li>
+            {% else %}
+               <li>Level and Section: Not Set</li>
+            {% endif %}
+            <li>Birthday: {{ user.date_of_birth }}</li>
+            <li>Address: {{ user.address }}</li>
             <li>Contact Number: {{ user.profile.phone_number }}</li>
+            <li>Contact Person: {{ user.profile.contact_person }}</li>
+            <li>{{ user.profile.photo }}</li>
         </ul>
         {% endfor %}
 </body>

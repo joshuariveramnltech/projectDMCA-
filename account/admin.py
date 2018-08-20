@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.models import Group
-from .models import Profile, LevelAndSection
+from .models import LevelAndSection, Profile
 from django.contrib.auth import get_user_model
 from .forms import UserAdmin
 
@@ -13,7 +13,8 @@ admin.site.register(User, UserAdmin)
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ['user', 'date_of_birth']
+    list_display = ['user','level_and_section', ]
+    search_fields = ['user__email', 'level_and_section__level', 'level_and_section__section']
 
 @admin.register(LevelAndSection)
 class LevelSectionAdminModel(admin.ModelAdmin):

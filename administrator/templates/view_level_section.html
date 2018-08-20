@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>DMCA|View Level Section</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+</head>
+<body>
+    <a href="{% url 'administrator:create_level_section' %}">Create Level and Section</a>
+    <table border="1">
+        <th>Level</th>
+        <th>Section</th>
+        <th>Date added</th>
+        <th>Updated</th>
+        <th>Members</th>
+        <th>Action</th>
+
+        {% for each in level_section %}
+            <tr>
+                <td>{{ each.level|title }}</td>
+                <td>{{ each.section }}</td>
+                <td>{{ each.date_created }}</td>
+                <td>{{ each.updated }}</td>
+                <td> {{ each.members.count }} </td>
+                <td>
+                    <a href="{% url 'administrator:edit_level_section' level_section_id=each.id %}"><button>Edit</button></a> 
+                    <a href="{% url 'administrator:delete_level_section' level_section_id=each.id %}" role="button"><button>Delete</button></a>
+                </td>
+            </tr>
+         {% endfor %}
+    </table>    
+</body>
+</html>
