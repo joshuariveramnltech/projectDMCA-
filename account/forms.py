@@ -1,23 +1,27 @@
-from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from .models import Profile
+from .models import Profile, LevelAndSection
 User = get_user_model()
+
 
 class UserCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
+    password2 = forms.CharField(
+        label='Password confirmation',
+        widget=forms.PasswordInput
+    )
 
     class Meta:
         model = User
         fields = (
-            'email', 'first_name', 
-            'last_name', 'middle_name', 
-            'is_active', 'is_student', 
+            'email', 'first_name',
+            'last_name', 'middle_name',
+            'date_of_birth', 'address',
+            'is_active', 'is_student',
             'is_teacher', 'is_staff', 'is_superuser'
             )
         labels = {
@@ -25,7 +29,7 @@ class UserCreationForm(forms.ModelForm):
             'is_student': 'Student',
             'is_teacher': 'Teacher',
             'is_staff': 'Staff',
-            'is_superuser': 'Superuser' 
+            'is_superuser': 'Superuser'
             }
 
     def clean_password2(self):
@@ -55,19 +59,20 @@ class UserChangeForm(forms.ModelForm):
     class Meta:
         model = User
         fields = (
-            'email', 'first_name', 
-            'last_name', 'middle_name', 
-            'is_active', 'is_student', 
-            'is_teacher', 'is_staff', 
+            'email', 'first_name',
+            'last_name', 'middle_name',
+            'date_of_birth', 'address',
+            'is_active', 'is_student',
+            'is_teacher', 'is_staff',
             'is_superuser', 'password'
             )
-        
+
         labels = {
             'is_active': 'Active',
             'is_student': 'Student',
             'is_teacher': 'Teacher',
             'is_staff': 'Staff',
-            'is_superuser': 'Superuser' 
+            'is_superuser': 'Superuser'
             }
 
     def clean_password(self):
@@ -77,19 +82,51 @@ class UserChangeForm(forms.ModelForm):
         return self.initial["password"]
 
 
+class UserEditForm(forms.ModelForm):
+    """A form for updating users. Includes all the fields on
+    the user, but replaces the password field with admin's
+    password hash display field.
+    """
+    password = ReadOnlyPasswordHashField()
+
+    class Meta:
+        model = User
+        fields = (
+            'email', 'first_name',
+            'last_name', 'middle_name',
+            'date_of_birth', 'address',
+            'is_active', 'password'
+            )
+
+        labels = {
+            'is_active': 'Active',
+            'is_student': 'Student',
+            'is_teacher': 'Teacher',
+            'is_staff': 'Staff',
+            'is_superuser': 'Superuser'
+            }
+
+    def clean_password(self):
+        return self.initial["password"]
+
+
 class UserAdmin(BaseUserAdmin):
     # The forms to add and change user instances
-    form = UserChangeForm # update view
-    add_form = UserCreationForm # create view
+    form = UserChangeForm  # update view
+    add_form = UserCreationForm  # create view
 
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
     # that reference specific fields on auth.User.
-    list_display = ('email', 'is_active','is_student', 'is_teacher', 'is_staff', 'is_superuser')
+    list_display = (
+        'email', 'is_active',
+        'is_student', 'is_teacher',
+        'is_staff', 'is_superuser'
+    )
     list_filter = ('is_student', 'is_teacher', 'is_staff', 'is_superuser',)
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        ('Personal info', {'fields': ('first_name', 'last_name', 'middle_name')}),
+        ('Personal info', {'fields': ('first_name', 'last_name', 'middle_name', 'date_of_birth', 'address')}),
         ('Status', {'fields': ('is_active', ),}),
         ('Permissions', {'fields': ('is_student', 'is_teacher', 'is_staff', 'is_superuser')}),
     )
@@ -100,22 +137,43 @@ class UserAdmin(BaseUserAdmin):
         (None, {
             'classes': ('wide',),
             'fields': (
-                'email', 'first_name', 
-                'last_name', 'middle_name', 
-                'is_active', 'is_student', 
-                'is_teacher', 'is_staff', 
-                'is_superuser', 'password1', 
-                'password2')
+                'email', 'first_name',
+                'last_name', 'middle_name',
+                'date_of_birth', 'address',
+                'is_active', 'is_student',
+                'is_teacher', 'is_staff',
+                'is_superuser', 'password1',
+                'password2'
+                    )
                 }
-        ),
-    )
+            ),
+        )
     search_fields = ('email',)
     ordering = ('email',)
     filter_horizontal = ()
 
 
+# for administrator/staff only
 class ProfileChangeForm(forms.ModelForm):
 
     class Meta:
         model = Profile
-        fields = ['photo', 'date_of_birth', 'address', 'level_and_section', 'position', 'phone_number']
+        fields = [
+            'photo', 'phone_number',
+            'contact_person', 'level_and_section',
+            'position', 'additional_information'
+            ]
+
+# for students/teachers only
+class ProfileEditForm(forms.ModelForm):
+
+    class Meta:
+        model = Profile
+        fields = ['photo', 'phone_number', 'contact_person', 'additional_information']
+
+
+# for administrator/staff only
+class LevelAndSectionForm(forms.ModelForm):
+    class Meta:
+        model = LevelAndSection
+        fields = ['level', 'section']

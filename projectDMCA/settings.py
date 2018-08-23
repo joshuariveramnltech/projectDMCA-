@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'taggit',
     'administrator.apps.AdministratorConfig',
     'account.apps.AccountConfig',
+    'announcement.apps.AnnouncementConfig',
 ]
 
 AUTH_USER_MODEL = 'account.User'
@@ -159,6 +160,6 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 PHONENUMBER_DEFAULT_REGION = 'PH'
