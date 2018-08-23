@@ -14,9 +14,13 @@
         <h2>{{ message }}</h2>
         {% endfor %}
     {% endif %}
+    <img src="{{ request.user.profile.photo.url }}"/>
+    Name: {{ request.user.get_full_name }}
+    Email: {{ request.user.email }}
     <form enctype="multipart/form-data" method="POST", action=".">
         {% csrf_token %}
         {{ profile_edit_form.as_p }}
+        {{ personal_form.as_p }}
         <button type="submit">Edit Profile</button>
     </form>
     <a href="{% url 'account:dashboard' %}"><button>Back to Dashboard</button></a>
