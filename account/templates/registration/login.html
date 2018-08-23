@@ -68,11 +68,16 @@
 
 <!--LOADING FUNCTION-->
 <script>
-  function loading(){
-    document.getElementById("sub").style.display='hidden';
-    //document.getElementById("exln").style.visibility='hidden';
-    document.getElementById("lod").style.visibility='visible';
-  }
+  document.addEventListener("DOMContentLoaded", function(){
+    $('.preloader-background').delay(1700).fadeOut('slow');
+    $('.preloader-wrapper')
+.delay(1700)
+.animate({
+    left: '250px',
+    height: '+=150px',
+    width: '+=150px'
+});
+});
 </script>
 
 <!--TOOLTIP INIT-->
