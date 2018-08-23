@@ -34,7 +34,7 @@
 
                     <!--INPUT PASSWORD-->
                     <div class="input-field flow-text">
-                      <i class="material-icons prefix">visibility_off</i>
+                      <i class="material-icons prefix">vpn_key</i>
                       <input type="password" name="password" required id="id_password" />  
                       <label for="id_password">Password:</label>
                       {% if form.errors %}
@@ -44,11 +44,11 @@
                 </form>
               </div>          
               {% endif %} 
-              <div id="lod" class="progress center" style="visibility: hidden;">
+              <div id="loadingBar" class="progress center hiddendiv">
                 <div class="indeterminate"></div>
                 <h8> Logging In</h8>
               </div>
-              <button id="sub" type="submit" class="btn btn-large hoverable waves-effect waves-light orange accent-3 tooltipped" data-tooltip="Login"><i class="material-icons right">send</i> Login</button>
+              <button id="loginButton" type="submit" class="btn btn-large hoverable waves-effect waves-light orange accent-3 tooltipped" data-tooltip="Login"><i class="material-icons right">send</i> Login</button>
             </div>
             <div class="card-action center">
               
@@ -68,16 +68,18 @@
 
 <!--LOADING FUNCTION-->
 <script>
-  document.addEventListener("DOMContentLoaded", function(){
-    $('.preloader-background').delay(1700).fadeOut('slow');
-    $('.preloader-wrapper')
-.delay(1700)
-.animate({
-    left: '250px',
-    height: '+=150px',
-    width: '+=150px'
-});
-});
+  //LOADING FUNCTION
+  // function loading(){
+  //   document.getElementById("loginButton").style.display='hidden';
+  //   //document.getElementById("exln").style.visibility='hidden';
+  //   document.getElementById("lod").style.visibility='visible';
+  // }
+  function loading() {
+    var loginButton = document.getElementById("loginButton");
+    var loadingBar = document.getElementById("loadingBar");
+    loadingBar.classList.remove("hiddendiv");
+    loginButton.classList.add("hiddendiv");
+}
 </script>
 
 <!--TOOLTIP INIT-->
