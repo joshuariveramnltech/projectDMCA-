@@ -7,9 +7,9 @@ from django.contrib.auth import get_user_model
 from account import forms
 from account.models import Profile, LevelAndSection
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-
+# from django.db.models.signals import post_save
+# from django.dispatch import receiver
 # Create your views here.
-
 
 User = get_user_model()
 
@@ -34,11 +34,9 @@ def create_user(request):
 			new_user = user_form.save(commit=False)
 			new_user.set_password(cleaned_data['password1'])
 			new_user.save()
-			if new_user.is_student:
-				Profile.objects.create(user=new_user)
-			elif new_user.is_teacher:
-				Profile.objects.create(user=new_user)
+			Profile.objects.create(user=new_user)
 			return HttpResponseRedirect(reverse('administrator:create_user_done'))
+
 	context = {'user_form': user_form}
 	return render(request, 'create_user.html', context)
 
@@ -46,8 +44,18 @@ def create_user(request):
 def view_users(request):
 	if not request.user.is_staff:
 		raise PermissionDenied
-	users = User.objects.all().exclude(is_superuser=True)
-	return render(request, 'view_users.html', {'users': users})
+	user_list = User.objects.all().exclude(is_superuser=True)
+	paginator = Paginator(user_list, 10)
+	page = request.GET.get('page')
+	try:
+		users = paginator.page(page)
+	except PageNotAnInteger:
+		users = paginator.page(1)
+	except EmptyPage:
+		users = paginator.page(paginator.num_pages)
+	
+	context = {'users': users}
+	return render(request, 'view_users.html', context)
 
 @login_required
 def delete_user(request, user_id):
