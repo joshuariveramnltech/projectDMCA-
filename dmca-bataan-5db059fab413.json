@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "dmca-bataan",
+  "private_key_id": "5db059fab41345530c1cc1e5aad504a1bfbee5de",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCk4I4yBuOIu4ip\nF/kBL8LDT3LVDgX+UaG5DHNOg+0usVxsbrXd1LGSZdfmK5kqzVqCihXhor4IxdzA\n3oqzT+QFB0dIw+cBMfHcT7m6Mfme+Ivu1sdPZD2uFasN7CLHPvXrOaheCJQEW4Gr\n35FQQ5KFq9ZHquRyj5YHlZbCiaKpvRbC98WUZlWWGIYlnzOvH489/CKIYKm09D6J\n+EABzGAz8QelG9ruy4MJDsOv91xdaCh6owbOOtZeFDImivVQkgzyAalY9TTseKB4\nFtJ3SGWhmECUpu0whAySkLShjCv4kfPaR0KQOH0kArS9hsfJLCq4X1tQ3oZ6ejHG\nPf5t9XGNAgMBAAECggEAFggxyCqWfh99OAdNjWSJ9JppwGGi2GSlJTquL9g+OgaW\nUKEMqWtyHRuB2a6KxabySM5V9TRPi5GRGa7DPwnWcPuTgXw4Irc/WA7JRUHHVwBk\nhpJpyMie22Pm2zHqRdC6gOfQAVzJFrn5nnN+Egkti7I2LJZ/93ULedD59933gBHe\n9Ea5VK1Cti0brb/hbPK0tpHmN0TTZRjt9lVefvv7ZIwjzwlES0AjBrTFlRuh/Nkl\nKcUEMGNnqdTxtEnb2FCi2vT2N16tBjjN9eyAuweNG1zVoZs00ZHVqypaPatbWZyE\ne4ZZX2gprOUEW2bBoOw3xe7jMVneVvOnLNnpNEbKsQKBgQDawxes+YzEQ5gOq7Ke\notKkFTMLRqsQ1xL2kSa4vqhgqSXDjefYhFxkYoL4optAf5wH53SrENMAoRL3HJRH\n1Z3J4wyspjEryi55xgWj/mDzeCV/odLlnGpqZd0pas/2/LbKH84mY3QLmM3qQ841\nrWdmuukPzXvanPGdC3mqXrGepQKBgQDA8VeBjQy2Y/GsFWStWEzPwsMiPjcEdSlD\nbuvIpOSzIO3WTexlUm/BNvzavRyGuY9w6/uglY88/mTSwuJIzMZ6wegTeZsGsjCJ\n29dA7nAlU/BVvdmOgXmNNxe9USS9hx8jtJK4abNa32OVid5O+MSGqCEBtbim5rKv\nozfLIYy6yQKBgQCEGrv5YNl4y7jPYzACTCEXpRWmAY7cJIT3EMBpX/keJgcACHmx\nbny8wiCFNOy8DlOTElqJ0ycYgiyJvWBt4LngaJQGznVzFCzsrIBLgBnb7Pn4ESji\nL4qzpb/gevgLFqDrfjlnRTeWqTfv9/JWx9hhWQ3U1Smt4oilZYCbOYPZYQKBgA/w\nYBA9vL0ciIx0v/pp/v5y0nfzt8vQefYuJaBPruz1XXCEw3CjXMQTbNQNJ1wh3C2x\n8PmVIV4ijeWzX8ov0H23oxpow1vMQKJC3QdqKy2KP6J1qpFRNN9rm7RyDZzymqny\ncuR1JvHs3mcuGoVfm6ycGw3vGy/+guhrjWJkhSGxAoGAJJv6BdnUwfFE+8zUKgsJ\n1E40OQJcPRf2VLg0PPgbEPFbkIv44H9gR8GKevdi8zGQm1FbISbSYtSjl4xfrxQN\nqaDwvoLxurXRNw8OX5SbnKL3czw5Hka/uymLk1ojoXdFiDIy7IBqXjbYVHFOD7dY\ne9ffZxoEhxiyiwacJpA35pc=\n-----END PRIVATE KEY-----\n",
+  "client_email": "dmca-bataan@dmca-bataan.iam.gserviceaccount.com",
+  "client_id": "110748827192209163831",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/dmca-bataan%40dmca-bataan.iam.gserviceaccount.com"
+}

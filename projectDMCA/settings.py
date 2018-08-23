@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles', 
     # custom applications
+    'gdstorage',
     'phonenumber_field',
     'taggit',
     'administrator.apps.AdministratorConfig',
@@ -66,7 +67,8 @@ TEMPLATES = [
             os.path.join(BASE_DIR, 'account\\templates'),
             os.path.join(BASE_DIR, 'account\\templates\\account'),
             os.path.join(BASE_DIR, 'account\\templates\\account\\registration'),
-            os.path.join(BASE_DIR, 'administrator\\templates'), 
+            os.path.join(BASE_DIR, 'administrator\\templates'),
+            os.path.join(BASE_DIR, 'announcement\\templates'), 
             ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -163,3 +165,5 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 PHONENUMBER_DEFAULT_REGION = 'PH'
+
+GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = os.path.join(BASE_DIR, 'dmca-bataan-5db059fab413.json')

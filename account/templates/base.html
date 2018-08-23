@@ -93,8 +93,8 @@
                     <span class="black-text">Divine Miracle Christian Academy</span>
                     <ul class="right hide-on-med-and-down">
                       <li> <a href="" class="nav-link center black-text"><i class="material-icons black-text left">home</i> Home</a></li>
-                      <li> <a href="" class="nav-link center black-text"><i class="material-icons black-text left">email</i> Messages</a></li>
-                      <li> <a href="" class="nav-link center black-text"><i class="material-icons black-text left">account_circle</i> Account</a></li>
+                      <li> <a href="{% url 'announcement:view_announcement' %}" class="nav-link center black-text"><i class="material-icons black-text left">email</i> Messages</a></li>
+                      <li> <a href="{% url 'account:view_edit_profile' %}" class="nav-link center black-text"><i class="material-icons black-text left">account_circle</i> Account</a></li>
                       <li> <a href="" class="nav-link center black-text"><i class="material-icons black-text left">assignment</i> Grades</a></li>
                       <li> <a href="{% url 'logout' %}" class="nav-link red accent white-text center hoverable"><i class="material-icons left">exit_to_app</i> Logout</a></li>
                      

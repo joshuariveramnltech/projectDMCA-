@@ -13,9 +13,13 @@
       <div class="background">
         <img src="{% static "img/fruits.jpg" %}" style="height: 400px; width:600px;">
       </div>
-        <a href="#user"><img class="circle" src="{{ user.profile.photo.url }}"></a>
-        <a href="#name"><span class="black-text name white-transparent">{{ user.get_full_name }}</span></a>
-        <a href="#email"><span class="black-text email">{{ user.email }}</span></a>
+      {% if user.profile.photo.url is not None %}
+      <a href="#user"><img class="circle" src="{{ user.profile.photo.url }}"></a>
+      {% else %}
+      <a href="#user"><img class="circle" src="#"></a>
+      {% endif %}
+      <a href="#name"><span class="black-text name">{{ user.get_full_name }}</span></a>
+      <a href="#email"><span class="black-text email">{{ user.email }}</span></a>
       </div></li>
       <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
       <li><a href="#!">Second Link</a></li>
@@ -50,6 +54,7 @@
     </div>
     
   </div>
+
 
     
 
