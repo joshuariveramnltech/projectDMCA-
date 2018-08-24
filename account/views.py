@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.http import HttpResponseRedirect
 from .forms import ProfileEditForm, PersonalForm
 from django.contrib import messages
-
+from account.models import Profile
 User = get_user_model()
 # Create your views here.
 
@@ -19,20 +19,31 @@ def dashboard(request):
 def view_edit_profile(request):
     if request.method == 'GET':
         personal_form = PersonalForm(instance=request.user)
-        profile_edit_form = ProfileEditForm(instance=request.user.profile)
+        try:
+            profile_edit_form = ProfileEditForm(instance=Profile.objects.get(user=request.user))
+        except Profile.DoesNotExist:
+            profile_edit_form = ProfileEditForm()
     elif request.method == 'POST':
-        profile_edit_form = ProfileEditForm(
-            data=request.POST, 
-            instance=request.user.profile,
-            files=request.FILES
-            )
         personal_form = PersonalForm(
             data=request.POST,
             instance=request.user,
             )
+        try:
+            profile_edit_form = ProfileEditForm(
+                data=request.POST, 
+                instance=Profile.objects.get(user=request.user),
+                files=request.FILES
+            )
+        except Profile.DoesNotExist:
+            Profile.objects.create(user=request.user)
+            profile_edit_form = ProfileEditForm(
+                data=request.POST, 
+                instance=Profile.objects.get(user=request.user),
+                files=request.FILES
+            )
         if profile_edit_form.is_valid() and personal_form.is_valid():
-            profile_edit_form.save()
             personal_form.save()
+            profile_edit_form.save()
             messages.success(request, 'Your profile was updated.')
             return HttpResponseRedirect(reverse('account:view_edit_profile'))
     context = {
