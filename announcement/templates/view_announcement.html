@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,7 +9,50 @@
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
     <script src="main.js"></script>
 </head>
+
 <body>
-    
+    <a href="{% url 'account:dashboard' %}">Dashboard</a>
+    {% if not request.user.is_student %}
+        <a href="{% url 'announcement:create_announcement' %}">Create Announcement</a>
+        <a href="{% url 'announcement:draft_announcement' %}">Drafts</a>
+    {% endif %}
+    <h1>DMCA Announcements</h1>
+    {% for announcement in dmca_announcement %}
+    <a href="{{ announcement.get_absolute_url }}">
+        {{ announcement.title }}
+    </a>by {{ announcement.author.get_full_name }} {% if request.user == announcement.author %}
+    <small>
+        <a href="{{ announcement.get_absolute_url_for_edit }}">Edit</a>
+        <a href="#">Delete</a>
+    </small>
+    {% endif %}
+    <br/>
+
+    <span>
+        <small>
+            Publish Date: {{ announcement.publish_date}}Updated: {{ announcement.updated }}
+        </small>
+    </span>
+    <hr/> {% empty %} No Announcements So Far... {% endfor %}
+
+    <h2>Group Announcements</h2>
+    {% for announcement in group_announcement %}
+    <a href="{{ announcement.get_absolute_url }}">
+        {{ announcement.title }}
+    </a>by {{ announcement.author.get_full_name }} {% if request.user == announcement.author %}
+    <small>
+        <a href="{{ announcement.get_absolute_url_for_edit }}">Edit</a>
+        <a href="#">Delete</a>
+    </small>
+    {% endif %}
+    <br/>
+    <span>
+        <small>
+            Publish Date: {{ announcement.publish_date}}Updated: {{ announcement.updated }}
+        </small>
+    </span>
+    <hr/> {% empty %} No Group Announcements So Far... {% endfor %}
+
 </body>
+
 </html>

@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from django import forms
-from django.forms import DateField, Textarea
+from django.forms import DateField, Textarea, CharField
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import Profile, LevelAndSection
@@ -195,6 +195,7 @@ class ProfileChangeForm(forms.ModelForm):
             'additional_information': Textarea(attrs={'cols': 80, 'rows': 20}),
         }
 
+
 # for students/teachers only
 class ProfileEditForm(forms.ModelForm):
 
@@ -223,9 +224,6 @@ class PersonalForm(forms.ModelForm):
 
         labels = {
             'date_of_birth': 'Birthday',
-        }
-        help_texts = {
-            'date_of_birth': 'mm/dd/yyy',
         }
 
     date_of_birth = forms.DateField(

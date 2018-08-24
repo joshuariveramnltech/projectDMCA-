@@ -31,15 +31,18 @@ class Announcement(models.Model):
         )
     send_to_all = models.BooleanField(default=False)
 
+    @property
     def get_absolute_url(self):
         return reverse(
-            "announcement:announcement_detail", 
-            args=[
-                self.publish_date.year, 
-                self.publish_date.month, 
-                self.publish_date.day, 
-                self.publish_date.slug
-            ]
+            "announcement:view_announcement_detail", 
+            args=[self.id,self.slug,]
+        )
+
+    @property
+    def get_absolute_url_for_edit(self):
+        return reverse(
+            "announcement:edit_announcement", 
+            args=[self.id, self.slug,]
         )
 
     def save(self, *args, **kwargs):

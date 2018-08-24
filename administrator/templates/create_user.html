@@ -10,9 +10,10 @@
 </head>
 <body>
         <a href="{% url 'administrator:view_users' %}">View Users</a>
-        <form method="POST" action=".">
+        <form method="POST" action="." enctype="multipart/form-data">
             {% csrf_token %}
             {{ user_form.as_p }}
+            {{ profile_form.as_p }}
             <button type="submit">Submit</button> <button type="reset">Reset</button>
         </form>
         
