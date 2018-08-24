@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+</head>
+
+<body>
+    <a href="{% url 'announcement:view_announcement' %}">View Announcements</a>
+    <a href="{% url 'account:dashboard' %}">Dashboard</a>
+    <a href="{% url 'announcement:create_announcement' %}">Create Announcement</a>
+    <br/><br/>
+    <div>
+        {% for announcement in draft_announcement %}
+        <a href="{{ announcement.get_absolute_url }}">
+            {{ announcement.title }}
+        </a>by {{ announcement.author.get_full_name }} {% if request.user == announcement.author %}
+        <small>
+            <a href="{{ announcement.get_absolute_url_for_edit }}">Edit</a>
+            <a href="#">Delete</a>
+        </small>
+        {% endif %}
+        <br/>
+
+        <span>
+            <small>
+                Created on: {{ announcement.created}} Updated: {{ announcement.updated }}
+            </small>
+        </span>
+        <hr/> {% empty %} Draft inbox is currently empty.. {% endfor %}
+    </div>
+</body>
+
+</html>

@@ -2,10 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Divine Miracle Christian Academy|Administrator|View Users</title>
+    <title>DMCA|Administrator|View Users</title>
 </head>
 <body>
-    <a href="{% url 'administrator:create_user' %}">Add New User</a><br/>
+    <h1>Accounts and Users</h1>
+    <form action="" method="GET">
+        <input type="text" placeholder="Search users" name="query" value="{{ request.GET.query }}"/>
+        <input type="submit" value="Search"/>
+    </form>
+    <a href="{% url 'administrator:create_user' %}" role="button">Add New User?</a><br/>
     <table border="1">
         <th>Full Name</th>
         <th>Email</th>
@@ -19,7 +24,7 @@
         <th>Options</th>
         {% for user in users %}
         <tr>
-            <td>{{ user.get_full_name }}</td>
+            <td><a href="{% url 'administrator:edit_user' user_id=user.id %}">{{ user.get_full_name }}</a></td>
             <td>{{ user.email }}</td>
             <td>
                 {% if user.is_student %}
@@ -43,7 +48,7 @@
                 {% if user.is_staff %}
                 <td>N/A</td>
                 {% else %}
-                    <td>{{ user.profile.level_and_section.level }}</td>
+                    <td>{{ user.profile.level_and_section.level }} {{ user.profile.level_and_section.section }}</td>
                 {% endif %}
                 <td>{{ user.profile.phone_number }}</td>
                 <td>{{ user.profile.contact_person }}</td>
@@ -62,13 +67,15 @@
             </td>
             
         </tr>
+        {% empty %}
+        None
         {% endfor %}
     </table>
     <div class="pagination">
         <span class="step-links">
             {% if users.has_previous %}
-                <a href="?page=1">&laquo; first</a>
-                <a href="?page={{ users.previous_page_number }}">previous</a>
+                <a href="?page=1&query={{ request.GET.query }}">&laquo; first</a>
+                <a href="?page={{ users.previous_page_number }}&query={{ request.GET.query }}">previous</a>
             {% endif %}
         
             <span class="current">
@@ -76,10 +83,11 @@
             </span>
         
             {% if users.has_next %}
-                <a href="?page={{ users.next_page_number }}">next</a>
-                <a href="?page={{ users.paginator.num_pages }}">last &raquo;</a>
+                <a href="?page={{ users.next_page_number }}&query={{ request.GET.query }}">next</a>
+                <a href="?page={{ users.paginator.num_pages }}&query={{ request.GET.query }}">last &raquo;</a>
             {% endif %}
         </span>
+        <a href="{% url 'account:dashboard' %}">Return to Dashboard</a>
     </div>
 </body>
 </html>

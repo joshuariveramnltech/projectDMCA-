@@ -3,12 +3,19 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Divine Miracle Christian Academy|Create Announcement</title>
+    <title>DMCA|Create Announcement</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
     <script src="main.js"></script>
 </head>
 <body>
-    
+    <form action="." method="POST">
+        {% csrf_token %}
+        Author: {{ request.user.get_full_name }}
+        {{ create_announcement_form.as_p }}
+        <input type="submit" value="Submit" />
+        <input type="reset" value="Clear" />
+    </form>
+    <a href="account:dashboard">Dashboard</a>
 </body>
 </html>

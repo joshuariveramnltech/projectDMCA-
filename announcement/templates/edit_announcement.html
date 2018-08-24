@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,24 +8,20 @@
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
     <script src="main.js"></script>
 </head>
-
 <body>
-    <h2>{{ announcement.title }}</h2> 
-    By {{ announcement.author.get_full_name }}
-    {% if request.user == announcement.author %}
-    <span>
-        <small>
-            <a href="{{ announcement.get_absolute_url_for_edit }}">Edit</a>
-            <a href="#">Delete</a>
-        </small>
-    </span>
+    {% if messages %}
+        {% for message in messages %}
+            <h4>{{ message }}</h4>
+        {% endfor %}
     {% endif %}
-    <br/>
-    <div>
-        {{ announcement.body|linebreaks }}
-    </div>
+    <h3>Author: {{ announcement.author.get_full_name }}</h3>
+   
+    <form method="POST" action="{% url 'announcement:edit_announcement' announcement.id announcement.slug %}">
+        {% csrf_token %}
+        {{ announcement_edit_form.as_p }}
+        <input type="submit" value="Submit"/>
+    </form>
     <a href="{% url 'announcement:view_announcement' %}">View Announcements</a>
     <a href="{% url 'account:dashboard' %}">Dashboard</a>
 </body>
-
 </html>
