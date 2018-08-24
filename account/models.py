@@ -2,8 +2,10 @@ from django.db import models
 from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager)
 from django.conf import settings
 from django.core.validators import RegexValidator
+from gdstorage.storage import GoogleDriveStorage
 # Create your models here.
 
+gd_storage = GoogleDriveStorage()
 
 class UserManager(BaseUserManager):
     def create_user(
@@ -135,9 +137,10 @@ class Profile(models.Model):
         related_name="profile"
     )
     photo = models.ImageField(
-        upload_to='user/%Y/%m/%d/',
-        blank=True, null=True
+        upload_to='user/profile/%Y/%m/%d/',
+        blank=True, null=True,
     )
+    # storage=gd_storage
     phone_regex = RegexValidator(
         regex=r'^\+?1?\d{9,12}$',
         message="Accepted Format:+639999999999."

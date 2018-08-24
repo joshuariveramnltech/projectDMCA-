@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django import forms
+from django.forms import DateField, Textarea
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import Profile, LevelAndSection
@@ -31,6 +32,12 @@ class UserCreationForm(forms.ModelForm):
             'is_staff': 'Staff',
             'is_superuser': 'Superuser'
             }
+
+    date_of_birth = forms.DateField(
+        widget=forms.DateInput(format='%m/%d/%Y',
+        attrs={'class': 'datepicker', 'placeholder': 'mm/dd/yyyy'}),
+        input_formats=('%m/%d/%Y', )
+    )
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -74,6 +81,12 @@ class UserChangeForm(forms.ModelForm):
             'is_staff': 'Staff',
             'is_superuser': 'Superuser'
             }
+        
+    date_of_birth = forms.DateField(
+        widget=forms.DateInput(format='%m/%d/%Y',
+        attrs={'class': 'datepicker', 'placeholder':'mm/dd/yyyy'}),
+        input_formats=('%m/%d/%Y', )
+        )
 
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.
@@ -105,6 +118,14 @@ class UserEditForm(forms.ModelForm):
             'is_staff': 'Staff',
             'is_superuser': 'Superuser'
             }
+        
+    date_of_birth = forms.DateField(
+        widget=forms.DateInput(
+            format='%m/%d/%Y',
+            attrs={'class': 'datepicker', 'placeholder': 'mm/dd/yyyy'}
+            ),
+        input_formats=('%m/%d/%Y', )
+        )
 
     def clean_password(self):
         return self.initial["password"]
@@ -163,17 +184,61 @@ class ProfileChangeForm(forms.ModelForm):
             'contact_person', 'level_and_section',
             'position', 'additional_information'
             ]
+        
+        labels = {
+            'additional_information': 'Tell Something About the User',
+            'photo': 'Profile Picture',
+            'contact_person': 'Contact Person In Case of Emergency'
+        }
+
+        widgets = {
+            'additional_information': Textarea(attrs={'cols': 80, 'rows': 20}),
+        }
 
 # for students/teachers only
 class ProfileEditForm(forms.ModelForm):
 
     class Meta:
         model = Profile
-        fields = ['photo', 'phone_number', 'contact_person', 'additional_information']
+        fields = [
+            'photo', 'phone_number',
+            'contact_person', 'additional_information'
+        ]
 
+        labels = {
+            'additional_information': 'Tell Something About yourself',
+            'photo': 'Profile Picture',
+            'contact_person': 'Contact Person In Case of Emergency'
+        }
+
+        widgets = {
+            'additional_information': Textarea(attrs={'cols': 80, 'rows': 20}),
+        }
+ 
+# for ordinary users only
+class PersonalForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['date_of_birth', 'address']
+
+        labels = {
+            'date_of_birth': 'Birthday',
+        }
+        help_texts = {
+            'date_of_birth': 'mm/dd/yyy',
+        }
+
+    date_of_birth = forms.DateField(
+        widget=forms.DateInput(
+            attrs={'class': 'datepicker', 'placeholder': 'mm/dd/yyyy'},
+            format='%m/%d/%Y'
+        ),
+        input_formats = ('%m/%d/%Y', )
+    )
 
 # for administrator/staff only
 class LevelAndSectionForm(forms.ModelForm):
     class Meta:
         model = LevelAndSection
         fields = ['level', 'section']
+    

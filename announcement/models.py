@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.contrib.auth import get_user_model
 from account.models import LevelAndSection
 from django.conf import settings
+from django.utils.text import slugify
 # Create your models here.
 User = get_user_model()
 
@@ -31,13 +32,20 @@ class Announcement(models.Model):
     send_to_all = models.BooleanField(default=False)
 
     def get_absolute_url(self):
-        return reverse("announcement:announcement_detail", args=[
-            self.publish_date.year, 
-            self.publish_date.month, 
-            self.publish_date.day, 
-            self.publish_date.slug
+        return reverse(
+            "announcement:announcement_detail", 
+            args=[
+                self.publish_date.year, 
+                self.publish_date.month, 
+                self.publish_date.day, 
+                self.publish_date.slug
             ]
         )
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super(Announcement, self).save(*args, **kwargs)
 
     class Meta:
         ordering = ('-publish_date', )
