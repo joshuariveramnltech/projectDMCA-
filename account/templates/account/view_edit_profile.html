@@ -14,9 +14,11 @@
         <h2>{{ message }}</h2>
         {% endfor %}
     {% endif %}
-    <img src="{{ request.user.profile.photo.url }}"/>
-    Name: {{ request.user.get_full_name }}
-    Email: {{ request.user.email }}
+    {% if  request.user.profile.photo.url is not None %}
+    <img src="{{ request.user.profile.photo.url }}"/><br/>
+    {% endif %}
+    Name: {{ request.user.get_full_name }}<br/>
+    Email: {{ request.user.email }}<br/>
     <form enctype="multipart/form-data" method="POST", action=".">
         {% csrf_token %}
         {{ profile_edit_form.as_p }}
