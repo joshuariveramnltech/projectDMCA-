@@ -11,10 +11,10 @@
   <ul id="slide-out" class="sidenav">
       <li><div class="user-view">
       <div class="background">
-        <img src="{% static "img/fruits.jpg" %}" style="height: 400px; width:600px;">
+        <img src="{% static "img/bg.png" %}" style="height: 400px; width:600px;">
       </div>
-      {% if profile.photo.url is not None %}
-      <a href="#user"><img class="circle" src="{{ user.profile.photo.url }}"></a>
+      {% if user.profile.photo.url is not None %}
+      <a href="#user"><img class="circle responsive-img" src="{{ user.profile.photo.url }}"></a>
       {% else %}
       <a href="#user"><img class="circle" src="#"></a>
       {% endif %}
@@ -28,12 +28,13 @@
       <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
     </ul>
   <div class="row">
+    
     <!--Student Card-->
     <div class="col s9 m12 l9">&nbsp;</div>
     <div class="col s12 m12 l3">
       <div class="card">
         <div class="card-image">
-          <img src="{% static "img/fruits.jpg" %}">
+          <img class="responsive-img" src="{{ user.profile.photo.url }}" style="max-width: 100%;">
         </div>
         <div class="card-content">
           <p> <h6>Name: &nbsp; <b>{{ user.get_full_name }}</b> </h6></p>
@@ -76,84 +77,27 @@
 <!--END OF MAIN-->
 </div>
 
-<!--LOADING ANIMATION STRUCTURE-->
-<!-- <div class="preloader-background">
-    <div class="preloader-wrapper big active">
-          <div class="spinner-layer spinner-blue">
-            <div class="circle-clipper left">
-              <div class="circle"></div>
-            </div><div class="gap-patch">
-              <div class="circle"></div>
-            </div><div class="circle-clipper right">
-              <div class="circle"></div>
-            </div>
-          </div>
-    
-          <div class="spinner-layer spinner-red">
-            <div class="circle-clipper left">
-              <div class="circle"></div>
-            </div><div class="gap-patch">
-              <div class="circle"></div>
-            </div><div class="circle-clipper right">
-              <div class="circle"></div>
-            </div>
-          </div>
-    
-          <div class="spinner-layer spinner-yellow">
-            <div class="circle-clipper left">
-              <div class="circle"></div>
-            </div><div class="gap-patch">
-              <div class="circle"></div>
-            </div><div class="circle-clipper right">
-              <div class="circle"></div>
-            </div>
-          </div>
-    
-          <div class="spinner-layer spinner-green">
-            <div class="circle-clipper left">
-              <div class="circle"></div>
-            </div><div class="gap-patch">
-              <div class="circle"></div>
-            </div><div class="circle-clipper right">
-              <div class="circle"></div>
-            </div>
-          </div>
-        </div>
-      <p class="blinking loding">Loading</p>
-    </div> -->
 
-
+<!--Floating Action Button INIT-->
 <script>
-  //   document.addEventListener("DOMContentLoaded", function(){
-  //   $('.preloader-background').delay(1700).fadeOut('slow');
-    
-  //   $('.preloader-wrapper')
-  //     .delay(1700)
-  //     .fadeOut();
-  // });
+  document.addEventListener('DOMContentLoaded', function() {
+      var elems = document.querySelectorAll('.fixed-action-btn');
+      var instances = M.FloatingActionButton.init(elems, {
+          direction: 'top'
+          });
+  });
 </script>
-  <!--Floating Action Button INIT-->
-  <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var elems = document.querySelectorAll('.fixed-action-btn');
-            var instances = M.FloatingActionButton.init(elems, {
-                direction: 'top'
-                });
-        });
-    </script>
-    <!--End of Floating Action Button INIT-->
-<!--End of Floating Action Button-->
+<!--End of Floating Action Button INIT-->
 
 
 <!--navbar dropdown structure initialization-->
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var elems = document.querySelectorAll('.dropdown-trigger');
-        var instances = M.Dropdown.init(elems, {
-            hover: 'true'
-        });
+  document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.dropdown-trigger');
+    var instances = M.Dropdown.init(elems, {
+        hover: 'true'
     });
-
+  });
 </script>
 
 <!--sidenav INIT-->
