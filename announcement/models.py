@@ -4,7 +4,6 @@ from taggit.managers import TaggableManager
 from django.utils import timezone
 from django.contrib.auth import get_user_model
 from account.models import LevelAndSection
-from django.conf import settings
 from django.utils.text import slugify
 # Create your models here.
 User = get_user_model()
@@ -25,8 +24,8 @@ class Announcement(models.Model):
     updated = models.DateTimeField(auto_now_add=False, auto_now=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='draft')
     send_to_group = models.ForeignKey(
-        LevelAndSection, on_delete=models.CASCADE, 
-        related_name='group_announcements', null=True, 
+        LevelAndSection, on_delete=models.CASCADE,
+        related_name='group_announcements', null=True,
         blank=True
         )
     send_to_all = models.BooleanField(default=False)
@@ -34,15 +33,15 @@ class Announcement(models.Model):
     @property
     def get_absolute_url(self):
         return reverse(
-            "announcement:view_announcement_detail", 
-            args=[self.id,self.slug,]
+            "announcement:view_announcement_detail",
+            args=[self.id, self.slug]
         )
 
     @property
     def get_absolute_url_for_edit(self):
         return reverse(
-            "announcement:edit_announcement", 
-            args=[self.id, self.slug,]
+            "announcement:edit_announcement",
+            args=[self.id, self.slug]
         )
 
     def save(self, *args, **kwargs):

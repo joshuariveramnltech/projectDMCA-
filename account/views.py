@@ -8,17 +8,22 @@ from account.models import Profile
 User = get_user_model()
 # Create your views here.
 
+
 @login_required
 def dashboard(request):
     if request.user.is_superuser:
         return HttpResponseRedirect('/admin/')
     user = get_object_or_404(User, email=request.user.email)
     try:
+        profile = Profile.objects.get(user=user)
         teacher = User.objects.get(is_teacher=True, profile__level_and_section=user.profile.level_and_section)
-        context = {'user': user, 'teacher': teacher}
+        context = {'user': user, 'teacher': teacher, 'profile': profile}
     except User.DoesNotExist:
-        context = {'user': user} 
+        context = {'user': user, 'profile': profile}
+    except Profile.DoesNotExist:
+        context = {'user': user}
     return render(request, 'dashboard.html', context)
+
 
 @login_required
 def view_edit_profile(request):
@@ -35,7 +40,7 @@ def view_edit_profile(request):
             instance=request.user,
             )
         profile_edit_form = ProfileEditForm(
-            data=request.POST, 
+            data=request.POST,
             instance=Profile.objects.get(user=request.user),
             files=request.FILES
             )

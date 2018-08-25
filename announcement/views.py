@@ -10,6 +10,7 @@ from .models import Announcement
 
 User = get_user_model()
 
+
 @login_required
 def view_announcement(request):
     dmca_announcement = Announcement.objects.filter(send_to_all=True, status='published')
@@ -25,13 +26,15 @@ def view_announcement(request):
             }
     except Announcement.DoesNotExist:
         context = {'request': request, 'dmca_announcement': dmca_announcement}
-    return render(request, 'view_announcement.html',context)
+    return render(request, 'view_announcement.html', context)
+
 
 @login_required
 def view_announcement_detail(request, a_id, a_slug):
     announcement = Announcement.objects.get(id=a_id, slug=a_slug)
     context = {'announcement': announcement}
     return render(request, 'announcement_detail.html', context)
+
 
 @login_required
 def create_announcement(request):
@@ -48,6 +51,7 @@ def create_announcement(request):
             return HttpResponseRedirect(reverse('announcement:view_announcement'))
     context = {'create_announcement_form': create_announcement_form, 'request': request}
     return render(request, 'create_announcement.html', context)
+
 
 @login_required
 def edit_announcement(request, a_id, a_slug):
