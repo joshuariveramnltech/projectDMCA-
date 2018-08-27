@@ -7,10 +7,11 @@ from announcement import models
 class AnnouncementAdmin(admin.ModelAdmin):
     list_display = ['title', 'author', 'status', 'created']
     list_filter = ['title', 'author', 'status', 'created']
-    search_fields = ['title', 'author', 'status']
+    search_fields = ['title', 'author__email', 'status']
     prepopulated_fields = {'slug': ('title', )}
 
 
 @admin.register(models.Comment)
 class CommentAdmin(admin.ModelAdmin):
     list_display = ['announcement', 'active', 'author']
+    search_fields = ['author__email', ]

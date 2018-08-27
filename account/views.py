@@ -14,15 +14,13 @@ def dashboard(request):
     if request.user.is_superuser:
         return HttpResponseRedirect('/admin/')
     user = get_object_or_404(User, email=request.user.email)
+    profile = Profile.objects.get_or_create(user=user)
     try:
-        profile = Profile.objects.get(user=user)
         teacher = User.objects.get(
             is_teacher=True, profile__level_and_section=user.profile.level_and_section)
         context = {'user': user, 'teacher': teacher, 'profile': profile}
     except User.DoesNotExist:
         context = {'user': user, 'profile': profile}
-    except Profile.DoesNotExist:
-        context = {'user': user}
     return render(request, 'dashboard.html', context)
 
 
@@ -30,22 +28,12 @@ def dashboard(request):
 def view_edit_profile(request):
     if request.method == 'GET':
         personal_form = PersonalForm(instance=request.user)
-        try:
-            profile_edit_form = ProfileEditForm(
-                instance=Profile.objects.get(user=request.user))
-        except Profile.DoesNotExist:
-            Profile.objects.create(user=request.user)
-            profile_edit_form = ProfileEditForm(instance=request.user.profile)
+        Profile.objects.get_or_create(user=request.user)
+        profile_edit_form = ProfileEditForm(instance=request.user.profile)
     elif request.method == 'POST':
-        personal_form = PersonalForm(
-            data=request.POST,
-            instance=request.user,
-        )
+        personal_form = PersonalForm(data=request.POST, instance=request.user)
         profile_edit_form = ProfileEditForm(
-            data=request.POST,
-            instance=Profile.objects.get(user=request.user),
-            files=request.FILES
-        )
+            data=request.POST, instance=request.user.profile, files=request.FILES)
         if profile_edit_form.is_valid() and personal_form.is_valid():
             personal_form.save()
             profile_edit_form.save()

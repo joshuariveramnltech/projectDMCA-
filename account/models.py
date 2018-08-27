@@ -2,10 +2,10 @@ from django.db import models
 from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager)
 from django.conf import settings
 from django.core.validators import RegexValidator
-from gdstorage.storage import GoogleDriveStorage
+# from gdstorage.storage import GoogleDriveStorage
 # Create your models here.
 
-gd_storage = GoogleDriveStorage()
+# gd_storage = GoogleDriveStorage()
 
 
 class UserManager(BaseUserManager):
@@ -27,8 +27,8 @@ class UserManager(BaseUserManager):
 
         user = self.model(
             email=self.normalize_email(email),
-            first_name=first_name,
-            last_name=last_name,
+            first_name=first_name.title(),
+            last_name=last_name.title(),
             middle_name=middle_name,
         )
         user.set_password(password)
@@ -42,8 +42,8 @@ class UserManager(BaseUserManager):
     def create_staffuser(self, email, first_name, last_name, password):
         user = self.create_user(
             email,
-            first_name=first_name,
-            last_name=last_name,
+            first_name=first_name.title(),
+            last_name=last_name.title(),
             password=password,
             is_staff=True
         )
@@ -53,8 +53,8 @@ class UserManager(BaseUserManager):
     def create_superuser(self, email, first_name, last_name, password):
         user = self.create_user(
             email,
-            first_name=first_name,
-            last_name=last_name,
+            first_name=first_name.title(),
+            last_name=last_name.title(),
             password=password,
             is_staff=True,
             is_superuser=True
@@ -69,7 +69,8 @@ class User(AbstractBaseUser):
     first_name = models.CharField(max_length=255, blank=True, null=True)
     last_name = models.CharField(max_length=255, blank=True, null=True)
     middle_name = models.CharField(max_length=255, blank=True, null=True)
-    date_of_birth = models.DateField(max_length=255, blank=True, null=True)
+    date_of_birth = models.DateField(
+        max_length=255, blank=True, null=True, help_text="Please use the format: mm/dd/yyyy")
     address = models.CharField(max_length=255, blank=True, null=True)
     is_active = models.BooleanField(default=True, verbose_name=u"Active")
     is_student = models.BooleanField(default=False)
@@ -83,21 +84,26 @@ class User(AbstractBaseUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name']
 
+    class Meta:
+        ordering = ['-date_joined', ]
+
     @property
     def get_full_name(self):
         if self.middle_name is not None:
             full_name = "{} {} {}".format(
-                self.first_name,
-                self.middle_name,
-                self.last_name
+                self.first_name.title(),
+                self.middle_name.title(),
+                self.last_name.title()
             )
         else:
-            full_name = "{} {}".format(self.first_name, self.last_name)
+            full_name = "{} {}".format(
+                self.first_name.title(), self.last_name.title())
         return full_name.strip()
 
     @property
     def get_short_name(self):
-        full_name = "{} {}".format(self.first_name, self.last_name)
+        full_name = "{} {}".format(
+            self.first_name.title(), self.last_name.title())
         return full_name
 
     def has_perm(self, perm, obj=None):
@@ -107,19 +113,21 @@ class User(AbstractBaseUser):
         return True
 
     def __str__(self):
-        return self.email
+        return self.get_full_name
 
 
 class LevelAndSection(models.Model):
     LEVEL_CHOICES = (
         ('Nursery', 'Nursery'), ('Kinder', 'Kinder'),
-        ('Grade_1', 'Grade 1'), ('Grade_2', 'Grade 2'),
-        ('Grade_3', 'Grade 3'), ('Grade_4', 'Grade 4'),
-        ('Grade_5', 'Grade 5'), ('Grade_6', 'Grade 6')
+        ('Grade1', 'Grade 1'), ('Grade2', 'Grade 2'),
+        ('Grade3', 'Grade 3'), ('Grade4', 'Grade 4'),
+        ('Grade5', 'Grade 5'), ('Grade6', 'Grade 6')
     )
 
     level = models.CharField(max_length=25, choices=LEVEL_CHOICES)
     section = models.CharField(max_length=50, blank=True, null=True)
+    adviser = models.OneToOneField(
+        User, on_delete=models.SET_NULL, null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True, auto_now=False)
     updated = models.DateTimeField(auto_now_add=False, auto_now=True)
 
@@ -135,7 +143,7 @@ class Profile(models.Model):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name="profile"
+        related_name="profile",
     )
     photo = models.ImageField(
         upload_to='user/profile/%Y/%m/%d/',
@@ -143,13 +151,14 @@ class Profile(models.Model):
     )
     # storage=gd_storage
     phone_regex = RegexValidator(
-        regex=r'^\+?1?\d{9,12}$',
-        message="Accepted Format:+639999999999."
+        regex=r'^\d{4}\-\d{3}\-\d{4}$',
+        message="Accepted Format:0999-999-9999."
     )
     phone_number = models.CharField(
         validators=[phone_regex, ],
         max_length=15,
-        blank=True, null=True
+        blank=True, null=True,
+        help_text="Please use the format: 0999-999-9999"
     )
     contact_person = models.CharField(max_length=255, null=True, blank=True)
     level_and_section = models.ForeignKey(
@@ -161,7 +170,7 @@ class Profile(models.Model):
     additional_information = models.TextField(blank=True, null=True)
 
     class Meta:
-        verbose_name_plural = "Profiles"
+        ordering = ['user__email', ]
 
     def __str__(self):
-        return self.user.email
+        return self.user.get_full_name

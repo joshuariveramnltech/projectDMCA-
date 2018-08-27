@@ -36,14 +36,15 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles', 
+    'django.contrib.staticfiles',
     # custom applications
-    'gdstorage',
+    # 'gdstorage',
     'phonenumber_field',
     'taggit',
     'administrator.apps.AdministratorConfig',
     'account.apps.AccountConfig',
     'announcement.apps.AnnouncementConfig',
+    'grading_system.apps.GradingSystemConfig',
 ]
 
 AUTH_USER_MODEL = 'account.User'
@@ -66,10 +67,11 @@ TEMPLATES = [
         'DIRS': [
             os.path.join(BASE_DIR, 'account\\templates'),
             os.path.join(BASE_DIR, 'account\\templates\\account'),
-            os.path.join(BASE_DIR, 'account\\templates\\account\\registration'),
+            os.path.join(
+                BASE_DIR, 'account\\templates\\account\\registration'),
             os.path.join(BASE_DIR, 'administrator\\templates'),
-            os.path.join(BASE_DIR, 'announcement\\templates'), 
-            ],
+            os.path.join(BASE_DIR, 'announcement\\templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -148,8 +150,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
-    os.path.join(BASE_DIR, 'static\\img') 
-    ]
+    os.path.join(BASE_DIR, 'static\\img')
+]
 
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'account:dashboard'
@@ -166,4 +168,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 PHONENUMBER_DEFAULT_REGION = 'PH'
 
-GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = os.path.join(BASE_DIR, 'dmca-bataan-5db059fab413.json')
+# GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = os.path.join(BASE_DIR, 'dmca-bataan-5db059fab413.json')

@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from django import forms
-from django.forms import DateField, Textarea, CharField, FileInput
+from django.forms import DateField, Textarea, FileInput
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import Profile, LevelAndSection
@@ -195,6 +195,7 @@ class ProfileChangeForm(forms.ModelForm):
 
         widgets = {
             'additional_information': Textarea(attrs={'cols': 80, 'rows': 20}),
+            'phone_number': Textarea(attrs={'placeholder': '0999-999-9999', 'cols': 20, 'rows': 1})
         }
 
 

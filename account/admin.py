@@ -21,6 +21,6 @@ class ProfileAdmin(admin.ModelAdmin):
 
 @admin.register(LevelAndSection)
 class LevelSectionAdminModel(admin.ModelAdmin):
-    list_display = ['level', 'section']
-    list_filter = ['level', 'section']
-    search_fields = ['level', 'section']
+    list_display = ['level', 'section', 'adviser']
+    list_filter = ['level', 'section', 'adviser__email']
+    search_fields = ['level', 'section', 'adviser__email']

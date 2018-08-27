@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Page Title</title>
+    <title>DMCA|Announcement Details</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
     <script src="main.js"></script>
@@ -25,10 +25,55 @@
         {{ announcement.body|linebreaks }}
     </div>
     {% if announcement.file is not None %}
-    <div>{{ announcement.file }}<div>
+    <div>{{ announcement.file }}<div>        
     {% endif %}
+    <form method="POST", action="{% url 'announcement:view_announcement_detail' a_id=announcement.id a_slug=announcement.slug %}">
+        {% csrf_token %}
+        {{ comment_form }}
+        <input type="submit" role="button" value="Submit"/>
+    </form>
+    {% with comment_list.count as total_comments %}
+        <h3>
+            <strong>{{ total_comments }} comment{{ total_comments|pluralize }}</strong>
+        </h3>
+    {% endwith %}
+    {% for comment in comments %}
+        <div>
+            <p>({{ forloop.counter }}) {{ comment.author.get_full_name }} <strong>{{ comment.created|timesince }}</strong> ago.
+                {% if comment.author == request.user %}
+                <a href="{% url 'announcement:edit_comment' announcement.id announcement.slug comment.id %}">Edit</a>
+                    <a href="{% url 'announcement:delete_comment' announcement.id announcement.slug comment.id %}" 
+                    onclick="return confirm('Delete this comment?')" title="Delete this comment">Delete</a>
+                {% endif %}
+            </p>
+            {{ comment.body|linebreaks }}
+        </div>
+        {% empty %}
+        <p>There are no comments for this announcement yet</p>
+    {% endfor %}
+    <div class="pagination">
+        <span class="">
+            {% if comments.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ comments.previous_page_number }}">previous</a>
+            {% endif %}
+            
+            <span class="current">
+                Page {{ comments.number }} of {{ comments.paginator.num_pages }}.
+            </span>
+            
+            {% if comments.has_next %}
+                <a href="?page={{ comments.next_page_number }}">next</a>
+                <a href="?page={{ comments.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+    <br/>
+
     <a href="{% url 'announcement:view_announcement' %}">View Announcements</a>
     <a href="{% url 'account:dashboard' %}">Dashboard</a>
+    <script>
+    </script>
 </body>
 
 </html>
