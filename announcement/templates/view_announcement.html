@@ -13,8 +13,8 @@
 <body>
     <a href="{% url 'account:dashboard' %}">Dashboard</a>
     {% if not request.user.is_student %}
-        <a href="{% url 'announcement:create_announcement' %}">Create Announcement</a>
-        <a href="{% url 'announcement:draft_announcement' %}">Drafts</a>
+    <a href="{% url 'announcement:create_announcement' %}">Create Announcement</a>
+    <a href="{% url 'announcement:draft_announcement' %}">Drafts</a>
     {% endif %}
     <h1>DMCA Announcements</h1>
     {% for announcement in dmca_announcement %}
@@ -23,14 +23,14 @@
     </a>by {{ announcement.author.get_full_name }} {% if request.user == announcement.author %}
     <small>
         <a href="{{ announcement.get_absolute_url_for_edit }}">Edit</a>
-        <a href="#">Delete</a>
+        <a href="{{ announcement.get_absolute_url_for_delete }}" onclick="return confirm('Are you sure you want to DELETE {{ announcement.title }}')">Delete</a>
     </small>
     {% endif %}
     <br/>
 
     <span>
         <small>
-            Publish Date: {{ announcement.publish_date}}Updated: {{ announcement.updated }}
+            Publish Date: {{ announcement.publish_date}} Updated: {{ announcement.updated }}
         </small>
     </span>
     <hr/> {% empty %} No Announcements So Far... {% endfor %}
@@ -42,13 +42,13 @@
     </a>by {{ announcement.author.get_full_name }} {% if request.user == announcement.author %}
     <small>
         <a href="{{ announcement.get_absolute_url_for_edit }}">Edit</a>
-        <a href="#">Delete</a>
+        <a href="{{ announcement.get_absolute_url_for_delete }}" onclick="return confirm('Are you sure you want to DELETE this {{ announcement.title }}')"></a>>Delete</a>
     </small>
     {% endif %}
     <br/>
     <span>
         <small>
-            Publish Date: {{ announcement.publish_date}}Updated: {{ announcement.updated }}
+            Publish Date: {{ announcement.publish_date}} Updated: {{ announcement.updated }}
         </small>
     </span>
     <hr/> {% empty %} No Group Announcements So Far... {% endfor %}

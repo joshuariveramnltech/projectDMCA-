@@ -16,7 +16,7 @@
       {% if user.profile.photo.url is not None %}
       <a href="#user"><img class="circle responsive-img" src="{{ user.profile.photo.url }}"></a>
       {% else %}
-      <a href="#user"><img class="circle" src="#"></a>
+      <a href="#user"><img class="circle" src="{% static "img/default_pic.png" %}"></a>
       {% endif %}
       <a href="#name"><span class="black-text name">{{ user.get_full_name }}</span></a>
       <a href="#email"><span class="black-text email">{{ user.email }}</span></a>
@@ -34,7 +34,11 @@
     <div class="col s12 m12 l3">
       <div class="card">
         <div class="card-image">
-          <img class="responsive-img" src="{{ user.profile.photo.url }}" style="max-width: 100%;">
+          {% if user.profile.photo.url is not None %}
+            <img class="responsive-img" src="{{ user.profile.photo.url }}" style="max-width: 100%;">
+          {% else %}
+            <img class="responsive-img" src="{% static "img/default_pic.png" %}" style="max-width: 100%;">
+          {% endif %}
         </div>
         <div class="card-content">
           <p> <h6>Name: &nbsp; <b>{{ user.get_full_name }}</b> </h6></p>
@@ -42,6 +46,9 @@
             <p> <h6>Level: &nbsp; <b>{{ profile.level_and_section.level }}</b> </h6></p>
             <p> <h6>Section: &nbsp; <b>{{ profile.level_and_section.section }}</b> </h6></p>
             <p> <h6>Teacher &nbsp; <b>{{ teacher.get_full_name }}</b> </h6></p>
+          {% elif user.is_teacher %}
+            <p> <h6>Level: &nbsp; <b>{{ profile.level_and_section.level }}</b> </h6></p>
+            <p> <h6>Section: &nbsp; <b>{{ profile.level_and_section.section }}</b> </h6></p>
           {% endif %}
         </div>
         <div class="card-action center">

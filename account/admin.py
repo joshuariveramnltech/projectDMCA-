@@ -11,10 +11,13 @@ admin.site.unregister(Group)
 
 admin.site.register(User, UserAdmin)
 
+
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ['user','level_and_section', 'position']
-    search_fields = ['user__email', 'level_and_section__level', 'level_and_section__section']
+    list_display = ['user', 'level_and_section', 'position']
+    search_fields = ['user__email',
+                     'level_and_section__level', 'level_and_section__section']
+
 
 @admin.register(LevelAndSection)
 class LevelSectionAdminModel(admin.ModelAdmin):

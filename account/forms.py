@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from django import forms
-from django.forms import DateField, Textarea, CharField
+from django.forms import DateField, Textarea, CharField, FileInput
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import Profile, LevelAndSection
@@ -24,18 +24,18 @@ class UserCreationForm(forms.ModelForm):
             'date_of_birth', 'address',
             'is_active', 'is_student',
             'is_teacher', 'is_staff', 'is_superuser'
-            )
+        )
         labels = {
             'is_active': 'Active',
             'is_student': 'Student',
             'is_teacher': 'Teacher',
             'is_staff': 'Staff',
             'is_superuser': 'Superuser'
-            }
+        }
 
     date_of_birth = forms.DateField(
         widget=forms.DateInput(format='%m/%d/%Y',
-        attrs={'class': 'datepicker', 'placeholder': 'mm/dd/yyyy'}),
+                               attrs={'class': 'datepicker', 'placeholder': 'mm/dd/yyyy'}),
         input_formats=('%m/%d/%Y', )
     )
 
@@ -72,7 +72,7 @@ class UserChangeForm(forms.ModelForm):
             'is_active', 'is_student',
             'is_teacher', 'is_staff',
             'is_superuser', 'password'
-            )
+        )
 
         labels = {
             'is_active': 'Active',
@@ -80,13 +80,13 @@ class UserChangeForm(forms.ModelForm):
             'is_teacher': 'Teacher',
             'is_staff': 'Staff',
             'is_superuser': 'Superuser'
-            }
-        
+        }
+
     date_of_birth = forms.DateField(
         widget=forms.DateInput(format='%m/%d/%Y',
-        attrs={'class': 'datepicker', 'placeholder':'mm/dd/yyyy'}),
+                               attrs={'class': 'datepicker', 'placeholder': 'mm/dd/yyyy'}),
         input_formats=('%m/%d/%Y', )
-        )
+    )
 
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.
@@ -109,7 +109,7 @@ class UserEditForm(forms.ModelForm):
             'last_name', 'middle_name',
             'date_of_birth', 'address',
             'is_active', 'password'
-            )
+        )
 
         labels = {
             'is_active': 'Active',
@@ -117,15 +117,15 @@ class UserEditForm(forms.ModelForm):
             'is_teacher': 'Teacher',
             'is_staff': 'Staff',
             'is_superuser': 'Superuser'
-            }
-        
+        }
+
     date_of_birth = forms.DateField(
         widget=forms.DateInput(
             format='%m/%d/%Y',
             attrs={'class': 'datepicker', 'placeholder': 'mm/dd/yyyy'}
-            ),
+        ),
         input_formats=('%m/%d/%Y', )
-        )
+    )
 
     def clean_password(self):
         return self.initial["password"]
@@ -147,9 +147,11 @@ class UserAdmin(BaseUserAdmin):
     list_filter = ('is_student', 'is_teacher', 'is_staff', 'is_superuser',)
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        ('Personal info', {'fields': ('first_name', 'last_name', 'middle_name', 'date_of_birth', 'address')}),
-        ('Status', {'fields': ('is_active', ),}),
-        ('Permissions', {'fields': ('is_student', 'is_teacher', 'is_staff', 'is_superuser')}),
+        ('Personal info', {'fields': (
+            'first_name', 'last_name', 'middle_name', 'date_of_birth', 'address')}),
+        ('Status', {'fields': ('is_active', ), }),
+        ('Permissions', {'fields': ('is_student',
+                                    'is_teacher', 'is_staff', 'is_superuser')}),
     )
 
     # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
@@ -165,10 +167,10 @@ class UserAdmin(BaseUserAdmin):
                 'is_teacher', 'is_staff',
                 'is_superuser', 'password1',
                 'password2'
-                    )
-                }
-            ),
-        )
+            )
+        }
+        ),
+    )
     search_fields = ('email',)
     ordering = ('email',)
     filter_horizontal = ()
@@ -183,8 +185,8 @@ class ProfileChangeForm(forms.ModelForm):
             'photo', 'phone_number',
             'contact_person', 'level_and_section',
             'position', 'additional_information'
-            ]
-        
+        ]
+
         labels = {
             'additional_information': 'Tell Something About the User',
             'photo': 'Profile Picture',
@@ -214,9 +216,12 @@ class ProfileEditForm(forms.ModelForm):
 
         widgets = {
             'additional_information': Textarea(attrs={'cols': 80, 'rows': 20}),
+            'photo': FileInput(attrs={'class': 'file-field'})
         }
- 
+
 # for ordinary users only
+
+
 class PersonalForm(forms.ModelForm):
     class Meta:
         model = User
@@ -231,12 +236,19 @@ class PersonalForm(forms.ModelForm):
             attrs={'class': 'datepicker', 'placeholder': 'mm/dd/yyyy'},
             format='%m/%d/%Y'
         ),
-        input_formats = ('%m/%d/%Y', )
+        input_formats=('%m/%d/%Y', )
+    )
+
+    address = forms.CharField(
+        widget=forms.TextInput(
+            attrs={'class': '', 'rows': 5, 'cols': 100}
+        )
     )
 
 # for administrator/staff only
+
+
 class LevelAndSectionForm(forms.ModelForm):
     class Meta:
         model = LevelAndSection
         fields = ['level', 'section']
-    

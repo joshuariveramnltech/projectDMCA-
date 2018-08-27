@@ -1,9 +1,0 @@
-{% extends 'base.html' %}
-{% block title %}Divine Miracle Christian Academy|Register{% endblock title %}
-{% block content %}
-    <form action="{% url 'account:register' %}", method="POST">
-        {{ form.as_p }}
-        <input type="submit" value="Create user" />
-        {% csrf_token %}
-    </form>
-{% endblock content %}

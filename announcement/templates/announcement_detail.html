@@ -11,13 +11,12 @@
 </head>
 
 <body>
-    <h2>{{ announcement.title }}</h2> 
-    By {{ announcement.author.get_full_name }}
-    {% if request.user == announcement.author %}
+    <h2>{{ announcement.title }}</h2>
+    By {{ announcement.author.get_full_name }} {% if request.user == announcement.author %}
     <span>
         <small>
             <a href="{{ announcement.get_absolute_url_for_edit }}">Edit</a>
-            <a href="#">Delete</a>
+            <a href="{{ announcement.get_absolute_url_for_delete }}" onclick="return confirm('Are you sure you want to DELETE {{ announcement.title }}')">Delete</a>
         </small>
     </span>
     {% endif %}
@@ -25,6 +24,9 @@
     <div>
         {{ announcement.body|linebreaks }}
     </div>
+    {% if announcement.file is not None %}
+    <div>{{ announcement.file }}<div>
+    {% endif %}
     <a href="{% url 'announcement:view_announcement' %}">View Announcements</a>
     <a href="{% url 'account:dashboard' %}">Dashboard</a>
 </body>

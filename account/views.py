@@ -16,7 +16,8 @@ def dashboard(request):
     user = get_object_or_404(User, email=request.user.email)
     try:
         profile = Profile.objects.get(user=user)
-        teacher = User.objects.get(is_teacher=True, profile__level_and_section=user.profile.level_and_section)
+        teacher = User.objects.get(
+            is_teacher=True, profile__level_and_section=user.profile.level_and_section)
         context = {'user': user, 'teacher': teacher, 'profile': profile}
     except User.DoesNotExist:
         context = {'user': user, 'profile': profile}
@@ -30,7 +31,8 @@ def view_edit_profile(request):
     if request.method == 'GET':
         personal_form = PersonalForm(instance=request.user)
         try:
-            profile_edit_form = ProfileEditForm(instance=Profile.objects.get(user=request.user))
+            profile_edit_form = ProfileEditForm(
+                instance=Profile.objects.get(user=request.user))
         except Profile.DoesNotExist:
             Profile.objects.create(user=request.user)
             profile_edit_form = ProfileEditForm(instance=request.user.profile)
@@ -38,12 +40,12 @@ def view_edit_profile(request):
         personal_form = PersonalForm(
             data=request.POST,
             instance=request.user,
-            )
+        )
         profile_edit_form = ProfileEditForm(
             data=request.POST,
             instance=Profile.objects.get(user=request.user),
             files=request.FILES
-            )
+        )
         if profile_edit_form.is_valid() and personal_form.is_valid():
             personal_form.save()
             profile_edit_form.save()
@@ -53,5 +55,5 @@ def view_edit_profile(request):
         'profile_edit_form': profile_edit_form,
         'personal_form': personal_form,
         'request': request
-        }
+    }
     return render(request, 'view_edit_profile.html', context)

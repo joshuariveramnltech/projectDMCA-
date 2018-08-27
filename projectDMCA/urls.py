@@ -21,10 +21,12 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('account.urls', namespace='account')),
-    path('account/', include('django.contrib.auth.urls')), # login, logout and password_reset form
+    # login, logout and password_reset form
+    path('account/', include('django.contrib.auth.urls')),
     path('administrator/', include('administrator.urls', namespace='administrator')),
     path('announcement/', include('announcement.urls', namespace='announcement')),
 ]
 
 if settings.DEBUG:
-	urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)

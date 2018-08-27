@@ -14,20 +14,24 @@ class Announcement(models.Model):
         ('draft', 'Draft'),
         ('published', 'Published'),
     )
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_announcements')
+    author = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='created_announcements')
     tags = TaggableManager()
     title = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250, unique_for_date='publish_date')
     body = models.TextField()
-    publish_date = models.DateTimeField(default=timezone.now)
+    files = models.FileField(
+        upload_to='file/announcement/%Y/%m/%d/', blank=True, null=True)
+    publish_date = models.DateField(auto_now_add=False, auto_now=False)
     created = models.DateTimeField(auto_now_add=True, auto_now=False)
     updated = models.DateTimeField(auto_now_add=False, auto_now=True)
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='draft')
+    status = models.CharField(
+        max_length=10, choices=STATUS_CHOICES, default='draft')
     send_to_group = models.ForeignKey(
         LevelAndSection, on_delete=models.CASCADE,
         related_name='group_announcements', null=True,
         blank=True
-        )
+    )
     send_to_all = models.BooleanField(default=False)
 
     @property
@@ -44,6 +48,13 @@ class Announcement(models.Model):
             args=[self.id, self.slug]
         )
 
+    @property
+    def get_absolute_url_for_delete(self):
+        return reverse(
+            "announcement:delete_announcement",
+            args=[self.id, self.slug]
+        )
+
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)
@@ -57,8 +68,10 @@ class Announcement(models.Model):
 
 
 class Comment(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='personal_comment', null=True)
-    announcement = models.ForeignKey(Announcement, on_delete=models.CASCADE, related_name='comments')
+    author = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='personal_comment', null=True)
+    announcement = models.ForeignKey(
+        Announcement, on_delete=models.CASCADE, related_name='comments')
     body = models.TextField()
     created = models.DateTimeField(auto_now_add=True, auto_now=False)
     updated = models.DateTimeField(auto_now_add=False, auto_now=True)

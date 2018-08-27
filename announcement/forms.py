@@ -5,30 +5,32 @@ from django.utils import timezone
 from datetime import datetime
 # Create your forms here
 
+
 class AnnouncementForm(forms.ModelForm):
     class Meta:
         model = Announcement
         fields = [
             'tags', 'title',
-            'body', 'publish_date',
+            'body', 'files', 'publish_date',
             'send_to_group', 'status',
             'send_to_all',
-            ]
-    
+        ]
+
         labels = {
             'publish_date': 'Publish Date',
             'send_to_all': 'Send to all?',
-            'body': 'Content'
+            'body': 'Content',
+            'files': 'Attach File/s'
         }
 
         widgets = {
-            'body': Textarea(attrs={'cols': 80, 'rows':20}),
+            'body': Textarea(attrs={'cols': 80, 'rows': 20}),
         }
-    publish_date = forms.DateTimeField(
-        initial=datetime.now(), required=False,
-        widget=forms.DateTimeInput(
-            format='%m/%d/%Y %H:%M:%S',
-            attrs={'placeholder': 'mm/dd/yyyy H:M:S'}
-            ),
-        input_formats=('%m/%d/%Y %H:%M:%S', )
-        )
+    publish_date = forms.DateField(
+        initial=datetime.now().date(), required=False,
+        widget=forms.DateInput(
+            format='%m/%d/%Y',
+            attrs={'placeholder': 'mm/dd/yyyy'}
+        ),
+        input_formats=('%m/%d/%Y', )
+    )

@@ -37,7 +37,8 @@ def create_user(request):
             new_user.set_password(cleaned_data['password1'])
             new_user.save()
             Profile.objects.create(user=new_user)
-            profile_form = forms.ProfileChangeForm(instance=new_user.profile, data=request.POST, files=request.FILES)
+            profile_form = forms.ProfileChangeForm(
+                instance=new_user.profile, data=request.POST, files=request.FILES)
             if profile_form.is_valid():
                 profile_form.save()
                 return HttpResponseRedirect(reverse('administrator:create_user_done'))
@@ -49,7 +50,8 @@ def create_user(request):
 def view_users(request):
     if not request.user.is_staff:
         raise PermissionDenied
-    user_list = User.objects.all().exclude(is_superuser=True)
+    user_list = User.objects.all().exclude(
+        is_superuser=True).exclude(email=request.user.email)
     query = request.GET.get("query")
     if query:
         user_list = user_list.filter(
@@ -88,13 +90,17 @@ def edit_user(request, user_id):
         user_form = forms.UserChangeForm(instance=user_instance)
         level_section_form = forms.LevelAndSectionForm()
         try:
-            profile_form = forms.ProfileChangeForm(instance=Profile.objects.get(user=user_instance))
+            profile_form = forms.ProfileChangeForm(
+                instance=Profile.objects.get(user=user_instance))
         except Profile.DoesNotExist:
             Profile.objects.create(user=user_instance)
-            profile_form = forms.ProfileChangeForm(instance=user_instance.profile)
+            profile_form = forms.ProfileChangeForm(
+                instance=user_instance.profile)
     elif request.method == 'POST':
-        user_form = forms.UserChangeForm(data=request.POST, instance=user_instance)
-        profile_form = forms.ProfileChangeForm(data=request.POST, instance=user_instance.profile, files=request.FILES)
+        user_form = forms.UserChangeForm(
+            data=request.POST, instance=user_instance)
+        profile_form = forms.ProfileChangeForm(
+            data=request.POST, instance=user_instance.profile, files=request.FILES)
         level_section_form = forms.LevelAndSectionForm(data=request.POST)
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
@@ -156,9 +162,11 @@ def edit_level_section(request, level_section_id):
     if request.method == 'GET':
         level_section_edit = forms.LevelAndSectionForm(instance=level_section)
     elif request.method == 'POST':
-        level_section_edit = forms.LevelAndSectionForm(data=request.POST, instance=level_section)
+        level_section_edit = forms.LevelAndSectionForm(
+            data=request.POST, instance=level_section)
         if level_section_edit.is_valid():
             level_section_edit.save()
             return HttpResponseRedirect(reverse('administrator:view_level_section'))
-    context =  {'level_section_edit': level_section_edit, 'level_section': level_section}
+    context = {'level_section_edit': level_section_edit,
+               'level_section': level_section}
     return render(request, 'edit_level_section.html', context)

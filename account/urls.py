@@ -9,5 +9,6 @@ app_name = "account"
 
 urlpatterns = [
     path('account/', views.dashboard, name='dashboard'),
-    path('account/view/edit/profile/', views.view_edit_profile, name='view_edit_profile'),
+    path('account/view/edit/profile/',
+         views.view_edit_profile, name='view_edit_profile'),
 ]

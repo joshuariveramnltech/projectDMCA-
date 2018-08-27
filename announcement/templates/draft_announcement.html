@@ -22,7 +22,7 @@
         </a>by {{ announcement.author.get_full_name }} {% if request.user == announcement.author %}
         <small>
             <a href="{{ announcement.get_absolute_url_for_edit }}">Edit</a>
-            <a href="#">Delete</a>
+            <a href="{{ announcement.get_absolute_url_for_delete }}" onclick="return confirm('Are you sure you want to DELETE {{ announcement.title }}')">Delete</a>
         </small>
         {% endif %}
         <br/>

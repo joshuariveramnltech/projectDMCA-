@@ -1,39 +1,35 @@
-{% extends 'base.html' %}
-{% block title %}Divine Miracle Christian Academy|Profile{% endblock title %}
-{% block content %}
+{% extends 'base.html' %} {% block title %}Divine Miracle Christian Academy|Profile{% endblock title %}
+{% block content%} 
 {% load staticfiles %}
 
-
 <div class="main grey lighten-3">
-        <a class="btn-flat btn-large tooltipped" data-tooltip="Back to dashboard" data-position="bottom" href="{% url 'account:dashboard' %}"><i class="material-icons left">arrow_back</i></a>
+    <a class="btn-flat btn-large tooltipped" data-tooltip="Back to dashboard" data-position="bottom" href="{% url 'account:dashboard' %}"><i
+            class="material-icons left">arrow_back</i></a>
     <div class="container">
-        {% if messages %}
-            {% for message in messages %}
-            <h4>{{ message }}</h4>
-            {% endfor %}
-        {% endif %}
-        {% if  request.user.profile.photo.url is not None %}
+        {% if messages %} {% for message in messages %}
+        <h4>{{ message }}</h4>
+        {% endfor %} {% endif %} {% if request.user.profile.photo.url is not None %}
         <div class="row">
             <div class="col s5 m5 l5">
                 <h5><b>Profile Picture</b></h5>
                 <h6>You can change your profile picture here by uploading a new image file (.png, .jpg, etc.)</h6>
             </div>
-            <div class="col s4 m4 l4" >
+            <div class="col s4 m4 l4">
                 <img class="circle" src="{{ request.user.profile.photo.url }}" style="height: 200px; width:200px;" />
             </div>
             <div class="col s3 m3 l3">
                 &nbsp;
             </div>
-            
+
         </div>
-        {% endif %}
-        Name: {{ request.user.get_full_name }}<br/>
-        Email: {{ request.user.email }}<br/>
-        <form enctype="multipart/form-data" method="POST", action=".">
+        {% endif %} Name: {{ request.user.get_full_name }}<br/> Email: {{ request.user.email }}<br/>
+        <form enctype="multipart/form-data" method="POST" , action=".">
             {% csrf_token %}
-            {{ profile_edit_form.as_p }}
-            {{ personal_form.as_p }}
-            <button type="submit">Edit Profile</button>
+            <div class="input-field">
+                {{ profile_edit_form.as_p }}
+                {{ personal_form.as_p }}
+            </div>
+                <button type="submit">Submit Changes</button>
         </form>
     </div>
 </div>
