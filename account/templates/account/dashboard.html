@@ -43,12 +43,12 @@
         <div class="card-content">
           <p> <h6>Name: &nbsp; <b>{{ user.get_full_name }}</b> </h6></p>
           {% if user.is_student %}
-            <p> <h6>Level: &nbsp; <b>{{ profile.level_and_section.level }}</b> </h6></p>
-            <p> <h6>Section: &nbsp; <b>{{ profile.level_and_section.section }}</b> </h6></p>
-            <p> <h6>Teacher &nbsp; <b>{{ profile.level_and_section.adviser.get_full_name }}</b> </h6></p>
+            <p> <h6>Level: &nbsp; <b>{{ user.profile.level_and_section.level }}</b> </h6></p>
+            <p> <h6>Section: &nbsp; <b>{{ user.profile.level_and_section.section }}</b> </h6></p>
+            <p> <h6>Teacher &nbsp; <b>{{ teacher.get_full_name }}</b> </h6></p>
           {% elif user.is_teacher %}
-            <p> <h6>Level: &nbsp; <b>{{ profile.level_and_section.level }}</b> </h6></p>
-            <p> <h6>Section: &nbsp; <b>{{ profile.level_and_section.section }}</b> </h6></p>
+            <p> <h6>Level: &nbsp; <b>{{ user.profile.level_and_section.level }}</b> </h6></p>
+            <p> <h6>Section: &nbsp; <b>{{ user.profile.level_and_section.section }}</b> </h6></p>
           {% endif %}
         </div>
         <div class="card-action center">

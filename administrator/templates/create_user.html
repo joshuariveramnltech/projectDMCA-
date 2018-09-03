@@ -13,7 +13,24 @@
         <form method="POST" action="." enctype="multipart/form-data">
             {% csrf_token %}
             {{ user_form.as_p }}
-            {{ profile_form.as_p }}
+            {{ profile_form.photo.errors }}
+            <p><label for="id_photo">Profile Picture:</label> <input type="file" name="photo" id="id_photo" /></p>
+            {{ profile_form.phone_number.errors }}
+            <p><label for="id_phone_number">Phone number:</label> 
+                <input type="text" name="phone_number" placeholder="0999-999-9999" maxlength="15" id="id_phone_number"/> 
+                <span class="helptext">Please use the format: 0999-999-9999</span></p>
+            <p><label for="id_contact_person">Contact Person In Case of Emergency:</label> <input type="text" name="contact_person" maxlength="255" id="id_contact_person" /></p> 
+            <p><label for="id_level_and_section">Level and section:</label>
+                <select name="{{ profile_form.level_and_section.name }}" id="{{ profile_form.level_and_section.id_for_label }}">
+                {% if profile_form.level_and_section %}
+                    {% for value in profile_form.level_and_section %}
+                        {{ value }}
+                    {% endfor %}
+                {% endif %}
+            </select></p>
+            <p><label for="id_position">Position:</label> <input type="text" name="position" maxlength="200" id="id_position" /></p>
+            <p><label for="id_additional_information">Tell Something About the User:</label> <textarea name="additional_information" cols="60" rows="20" id="id_additional_information">
+            </textarea></p>
             <button type="submit">Submit</button> <button type="reset">Reset</button>
         </form>
 </body>

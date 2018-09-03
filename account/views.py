@@ -14,13 +14,13 @@ def dashboard(request):
     if request.user.is_superuser:
         return HttpResponseRedirect('/admin/')
     user = get_object_or_404(User, email=request.user.email)
-    profile = Profile.objects.get_or_create(user=user)
+    Profile.objects.get_or_create(user=user)
     try:
         teacher = User.objects.get(
             is_teacher=True, profile__level_and_section=user.profile.level_and_section)
-        context = {'user': user, 'teacher': teacher, 'profile': profile}
+        context = {'user': user, 'teacher': teacher}
     except User.DoesNotExist:
-        context = {'user': user, 'profile': profile}
+        context = {'user': user}
     return render(request, 'dashboard.html', context)
 
 

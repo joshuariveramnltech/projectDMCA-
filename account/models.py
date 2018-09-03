@@ -136,7 +136,7 @@ class LevelAndSection(models.Model):
         ordering = ('level', )
 
     def __str__(self):
-        return "{} {}".format(self.level, self.section)
+        return "Level: {} Section: {}".format(self.level, self.section)
 
 
 class Profile(models.Model):
