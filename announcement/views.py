@@ -1,13 +1,14 @@
-from django.shortcuts import render, reverse
+from django.shortcuts import render, reverse, redirect
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth import get_user_model
 from django.http import HttpResponseRedirect
 from . import forms
 from django.contrib import messages
-from .models import Announcement
+from .models import Announcement, Comment
 from django.utils import timezone
 from django.contrib import messages
+from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
 # Create your views here.
 
 User = get_user_model()
@@ -20,7 +21,7 @@ def view_announcement(request):
     try:
         group_announcement = Announcement.objects.filter(
             send_to_group=request.user.profile.level_and_section,
-            status='published', publish_date__lte=timezone.now()).exclude(send_to_all=True).order_by('-publish_date')
+            status='published', publish_date__lte=timezone.now()).order_by('-publish_date')
         context = {
             'request': request,
             'dmca_announcement': dmca_announcement,
@@ -34,7 +35,27 @@ def view_announcement(request):
 @login_required
 def view_announcement_detail(request, a_id, a_slug):
     announcement = Announcement.objects.get(id=a_id, slug=a_slug)
-    context = {'announcement': announcement}
+    comment_list = announcement.comments.filter(active=True)
+    paginator = Paginator(comment_list, 5)
+    page = request.GET.get('page')
+    try:
+        comments = paginator.page(page)
+    except PageNotAnInteger:
+        comments = paginator.page(1)
+    except EmptyPage:
+        comments = paginator.page(paginator.num_pages)
+    if request.method == 'GET':
+        comment_form = forms.CommentForm()
+    elif request.method == 'POST':
+        comment_form = forms.CommentForm(data=request.POST)
+        if comment_form.is_valid():
+            new_comment = comment_form.save(commit=False)
+            new_comment.author = request.user
+            new_comment.announcement = announcement
+            new_comment.save()
+            return HttpResponseRedirect(reverse('announcement:view_announcement_detail', args=[a_id, a_slug]))
+    context = {'announcement': announcement,
+               'comment_form': comment_form, 'comments': comments, 'request': request, 'comment_list': comment_list}
     return render(request, 'announcement_detail.html', context)
 
 
@@ -92,3 +113,29 @@ def delete_announcement(request, a_id, a_slug):
         raise PermissionDenied
     announcement.delete()
     return HttpResponseRedirect(reverse('announcement:view_announcement'))
+
+
+@login_required
+def delete_comment(request, a_id, a_slug, comment_id):
+    comment = Comment.objects.get(id=comment_id)
+    comment.delete()
+    return HttpResponseRedirect(reverse('announcement:view_announcement_detail', args=[a_id, a_slug]))
+
+
+@login_required
+def edit_comment(request, a_id, a_slug, comment_id):
+    comment_instance = Comment.objects.get(
+        id=comment_id, announcement__id=a_id, announcement__slug=a_slug)
+    if request.method == 'GET':
+        edit_comment_form = forms.EditCommentForm(instance=comment_instance)
+    elif request.method == 'POST':
+        edit_comment_form = forms.EditCommentForm(
+            instance=comment_instance, data=request.POST)
+        if edit_comment_form.is_valid():
+            edit_comment_form.save()
+            redirect_to = reverse(
+                'announcement:view_announcement_detail', args=[a_id, a_slug])
+            return redirect(redirect_to)
+    context = {'edit_comment_form': edit_comment_form,
+               'comment_instance': comment_instance}
+    return render(request, 'edit_comment.html', context)

@@ -100,7 +100,7 @@
           <a href="#!" class="brand-logo"><img src="{% static " img/DMCA logo.png " %}" alt="" class="left" style="width:43px"><span
               class="black-text hide-on-med-and-down">&nbsp; Divine Miracle Christian Academy</span> </a>
           <ul class="right hide-on-med-and-down">
-            <li> <a href="" class="nav-link center black-text"><i class="material-icons black-text left">home</i> Home</a></li>
+            <li> <a href="{% url 'account:dashboard' %}" class="nav-link center black-text"><i class="material-icons black-text left">home</i> Home</a></li>
             <li> <a href="{% url 'announcement:view_announcement' %}" class="nav-link center black-text"><i class="material-icons black-text left">email</i>Messages</a></li>
             <li> <a href="{% url 'account:view_edit_profile' %}" class="nav-link center black-text"><i class="material-icons black-text left">account_circle</i>Account</a></li>
             <li> <a href="{% url 'account:dashboard' %}" class="nav-link center black-text"><i class="material-icons black-text left">dvr</i>Dashboard</a></li>
@@ -121,7 +121,7 @@
           <a href="#!" class="brand-logo"><img src="{% static " img/DMCA logo.png " %}" alt="" class="left" style="width:43px"><span
               class="black-text hide-on-med-and-down">&nbsp; Divine Miracle Christian Academy</span> </a>
           <ul class="right hide-on-med-and-down">
-            <li> <a href=""><i class="material-icons black-text tooltipped" data-tooltip="HOME" data-position="left">home</i></a></li>
+            <li> <a href="{% url 'account:dashboard' %}"><i class="material-icons black-text tooltipped" data-tooltip="HOME" data-position="left">home</i></a></li>
             <li>&nbsp &nbsp;&nbsp;</li>
           </ul>
         </div>

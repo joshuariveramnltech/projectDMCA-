@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Divine Miracle Christian Academy|View Announcement</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+</head>
+
+<body>
+    <h1>Edit Comment for {{ comment_instance.announcement.title }}</h1>
+    <form method="POST" 
+    action="{% url 'announcement:edit_comment' comment_instance.announcement.id comment_instance.announcement.slug comment_instance.id %}">
+        {% csrf_token %}
+        {{ edit_comment_form }}
+        <input type="submit" value="Submit" title="Edit Comment"/>
+        <a href="{% url 'announcement:view_announcement_detail' comment_instance.announcement.id comment_instance.announcement.slug %}">
+            <button>Cancel</button>
+        </a>
+    </form>
+</body>
+
+</html>

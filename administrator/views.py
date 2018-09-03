@@ -8,6 +8,7 @@ from account import forms
 from account.models import Profile, LevelAndSection
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Q
+from django.contrib import messages
 # from django.db.models.signals import post_save
 # from django.dispatch import receiver
 # Create your views here.
@@ -31,7 +32,9 @@ def create_user(request):
         profile_form = forms.ProfileChangeForm()
     elif request.method == 'POST':
         user_form = forms.UserCreationForm(data=request.POST)
-        if user_form.is_valid():
+        profile_form = forms.ProfileChangeForm(
+            data=request.POST, files=request.FILES)
+        if user_form.is_valid() and profile_form.is_valid():
             cleaned_data = user_form.cleaned_data
             new_user = user_form.save(commit=False)
             new_user.set_password(cleaned_data['password1'])
@@ -39,9 +42,8 @@ def create_user(request):
             Profile.objects.create(user=new_user)
             profile_form = forms.ProfileChangeForm(
                 instance=new_user.profile, data=request.POST, files=request.FILES)
-            if profile_form.is_valid():
-                profile_form.save()
-                return HttpResponseRedirect(reverse('administrator:create_user_done'))
+            profile_form.save()
+            return HttpResponseRedirect(reverse('administrator:create_user_done'))
     context = {'user_form': user_form, 'profile_form': profile_form}
     return render(request, 'create_user.html', context)
 
@@ -51,7 +53,8 @@ def view_users(request):
     if not request.user.is_staff:
         raise PermissionDenied
     user_list = User.objects.all().exclude(
-        is_superuser=True).exclude(email=request.user.email)
+        is_superuser=True).exclude(email=request.user.email).order_by('-date_joined')
+    # Search a user
     query = request.GET.get("query")
     if query:
         user_list = user_list.filter(
@@ -60,6 +63,7 @@ def view_users(request):
             Q(middle_name__icontains=query) |
             Q(email__icontains=query)
         ).distinct()
+    # Pagination 
     paginator = Paginator(user_list, 10)
     page = request.GET.get('page')
     try:
@@ -88,7 +92,7 @@ def edit_user(request, user_id):
     user_instance = get_object_or_404(User, id=user_id)
     if request.method == 'GET':
         user_form = forms.UserChangeForm(instance=user_instance)
-        level_section_form = forms.LevelAndSectionForm()
+        # level_section_form = forms.LevelAndSectionForm()
         try:
             profile_form = forms.ProfileChangeForm(
                 instance=Profile.objects.get(user=user_instance))
@@ -101,18 +105,18 @@ def edit_user(request, user_id):
             data=request.POST, instance=user_instance)
         profile_form = forms.ProfileChangeForm(
             data=request.POST, instance=user_instance.profile, files=request.FILES)
-        level_section_form = forms.LevelAndSectionForm(data=request.POST)
+        # level_section_form = forms.LevelAndSectionForm(data=request.POST)
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
             return HttpResponseRedirect(reverse('administrator:view_users'))
-        if level_section_form.is_valid():
-            level_section_form.save()
-            return HttpResponseRedirect(reverse('administrator:edit_user', kwargs={'user_id': user_id}))
+        # if level_section_form.is_valid():
+            # level_section_form.save()
+            # return HttpResponseRedirect(reverse('administrator:edit_user', kwargs={'user_id': user_id}))
     context = {
         'user_form': user_form,
         'profile_form': profile_form,
-        'level_section_form': level_section_form
+        # 'level_section_form': level_section_form
     }
     return render(request, 'edit_user.html', context)
 
