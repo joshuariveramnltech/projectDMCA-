@@ -1,37 +1,135 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>DMCA|Create User</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <script src="main.js"></script>
-</head>
-<body>
-        <a href="{% url 'administrator:view_users' %}">View Users</a>
-        <form method="POST" action="." enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ user_form.as_p }}
+{% extends 'base.html' %}
+{% block title %}Divine Miracle Christian Academy|Dashboard{% endblock title %}
+{% block content %}
+{% load staticfiles %}
+
+<div class="white">
+    <a class="btn" href="{% url 'administrator:view_users' %}">View Users</a>
+    <form method="POST" action="." enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="container">
             {{ profile_form.photo.errors }}
-            <p><label for="id_photo">Profile Picture:</label> <input type="file" name="photo" id="id_photo" /></p>
-            {{ profile_form.phone_number.errors }}
-            <p><label for="id_phone_number">Phone number:</label> 
-                <input type="text" name="phone_number" placeholder="0999-999-9999" maxlength="15" id="id_phone_number"/> 
-                <span class="helptext">Please use the format: 0999-999-9999</span></p>
-            <p><label for="id_contact_person">Contact Person In Case of Emergency:</label> <input type="text" name="contact_person" maxlength="255" id="id_contact_person" /></p> 
+            <div class="file-field input-field">
+                <div class="btn">
+                    <span><i class="material-icons left">image</i> Profile Picture</span>
+                    <input type="file" name="photo" id="id_photo">
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text">
+                </div>
+            </div>
+        </div>
+
+        <div class="center"><i class="material-icons indigo-text" style="font-size: 6rem;">person_add</i></div>
+        <div class="container">
+            <div class="row">
+                <div class="input-field col s4">
+                    <i class="material-icons prefix">account_circle</i>
+                    <input id="id_first_name" type="text" class="validate" name="first_name" maxlength="255" required>
+                    <label for="id_first_name">First Name</label>
+                </div>
+                <div class="input-field col s4">
+                    <input id="id_middle_name" type="text" class="validate" name="middle_name" maxlength="255" required>
+                    <label for="id_middle_name">Middle Name</label>
+                </div>
+                <div class="input-field col s4">
+                    <input id="id_last_name" type="text" class="validate" name="last_name" maxlength="255" required>
+                    <label for="id_last_name">Last Name</label>
+                </div>
+                <div class="input-field col s12">
+                    <i class="material-icons prefix">mail</i>
+                    <input id="id_email" type="email" class="validate" name="email" required maxlength="255">
+                    <label for="id_email">Email</label>
+                </div>
+                <div class="input-field col s4">
+                    <i class="material-icons prefix">event</i>
+                    <input id="id_date_of_birth" type="text" class="datepicker" name="date_of_birth" required>
+                    <label for="id_date_of_birth">Birthdate</label>
+                </div>
+                <div class="input-field col s8">
+                    <i class="material-icons prefix">location_on</i>
+                    <input type="text" name="address" maxlength="255" id="id_address" required />
+                    <label for="id_address">Address</label>
+                </div>
+                <div class="col s12">
+                    <br>
+                    <hr>
+                    <br>
+                </div>
+                <div class="col s2">
+                    <label>
+                        <input type="checkbox" name="is_active" id="id_is_active" checked />
+                        <span>Active</span>
+                    </label>
+                </div>
+                <div class="col s2">
+                    <label>
+                        <input type="checkbox" name="is_student" id="id_is_student" />
+                        <span>Student</span>
+                    </label>
+                </div>
+                <div class="col s2">
+                    <label>
+                        <input type="checkbox" name="is_teacher" id="id_is_teacher" />
+                        <span>Teacher</span>
+                    </label>
+                </div>
+                <div class="col s2">
+                    <label>
+                        <input type="checkbox" name="is_staff" id="id_is_staff" />
+                        <span>Staff</span>
+                    </label>
+                </div>
+                <div class="col s2">
+                    <label>
+                        <input type="checkbox" name="is_superuser" id="id_is_superuser" />
+                        <span>Superuser</span>
+                    </label>
+                </div>
+                <div class="col s12">
+                    <br>
+                    <hr>
+                    <br>
+                </div>
+                <div class="input-field col s6">
+                    <i class="material-icons prefix">vpn_key</i>
+                    <input type="password" name="password1" required id="id_password1" />
+                    <label for="id_password1">Password</label>
+                </div>
+                <div class="input-field col s6">
+                    <i class="material-icons prefix">vpn_key</i>
+                    <input type="password" name="password2" required id="id_password2" />
+                    <label for="id_password2">Password(again)</label>
+                </div>
+                {{ profile_form.phone_number.errors }}
+                <div class="input-field col s6">
+                    <input id="id_phone_number" type="text" name="phone_number" maxlength="13" placeholder="0912-345-6789" />
+                    <label for="id_phone_number">Phone number:</label>
+                </div>
+                <div class="input-field col s6">
+                    <input type="text" name="contact_person" maxlength="255" id="id_contact_person" />
+                    <label for="id_contact_person">Contact Person In Case of Emergency</label>
+                </div>
+            </div>
             <p><label for="id_level_and_section">Level and section:</label>
                 <select name="{{ profile_form.level_and_section.name }}" id="{{ profile_form.level_and_section.id_for_label }}">
-                {% if profile_form.level_and_section %}
+                    {% if profile_form.level_and_section %}
                     {% for value in profile_form.level_and_section %}
-                        {{ value }}
+                    {{ value }}
                     {% endfor %}
-                {% endif %}
-            </select></p>
+                    {% endif %}
+                </select></p>
             <p><label for="id_position">Position:</label> <input type="text" name="position" maxlength="200" id="id_position" /></p>
-            <p><label for="id_additional_information">Tell Something About the User:</label> <textarea name="additional_information" cols="60" rows="20" id="id_additional_information">
-            </textarea></p>
-            <button type="submit">Submit</button> <button type="reset">Reset</button>
-        </form>
-</body>
-</html>
+            <div class="center">
+                <button class="btn btn-large waves-green waves-teal orange accent-3" type="submit"><i class="material-icons right">send</i>
+                    Submit</button>
+                <button class="btn btn-large waves-green waves-teal indigo" type="reset"><i class="material-icons right">refresh</i>Reset</button>
+            </div>
+        </div>
+    </form>
+    <div>
+        <br><br>
+    </div>
+</div>
+{% endblock content %}
+

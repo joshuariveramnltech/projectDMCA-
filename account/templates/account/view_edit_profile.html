@@ -1,36 +1,66 @@
-{% extends 'base.html' %} {% block title %}Divine Miracle Christian Academy|Profile{% endblock title %}
+{% extends 'base.html' %} 
+{% block title %}{{ user.get_full_name }} | Account{% endblock title %}
 {% block content%} 
 {% load staticfiles %}
 
-<div class="main grey lighten-3">
+<div class="main white">
     <a class="btn-flat btn-large tooltipped" data-tooltip="Back to dashboard" data-position="bottom" href="{% url 'account:dashboard' %}"><i
             class="material-icons left">arrow_back</i></a>
     <div class="container">
-        {% if messages %} {% for message in messages %}
-        <h4>{{ message }}</h4>
-        {% endfor %} {% endif %} {% if request.user.profile.photo.url is not None %}
+            <button id="submit_btn" class="waves-effect waves-light btn modal-trigger hiddendiv" href="#modal1">Modal</button>
+
+           
+         {% if request.user.profile.photo.url is not None %}
         <div class="row">
             <div class="col s5 m5 l5">
                 <h5><b>Profile Picture</b></h5>
-                <h6>You can change your profile picture here by uploading a new image file (.png, .jpg, etc.)</h6>
+                <div class="input-field">
+                    <span class="helper-text">You can change your profile picture here by uploading a new image file (.png, .jpg, etc.)</span>
+                </div>
+                
             </div>
             <div class="col s4 m4 l4">
-                <img class="circle" src="{{ request.user.profile.photo.url }}" style="height: 200px; width:200px;" />
+                <img class="circle materialboxed" src="{{ request.user.profile.photo.url }}" style="height: 200px; width:200px; object-fit: cover; " />
             </div>
             <div class="col s3 m3 l3">
                 &nbsp;
             </div>
-
         </div>
-        {% endif %} Name: {{ request.user.get_full_name }}<br/> Email: {{ request.user.email }}<br/>
-        <form enctype="multipart/form-data" method="POST" , action=".">
+        <div class="center">
+            <h4><b>&nbsp;&nbsp;&nbsp; {{ request.user.get_full_name }}</b></h4> 
+            <h6>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ request.user.email }}</h6> 
+        </div>
+        {% endif %}
+        <form id="form-edit" enctype="multipart/form-data" method="POST" , action=".">
             {% csrf_token %}
             <div class="input-field">
                 {{ profile_edit_form.as_p }}
                 {{ personal_form.as_p }}
             </div>
-                <button type="submit">Submit Changes</button>
+                <button class="waves-effect waves-light btn-large light-green accent-4 right" type="submit">Save Changes</button>
         </form>
     </div>
+
+  <!-- Modal Structure -->
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            {% for message in messages %}
+            <h4>{{ message }}</h4>
+            {% endfor %} 
+        </div>
+        <div class="modal-footer">
+            <a href="" class="modal-close waves-effect waves-green btn-flat">OK</a>
+        </div>
+    </div>
+    <br><br><br>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('.materialboxed');
+        var instances = M.Materialbox.init(elems, {
+
+        });
+    });
+</script>
+
 {% endblock content %}
