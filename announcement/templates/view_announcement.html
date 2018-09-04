@@ -1,58 +1,187 @@
-<!DOCTYPE html>
-<html>
+{% extends 'base.html' %}
+{% block title %}{{ user.get_full_name }} | Messages{% endblock title %}
+{% block content%}
+{% load staticfiles %}
+<div class="white">
+    <div class="row">
+        <div class="col s12 m12 l4">
+            <div>
+                <div class="card">
+                    <div class="card-image" style="height: 300px; overflow:hidden;">
+                        {% if user.profile.photo.url is not None %}
+                        <img src="{{ user.profile.photo.url }}" style="height:100%; object-fit: cover;">
+                        {% else %}
+                        <img src="{% static "img/girl.svg" %}" style="object-fit:cover">
+                        {% endif %}
+                    </div>
+                    <div class="card-content">
+                        <p>
+                            <h6>Name: &nbsp; <b>{{ user.get_full_name }}</b> </h6>
+                        </p>
+                        {% if user.is_student %}
+                        <p>
+                            <h6>Level: &nbsp; <b>{{ user.profile.level_and_section.level }}</b> </h6>
+                        </p>
+                        <p>
+                            <h6>Section: &nbsp; <b>{{ user.profile.level_and_section.section }}</b> </h6>
+                        </p>
+                        <p>
+                            <h6>Teacher &nbsp; <b>{{ teacher.get_full_name }}</b> </h6>
+                        </p>
+                        {% elif user.is_teacher %}
+                        <p>
+                            <h6>Level: &nbsp; <b>{{ user.profile.level_and_section.level }}</b> </h6>
+                        </p>
+                        <p>
+                            <h6>Section: &nbsp; <b>{{ user.profile.level_and_section.section }}</b> </h6>
+                        </p>
+                        {% endif %}
+                    </div>
+                    <div class="card-action center">
+                        <div class="row">
+                            <a href="#" class="col s12">Subjects</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+            </div>
+            <p>
+                <label>
+                    <input type="checkbox" onclick="hideClassroom()" />
+                    <span>Clasroom Announcements Only</span>
+                </label>
+            </p>
+            <p>
+                <label>
+                    <input type="checkbox" onclick="hideClassroom()" />
+                    <span>School Announcements Only</span>
+                </label>
+            </p>
+            <p>
+                <label>
+                    <input type="checkbox" onclick="showBoth()" />
+                    <span>All Announcements</span>
+                </label>
+            </p>
+        </div>
+        <div class="col s12 m12 l8 white">
 
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Divine Miracle Christian Academy|View Announcement</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <script src="main.js"></script>
-</head>
+            <div id="swipe-1">
+                <ul class="collection collapsible popout" data-collapsible="accordion">
+                    {% for announcement in dmca_announcement %}
 
-<body>
-    <a href="{% url 'account:dashboard' %}">Dashboard</a>
-    {% if not request.user.is_student %}
-    <a href="{% url 'announcement:create_announcement' %}">Create Announcement</a>
-    <a href="{% url 'announcement:draft_announcement' %}">Drafts</a>
-    {% endif %}
-    <h1>DMCA Announcements</h1>
-    {% for announcement in dmca_announcement %}
-    <a href="{{ announcement.get_absolute_url }}">
-        {{ announcement.title }}
-    </a>by {{ announcement.author.get_full_name }} {% if request.user == announcement.author %}
-    <small>
-        <a href="{{ announcement.get_absolute_url_for_edit }}">Edit</a>
-        <a href="{{ announcement.get_absolute_url_for_delete }}" onclick="return confirm('Are you sure you want to DELETE {{ announcement.title }}')">Delete</a>
-    </small>
-    {% endif %}
-    <br/>
+                    <li class="collection-item avatar z-depth-5">
+                        {% if request.user == announcement.author %}
+                        <h6 class="" style="font-size: 1rem;">You</h6>
+                        {% else %}
+                        <h6 class="" style="font-size: 1rem;">{{ announcement.author.get_full_name }}</h6>
+                        {% endif %}
+                        <div class="collapsible-header">
+                            <img class="circle" src="{{ announcement.author.profile.photo.url }}" alt="" style="object-fit: cover; ">
+                            <span class="title">
+                                <a href="{{ announcement.get_absolute_url }}">{{ announcement.title }}</a>
+                            </span>
+                        </div>
 
-    <span>
-        <small>
-            Publish Date: {{ announcement.publish_date}} Updated: {{ announcement.updated }}
-        </small>
-    </span>
-    <hr/> {% empty %} No Announcements So Far... {% endfor %}
+                        <div class="collapsible-body white">
+                            <p class="black-text">
+                                <div class="black-text">
+                                    <h6> {{ announcement.body|linebreaks }}</h6>
+                                </div>
 
-    <h2>Group Announcements</h2>
-    {% for announcement in group_announcement %}
-    <a href="{{ announcement.get_absolute_url }}">
-        {{ announcement.title }}
-    </a>by {{ announcement.author.get_full_name }} {% if request.user == announcement.author %}
-    <small>
-        <a href="{{ announcement.get_absolute_url_for_edit }}">Edit</a>
-        <a href="{{ announcement.get_absolute_url_for_delete }}" onclick="return confirm('Are you sure you want to DELETE this {{ announcement.title }}')"></a>>Delete</a>
-    </small>
-    {% endif %}
-    <br/>
-    <span>
-        <small>
-            Publish Date: {{ announcement.publish_date}} Updated: {{ announcement.updated }}
-        </small>
-    </span>
-    <hr/> {% empty %} No Group Announcements So Far... {% endfor %}
+                                {% if request.user == announcement.author %} <br>
+                                <small>
+                                    <a href="{{ announcement.get_absolute_url_for_edit }}">Edit</a>
+                                    <a href="{{ announcement.get_absolute_url_for_delete }}" onclick="return confirm('Are you sure you want to DELETE {{ announcement.title }}')">Delete</a>
+                                </small>
+                                {% endif %}
+                            </p>
+                        </div>
 
-</body>
+                        <span>
+                            <small>
+                                Date Posted: {{ announcement.publish_date}} Updated: {{ announcement.updated }}
+                            </small>
+                        </span>
+                        <a href="#!" class="secondary-content"><i class="material-icons">mail_outline</i></a>
+                    </li>
+                    <div style="height:10px; visibility:none;"></div>
+                    {% empty %} No Announcements So Far... {% endfor %}
+                </ul>
+            </div>
 
-</html>
+
+
+            <div id="swipe-2">
+                <ul class="collection collapsible popout" data-collapsible="accordion">
+                    {% for announcement in group_announcement %}
+
+                    <li class="collection-item avatar z-depth-5">
+                        {% if request.user == announcement.author %}
+                        <h6 class="" style="font-size: 1rem;">You</h6>
+                        {% else %}
+                        <h6 class="" style="font-size: 1rem;">{{ announcement.author.get_full_name }}</h6>
+                        {% endif %}
+                        <div class="collapsible-header">
+                            <img class="circle" src="{{ announcement.author.profile.photo.url }}" alt="" style="object-fit: cover; ">
+                            <span class="title">
+                                <a href="{{ announcement.get_absolute_url }}">{{ announcement.title }}</a>
+                            </span>
+                        </div>
+
+                        <div class="collapsible-body white">
+                            <p class="black-text">
+                                <div class="black-text">
+                                    <h6> {{ announcement.body|linebreaks }}</h6>
+                                </div>
+
+                                {% if request.user == announcement.author %} <br>
+                                <small>
+                                    <a href="{{ announcement.get_absolute_url_for_edit }}">Edit</a>
+                                    <a href="{{ announcement.get_absolute_url_for_delete }}" onclick="return confirm('Are you sure you want to DELETE {{ announcement.title }}')">Delete</a>
+                                </small>
+                                {% endif %}
+                            </p>
+                        </div>
+
+                        <span>
+                            <small>
+                                Date Posted: {{ announcement.publish_date}} Updated: {{ announcement.updated }}
+                            </small>
+                        </span>
+                        <a href="#!" class="secondary-content"><i class="material-icons">mail_outline</i></a>
+                    </li>
+                    <div style="height:10px; visibility:none;"></div>
+                    {% empty %} No Group Announcements So Far...
+                </ul> {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <br>
+</div>
+<script>
+    function hideClassroom() {
+        var school = document.getElementById("swipe-1");
+        var Classroom = document.getElementById("swipe-2");
+        if (Classroom.style.display === "none") {
+            Classroom.style.display = "block";
+            school.style.display = "none";
+        } else {
+            Classroom.style.display = "none";
+            school.style.display = "block";
+        }
+    }
+
+    function showBoth() {
+        var school = document.getElementById("swipe-1");
+        var Classroom = document.getElementById("swipe-2");
+        Classroom.style.display = "block";
+        school.style.display = "block";
+    }
+</script>
+
+
+
+{% endblock content %}
