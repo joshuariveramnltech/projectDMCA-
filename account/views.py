@@ -15,12 +15,7 @@ def dashboard(request):
         return HttpResponseRedirect('/admin/')
     user = get_object_or_404(User, email=request.user.email)
     Profile.objects.get_or_create(user=user)
-    try:
-        teacher = User.objects.get(
-            is_teacher=True, profile__level_and_section=user.profile.level_and_section)
-        context = {'user': user, 'teacher': teacher}
-    except User.DoesNotExist:
-        context = {'user': user}
+    context = {'user': user}
     return render(request, 'dashboard.html', context)
 
 

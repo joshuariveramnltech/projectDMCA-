@@ -174,3 +174,9 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.get_full_name
+
+    def save(self, *args, **kwargs):
+        if  self.user.is_teacher and self.level_and_section is not None:
+            self.level_and_section.adviser = self.user
+            self.level_and_section.save()
+        super(Profile, self).save(*args, **kwargs)

@@ -23,29 +23,34 @@
         <div class="center"><i class="material-icons indigo-text" style="font-size: 6rem;">person_add</i></div>
         <div class="container">
             <div class="row">
+                {{ user_form.first_name.errors }}
                 <div class="input-field col s4">
                     <i class="material-icons prefix">account_circle</i>
                     <input id="id_first_name" type="text" class="validate" name="first_name" maxlength="255" required>
                     <label for="id_first_name">First Name</label>
                 </div>
                 <div class="input-field col s4">
-                    <input id="id_middle_name" type="text" class="validate" name="middle_name" maxlength="255" required>
+                    <input id="id_middle_name" type="text" class="validate" name="middle_name" maxlength="255">
                     <label for="id_middle_name">Middle Name</label>
                 </div>
+                {{ user_form.last_name.errors }}
                 <div class="input-field col s4">
                     <input id="id_last_name" type="text" class="validate" name="last_name" maxlength="255" required>
                     <label for="id_last_name">Last Name</label>
                 </div>
+                {{ user_form.email.errors }}
                 <div class="input-field col s12">
                     <i class="material-icons prefix">mail</i>
                     <input id="id_email" type="email" class="validate" name="email" required maxlength="255">
                     <label for="id_email">Email</label>
                 </div>
+                {{ user_form.date_of_birth.errors }}
                 <div class="input-field col s4">
                     <i class="material-icons prefix">event</i>
                     <input id="id_date_of_birth" type="text" class="datepicker" name="date_of_birth" required>
                     <label for="id_date_of_birth">Birthdate</label>
                 </div>
+                {{ user_form.address.errors }}
                 <div class="input-field col s8">
                     <i class="material-icons prefix">location_on</i>
                     <input type="text" name="address" maxlength="255" id="id_address" required />
@@ -91,6 +96,7 @@
                     <hr>
                     <br>
                 </div>
+                {{ user_form.password2.errors }}
                 <div class="input-field col s6">
                     <i class="material-icons prefix">vpn_key</i>
                     <input type="password" name="password1" required id="id_password1" />

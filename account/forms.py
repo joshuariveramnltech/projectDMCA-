@@ -252,4 +252,4 @@ class PersonalForm(forms.ModelForm):
 class LevelAndSectionForm(forms.ModelForm):
     class Meta:
         model = LevelAndSection
-        fields = ['level', 'section']
+        fields = ['level', 'section', 'adviser']

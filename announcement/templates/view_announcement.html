@@ -26,7 +26,7 @@
                             <h6>Section: &nbsp; <b>{{ user.profile.level_and_section.section }}</b> </h6>
                         </p>
                         <p>
-                            <h6>Teacher &nbsp; <b>{{ teacher.get_full_name }}</b> </h6>
+                            <h6>Teacher &nbsp; <b>{{ user.profile.level_and_section.adviser }}</b> </h6>
                         </p>
                         {% elif user.is_teacher %}
                         <p>
