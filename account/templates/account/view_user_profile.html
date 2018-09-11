@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}Profile|{{ other_user.get_full_name }}{% endblock title %}
+{% block content %}
+<div class="row">
+    <div class="card">
+    <div class="card-image" style="height: 300px; overflow:hidden;">
+        {% if other_user.profile.photo.url is not None %}
+            <img src="{{ other_user.profile.photo.url }}" style="height:100%; object-fit: cover;">
+        {% elif other_user.gender == "female" %}
+            <img src="{% static "img/girl.svg" %}" style="object-fit: cover;">
+        {% elif other_user.gender == "male" %}
+            <img src="{% static "img/boy.svg" %}" style="object-fit: cover;">
+        {% endif %}
+    </div>
+    </div>
+    <ul>
+        <li>Name: {{ other_user.get_full_name }}</li>
+        <li>Email: {{ other_user.email }}</li>
+        <li>BirthDay: {{ other_user.date_of_birth }}</li>
+        <li>Age: {{ other_user.profile.age }}</li>
+        <li>Address: {{ other_user.address }}</li>
+        <li>Contact Number: {{ other_user.profile.phone_number }}</li>
+    {% if other_user.is_teacher %}
+        <li>Civil Status: {{ other_user.faculty_profile.civil_status|title }}</li>
+        {% if other_user.faculty_profile.civil_status == "married" %}
+            <li>Spouse: {{ other_user.faculty_profile.spouse|title }}</li>
+        {% endif %}
+        <li>School Graduated: {{ other_user.faculty_profile.school_graduated }}</li>
+        <li>Major: {{ other_user.faculty_profile.major }}</li>
+        <li>Designated Year Level: {{ other_user.faculty_profile.designated_year_level }}</li>
+        <li>Additional Information: {{ other_user.faculty_profile.additional_information }}</li>
+    {% elif other_user.is_student %}
+        <li>LRN: {{ other_user.student_profile.learner_reference_number }}</li>
+        <li>Parent/Guardian: {{ other_user.student_profile.guardian }}</li>
+        <li>Guardian's Contact Number: {{ other_user.student_profile.guardian_contact_number }}</li>
+        <li>Year and Section: {{ other_user.student_profile.level_and_section }}</li>
+    </ul>
+    {% endif %}
+</div>
+{% endblock content %}

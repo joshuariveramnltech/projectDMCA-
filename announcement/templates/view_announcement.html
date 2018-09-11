@@ -9,9 +9,11 @@
                 <div class="card">
                     <div class="card-image" style="height: 300px; overflow:hidden;">
                         {% if user.profile.photo.url is not None %}
-                        <img src="{{ user.profile.photo.url }}" style="height:100%; object-fit: cover;">
-                        {% else %}
-                        <img src="{% static "img/girl.svg" %}" style="object-fit:cover">
+                            <img src="{{ user.profile.photo.url }}" style="height:100%; object-fit: cover;">
+                        {% elif user.gender == "female" %}
+                            <img src="{% static "img/girl.svg" %}" style="object-fit:cover">
+                        {% elif user.gender == "male" %}
+                        <img src="{% static "img/boy.svg" %}" style="object-fit:cover">
                         {% endif %}
                     </div>
                     <div class="card-content">
@@ -20,20 +22,20 @@
                         </p>
                         {% if user.is_student %}
                         <p>
-                            <h6>Level: &nbsp; <b>{{ user.profile.level_and_section.level }}</b> </h6>
+                            <h6>Level: &nbsp; <b>{{ user.student_profile.level_and_section.level }}</b> </h6>
                         </p>
                         <p>
-                            <h6>Section: &nbsp; <b>{{ user.profile.level_and_section.section }}</b> </h6>
+                            <h6>Section: &nbsp; <b>{{ user.student_profile.level_and_section.section }}</b> </h6>
                         </p>
                         <p>
-                            <h6>Teacher &nbsp; <b>{{ user.profile.level_and_section.adviser }}</b> </h6>
+                            <h6>Adviser &nbsp; <b>{{ user.student_profile.level_and_section.adviser.get_full_name }}</b> </h6>
                         </p>
                         {% elif user.is_teacher %}
                         <p>
-                            <h6>Level: &nbsp; <b>{{ user.profile.level_and_section.level }}</b> </h6>
+                            <h6>Level: &nbsp; <b>{{ level_and_section.level }}</b> </h6>
                         </p>
                         <p>
-                            <h6>Section: &nbsp; <b>{{ user.profile.level_and_section.section }}</b> </h6>
+                            <h6>Section: &nbsp; <b>{{ level_and_section.section }}</b> </h6>
                         </p>
                         {% endif %}
                     </div>
@@ -69,7 +71,7 @@
 
             <div id="swipe-1">
                 <ul class="collection collapsible popout" data-collapsible="accordion">
-                    {% for announcement in dmca_announcement %}
+                    {% for announcement in school_announcement %}
 
                     <li class="collection-item avatar z-depth-5">
                         {% if request.user == announcement.author %}
@@ -78,7 +80,13 @@
                         <h6 class="" style="font-size: 1rem;">{{ announcement.author.get_full_name }}</h6>
                         {% endif %}
                         <div class="collapsible-header">
-                            <img class="circle" src="{{ announcement.author.profile.photo.url }}" alt="" style="object-fit: cover; ">
+                            {% if announcement.author.profile.photo.url is not None %}
+                                <img class="circle" src="{{ announcement.author.profile.photo.url }}" alt="{{ announcement.author.get_full_name }}" style="object-fit: cover; ">
+                            {% elif announcement.author.gender == "female" %}
+                                <img src="{% static "img/girl.svg" %}" alt="{{ announcement.author.get_full_name }}" style="object-fit:cover">
+                            {% elif announcement.author.gender == "male" %}
+                                <img src="{% static "img/boy.svg" %}" alt="{{ announcement.author.get_full_name }}" style="object-fit:cover">
+                            {% endif %}
                             <span class="title">
                                 <a href="{{ announcement.get_absolute_url }}">{{ announcement.title }}</a>
                             </span>
@@ -110,9 +118,27 @@
                     {% empty %} No Announcements So Far... {% endfor %}
                 </ul>
             </div>
+            
+            <div class="school-pagination">
+                <span class="step-links">
+                    {% if school_announcement.has_previous %}
+                        <a href="?school_page=1">&laquo; first</a>
+                        <a href="?school_page={{ school_announcement.previous_page_number }}">previous</a>
+                    {% endif %}
 
-
-
+                    {% if school_announcement %}
+                    <span class="current">
+                        <em>School Announcement </em> Page {{ school_announcement.number }} of {{ school_announcement.paginator.num_pages }}.
+                    </span>
+                    {% endif %}
+                
+                    {% if school_announcement.has_next %}
+                        <a href="?school_page={{ school_announcement.next_page_number }}">next</a>
+                        <a href="?school_page={{ school_announcement.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+            <br/>
             <div id="swipe-2">
                 <ul class="collection collapsible popout" data-collapsible="accordion">
                     {% for announcement in group_announcement %}
@@ -124,7 +150,13 @@
                         <h6 class="" style="font-size: 1rem;">{{ announcement.author.get_full_name }}</h6>
                         {% endif %}
                         <div class="collapsible-header">
-                            <img class="circle" src="{{ announcement.author.profile.photo.url }}" alt="" style="object-fit: cover; ">
+                            {% if  announcement.author.profile.photo.url is not None %}
+                                <img class="circle" src="{{ announcement.author.profile.photo.url }}" alt="" style="object-fit: cover; ">
+                            {% elif  announcement.author.gender == "female" %}
+                                <img class="circle" src="{% static "img/girl.svg" %}" alt="" style="object-fit: cover; ">
+                            {% elif  announcement.author.gender == "male" %}
+                                <img class="circle" src="{% static "img/boy.svg" %}" alt="" style="object-fit: cover; ">
+                            {% endif %}
                             <span class="title">
                                 <a href="{{ announcement.get_absolute_url }}">{{ announcement.title }}</a>
                             </span>
@@ -156,6 +188,27 @@
                     {% empty %} No Group Announcements So Far...
                 </ul> {% endfor %}
             </div>
+
+            <div class="group-pagination">
+                <span class="step-links">
+                    {% if group_announcement.has_previous %}
+                        <a href="?group_page=1">&laquo; first</a>
+                        <a href="?group_page={{ group_announcement.previous_page_number }}">previous</a>
+                    {% endif %}
+                    
+                    {% if group_announcement %}
+                    <span class="current">
+                        <em>Group Announcement </em> Page {{ group_announcement.number }} of {{ group_announcement.paginator.num_pages }}.
+                    </span>
+                    {% endif %}
+                
+                    {% if group_announcement.has_next %}
+                        <a href="?group_page={{ group_announcement.next_page_number }}">next</a>
+                        <a href="?group_page={{ group_announcement.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>    
+
         </div>
     </div>
 

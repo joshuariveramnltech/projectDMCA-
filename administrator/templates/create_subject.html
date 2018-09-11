@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+    {% block title %}{{ request.user.get_short_name }}|Create Subject{% endblock title %}
+    {% load staticfiles %}
+    {% block content %}
+    <h3>Create Subject</h3>
+    <div>
+        <form method="POST" action="{% url 'administrator:create_subject' user_id %}">
+            {% csrf_token %}
+            {{ create_subject_form.as_p }}
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <table border="1">
+        <th>Subject</th>
+        <th>Ref. Code</th>
+        <th>Year and Section</th>
+        <th>Designated Instructor</th>
+        <th>Option</th>
+        {% for subject in subjects %}
+            <tr>
+                <td> {{ subject.subject_name }}</td>
+                <td> {{ subject.slug }}</td>
+                <td> {{ subject.level_and_section }}</td>
+                <td> {{ subject.designated_instructor }}</td>
+                <td><a href="{% url 'administrator:edit_subject' subject.slug 0 %}">
+                    <button>Edit</button></a> 
+                    <a href="{% url 'administrator:delete_subject' subject.slug 0 %}" 
+                    onclick="return confirm('Are you sure you want to DELETE {{subject.subject_name}} for {{subject.level_and_section}}?')">
+                    <button>Delete</button>
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    
+    <div class="pagination">
+        <span class="step-links">
+            {% if subjects.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ subjects.previous_page_number }}">previous</a>
+            {% endif %}
+            
+        <span class="current">
+            Page {{ subjects.number }} of {{ subjects.paginator.num_pages }}.
+        </span>
+            
+            {% if subjects.has_next %}
+                <a href="?page={{ subjects.next_page_number }}">next</a>
+                <a href="?page={{ subjects.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+    {% endblock content %}

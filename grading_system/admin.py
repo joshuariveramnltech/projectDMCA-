@@ -1,17 +1,24 @@
 from django.contrib import admin
-from .models import Subject, Grade
+from .models import Subject, SubjectGrade, FinalGrade
 # Register your models here.
 
 
 @admin.register(Subject)
 class AdminSubject(admin.ModelAdmin):
-    list_display = ['name', 'level_and_section', 'instructor', 'subject_code']
-    search_fields = ['level_and_section__level',
-                     'level_and_section__section', 'instructor__email', 'subject_code']
+    list_display = ('subject_name', 'level_and_section',
+                    'designated_instructor', 'slug')
+    search_fields = ('subject_name', 'designated_instructor__user__email',
+                     'level_and_section__level__level', 'level_and_section__section')
 
 
-@admin.register(Grade)
-class AdminGrade(admin.ModelAdmin):
-    list_display = ['student', 'subject',]
-    search_fields = ['student__email', 'subject__name',
-                     'subject__level_and_section__level', 'subject__level_and_section__section']
+@admin.register(SubjectGrade)
+class AdminSubjectGrade(admin.ModelAdmin):
+    list_display = ('student', 'subject', )
+    search_fields = ('student__email', 'subject__subject_name',
+                     'subject__level_and_section__level', 'subject__level_and_section__section')
+
+
+@admin.register(FinalGrade)
+class AdminFinalGrade(admin.ModelAdmin):
+    list_display = ('student', 'gwa', 'level', 'school_year')
+    search_fields = ('student__email', 'school_year', 'level__level')

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}{{ request.user.get_short_name }}|Create Subject{% endblock title %}
+{% block content %}
+<div>
+    <h3>Edit Subject</h3>
+    <form method="POST" action="{% url 'administrator:edit_subject' subject.slug user_id %}">
+        {% csrf_token %}
+        {{ edit_subject_form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+</div>
+{% endblock content %}

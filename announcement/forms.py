@@ -10,8 +10,8 @@ class AnnouncementForm(forms.ModelForm):
     class Meta:
         model = Announcement
         fields = [
-            'tags', 'title',
-            'body', 'files', 'publish_date',
+            'title',
+            'body', 'file', 'publish_date',
             'send_to_group', 'status',
             'send_to_all',
         ]
@@ -20,7 +20,7 @@ class AnnouncementForm(forms.ModelForm):
             'publish_date': 'Publish Date',
             'send_to_all': 'Send to all?',
             'body': 'Content',
-            'files': 'Attach File/s'
+            'file': 'Attach File/s'
         }
 
         widgets = {

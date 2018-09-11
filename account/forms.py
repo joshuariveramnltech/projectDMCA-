@@ -3,7 +3,8 @@ from django import forms
 from django.forms import DateField, Textarea, FileInput
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from .models import Profile, LevelAndSection
+from .models import (Profile, LevelAndSection,
+                     StudentProfile, StaffProfile, FacultyProfile)
 User = get_user_model()
 
 
@@ -21,7 +22,7 @@ class UserCreationForm(forms.ModelForm):
         fields = (
             'email', 'first_name',
             'last_name', 'middle_name',
-            'date_of_birth', 'address',
+            'date_of_birth', 'gender', 'address',
             'is_active', 'is_student',
             'is_teacher', 'is_staff', 'is_superuser'
         )
@@ -68,7 +69,7 @@ class UserChangeForm(forms.ModelForm):
         fields = (
             'email', 'first_name',
             'last_name', 'middle_name',
-            'date_of_birth', 'address',
+            'date_of_birth', 'gender', 'address',
             'is_active', 'is_student',
             'is_teacher', 'is_staff',
             'is_superuser', 'password'
@@ -97,8 +98,7 @@ class UserChangeForm(forms.ModelForm):
 
 class UserEditForm(forms.ModelForm):
     """A form for updating users. Includes all the fields on
-    the user, but replaces the password field with admin's
-    password hash display field.
+    the user, but replaces the password field with admin's password hash display field.
     """
     password = ReadOnlyPasswordHashField()
 
@@ -107,7 +107,7 @@ class UserEditForm(forms.ModelForm):
         fields = (
             'email', 'first_name',
             'last_name', 'middle_name',
-            'date_of_birth', 'address',
+            'date_of_birth', 'gender', 'address',
             'is_active', 'password'
         )
 
@@ -148,7 +148,7 @@ class UserAdmin(BaseUserAdmin):
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
         ('Personal info', {'fields': (
-            'first_name', 'last_name', 'middle_name', 'date_of_birth', 'address')}),
+            'first_name', 'last_name', 'middle_name', 'date_of_birth', 'gender', 'address')}),
         ('Status', {'fields': ('is_active', ), }),
         ('Permissions', {'fields': ('is_student',
                                     'is_teacher', 'is_staff', 'is_superuser')}),
@@ -162,7 +162,7 @@ class UserAdmin(BaseUserAdmin):
             'fields': (
                 'email', 'first_name',
                 'last_name', 'middle_name',
-                'date_of_birth', 'address',
+                'date_of_birth', 'gender', 'address',
                 'is_active', 'is_student',
                 'is_teacher', 'is_staff',
                 'is_superuser', 'password1',
@@ -177,52 +177,35 @@ class UserAdmin(BaseUserAdmin):
 
 
 # for administrator/staff only
-class ProfileChangeForm(forms.ModelForm):
-
+class ProfileCreateForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = [
-            'photo', 'phone_number',
-            'contact_person', 'level_and_section',
-            'position', 'additional_information'
-        ]
+        fields = ['photo', 'phone_number', 'age']
 
-        labels = {
-            'additional_information': 'Tell Something About the User',
-            'photo': 'Profile Picture',
-            'contact_person': 'Contact Person In Case of Emergency'
-        }
+        labels = {'photo': 'Profile Picture', 'age': 'Age'}
 
         widgets = {
-            'additional_information': Textarea(attrs={'cols': 80, 'rows': 20}),
             'phone_number': Textarea(attrs={'placeholder': '0999-999-9999', 'cols': 20, 'rows': 1})
         }
 
 
-# for students/teachers only
+# for students/teachers/staff personal use only
 class ProfileEditForm(forms.ModelForm):
 
     class Meta:
         model = Profile
-        fields = [
-            'photo', 'phone_number',
-            'contact_person', 'additional_information'
-        ]
+        fields = ['photo', 'phone_number', 'age']
 
         labels = {
-            'additional_information': 'Tell Something About yourself',
             'photo': 'Profile Picture',
-            'contact_person': 'Contact Person In Case of Emergency'
         }
 
         widgets = {
-            'additional_information': Textarea(attrs={'cols': 80, 'rows': 20}),
             'photo': FileInput(attrs={'class': 'file-field'})
         }
 
+
 # for ordinary users only
-
-
 class PersonalForm(forms.ModelForm):
     class Meta:
         model = User
@@ -246,9 +229,62 @@ class PersonalForm(forms.ModelForm):
         )
     )
 
+
+# student profile form for admin
+class StudentProfileAdminForm(forms.ModelForm):
+    class Meta:
+        model = StudentProfile
+        exclude = ['user', ]
+        labels = {
+            'guardian_contact_number': 'Guardian\'s Contact Number',
+        }
+
+
+# faculty profile form for admin
+class FacultyProfileAdminForm(forms.ModelForm):
+    class Meta:
+        model = FacultyProfile
+        exclude = ['user', ]
+        labels = {'designated_year_level': 'Designated Year Level'}
+
+
+# staff profile form for admin
+class StaffProfileAdminForm(forms.ModelForm):
+    class Meta:
+        model = StaffProfile
+        exclude = ['user', ]
+
+
+# student personal profile form
+class StudentPersonalProfileForm(forms.ModelForm):
+    class Meta:
+        model = StudentProfile
+        exclude = ['level_and_section', 'user']
+        labels = {
+            'guardian_contact_number': 'Guardian\'s Contact Number',
+        }
+
+
+# faculty personal profile form
+class FacultyPersonalProfileForm(forms.ModelForm):
+    class Meta:
+        model = FacultyProfile
+        exclude = ['user', 'designated_year_level']
+        labels = {
+            'school_graduated': 'School Graduated',
+            'major': 'Course Major'
+        }
+
+
+# staff personal profile form
+class StaffPersonalProfileForm(forms.ModelForm):
+    class Meta:
+        model = StaffProfile
+        exclude = ['user', ]
+        labels = {}
+
+
 # for administrator/staff only
-
-
 class LevelAndSectionForm(forms.ModelForm):
     class Meta:
         model = LevelAndSection
