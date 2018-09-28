@@ -37,5 +37,10 @@
         <li>Year and Section: {{ other_user.student_profile.level_and_section }}</li>
     </ul>
     {% endif %}
+    {% if request.user.is_student %}
+        <a href="{% url 'grading_system:student_level_section_subject' request.user.student_profile.level_and_section.level.level request.user.student_profile.level_and_section.section %}">Subjects</a>
+    {% elif request.user.is_teacher %}
+        <a href="{% url 'grading_system:view_assigned_subject' %}" class="col s12">Subjects</a>
+    {% endif %}
 </div>
 {% endblock content %}

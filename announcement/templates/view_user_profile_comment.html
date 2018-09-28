@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}Profile|{{ target_user.get_full_name }}{% endblock title %}
+{% block content %}
+<div class="row">
+    <div class="card">
+    <div class="card-image" style="height: 300px; overflow:hidden;">
+        {% if target_user.profile.photo.url is not None %}
+            <img src="{{ target_user.profile.photo.url }}" style="height:100%; object-fit: cover;">
+        {% elif target_user.gender == "female" %}
+            <img src="{% static "img/girl.svg" %}" style="object-fit: cover;">
+        {% elif target_user.gender == "male" %}
+            <img src="{% static "img/boy.svg" %}" style="object-fit: cover;">
+        {% endif %}
+    </div>
+    </div>
+    <ul>
+        <li>Name: {{ target_user.get_full_name }}</li>
+        <li>Email: {{ target_user.email }}</li>
+    {% if target_user.is_teacher %}
+        <li>Account: Faculty/Teacher</li>
+        <li>Designated Year Level: {{ target_user.faculty_profile.designated_year_level }}</li>
+        <li>Additional Information: {{ target_user.faculty_profile.additional_information }}</li>
+    {% elif target_user.is_student %}
+        <li>Account: Student</li>
+        <li>Parent/Guardian: {{ target_user.student_profile.guardian }}</li>
+        <li>Year and Section: {{ target_user.student_profile.level_and_section }}</li>
+    {% elif target_user.is_staff %}
+        <li>Account: Staff</li>
+        <li>Position: {{ target_user.staff_profile.position }}</li>
+        <li>Additional Information: {{ target_user.staff_profile.additional_information }}</li>
+    </ul>
+    {% endif %}
+    <a href="{{ announcement.get_absolute_url }}">Back</a>
+</div>
+{% endblock content %}

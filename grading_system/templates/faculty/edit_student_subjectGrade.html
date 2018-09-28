@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{{ subjectGrade.subject.subject_name }}|{{student_user.get_short_name}}|{{ student_user.student_profile.level_and_section }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+</head>
+<body>
+    {% for message in messages %}
+        {{ message }}
+        {{ empty }}
+    {% endfor %}
+    <ul style="list-style-type:none;">
+        <li>Student: {{ student_user.get_full_name }}</li>
+        <li>Subject: {{ subjectGrade.subject.subject_name }}</li>
+        <li>Year and Section: {{ student_user.student_profile.level_and_section }}</li>
+    </ul>
+
+    <form method="POST" action="{% url 'grading_system:edit_student_subjectGrade' student_user.id student_user.get_full_name subjectGrade.id %}">
+        {% csrf_token %} 
+        {{ subjectGrade_edit_form.as_p }}
+        <input type="submit" value="Submit"/>
+    </form>
+    <a href="{% url 'grading_system:view_students_per_subject' level_and_section.id subjectGrade.subject.id %}" >Back</a>
+    <a href="{% url 'grading_system:view_assigned_subject' %}" class="col s12">Subjects</a>
+</body>
+</html>

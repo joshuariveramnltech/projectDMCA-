@@ -4,7 +4,7 @@
     {% load staticfiles %}
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{% block title %}{{ target_user.get_full_name }}|{{ subjectGrade.subject.subject_name }}{% endblock title %}</title>
+    <title>{% block title %}{{ target_user.get_short_name }}|{{ subjectGrade.subject.subject_name }}{% endblock title %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
     <script src="main.js"></script>
@@ -21,7 +21,7 @@
             {{ subjectGrade_edit_form.as_p }}
             <input type="submit" value="Submit" />
         </form>
-        <a href="{% url 'administrator:enrollment_admission' target_user.id target_user.get_full_name %}">Back</a>
+        <a href="{{ target_user.student_profile.enrollment_admission_link }}">Back</a>
     </div>
 </body>
 </html>

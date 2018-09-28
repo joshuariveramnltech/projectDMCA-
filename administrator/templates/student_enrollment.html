@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{{ student_user.get_full_name }}|{{ student_user.student_profile.level_and_section }}</title>
+    <title>{{ student_user.get_short_name }}|{{ student_user.student_profile.level_and_section }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
     <script src="main.js"></script>
@@ -18,6 +18,22 @@
         <li>Year and Section: {{ student_user.student_profile.level_and_section }}</li>
         <li>Adviser: {{ student_user.student_profile.level_and_section.adviser.get_full_name }}</li>
     </ul>
+    <h3>Final Grades</h3>
+    <table border="1">
+        {% for finalGrade in finalGrades %}
+        <th>Level</th>
+        <th>School Year</th>
+        <th>Grade</th>
+        <tr>
+            <td>{{ finalGrade.level }}</td>
+            <td>{{ finalGrade.school_year }}</td>
+            <td>{{ finalGrade.grade }}</td>
+        </tr>
+        {% empty %}
+            No Final Grade Yet.
+        {% endfor %}
+
+    </table>
     <h3>Enrolled Subjects</h3>
     {% if enrolled_subjects %}
     <table border="1">
@@ -45,9 +61,6 @@
         No Result..
     {% endif %}
     <br/>
-
-
-
     <h3>Available Subjects</h3>
     {% if available_subjects %}
     <strong>Select all the subjects you want for the user to be enrolled in</strong>

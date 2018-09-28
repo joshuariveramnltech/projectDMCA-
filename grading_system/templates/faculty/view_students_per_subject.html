@@ -11,7 +11,12 @@
             </form>
             {% if yearSectionStudents %}
                 {% for student in yearSectionStudents %}
-                <p><a style="color: #FFFFFF" href="{% url 'grading_system:view_student_profile' student.user.id student.user.get_short_name %}"> {{ student.user.get_full_name }} </a></p>    
+                <p> 
+                    {{ student.user.get_full_name }} 
+                    <a style="color: #FFFFFF" href="{% url 'grading_system:view_student_profile' student.user.id student.user.get_short_name %}">
+                        View Profile
+                    </a>
+                </p>    
                 {% endfor %}
             {% else %}
                 No Results...
@@ -46,7 +51,12 @@
             </form>
             {% if enrolledStudentsPerSubject %}
                 {% for instance in enrolledStudentsPerSubject %}
-                    {{ instance.student.user.get_full_name }}<br/>
+                    <p>
+                        {{ instance.student.user.get_full_name }}
+                        <a href="{% url 'grading_system:edit_student_subjectGrade' instance.student.user.id instance.student.user.get_full_name instance.id  %}">
+                            Edit Grade
+                        </a>
+                    </p>
                 {% endfor %}
             {% endif %}
         </div> 
@@ -69,6 +79,6 @@
                 {% endif %}
                 </span>
         </div>
-
+    <a style="color:#FFFFFF" href="{% url 'grading_system:view_assigned_subject' %}" class="col s12">Subjects</a>
     </div>
 {% endblock content %}

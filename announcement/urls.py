@@ -21,4 +21,6 @@ urlpatterns = [
          views.delete_comment, name='delete_comment'),
     path('dmca/edit/comment/<int:a_id>/<slug:a_slug>/<int:comment_id>/',
          views.edit_comment, name='edit_comment'),
+    path('dmca/view/comment/profile/<int:target_user_id>/<target_user_short_name>/<int:a_id>/',
+         views.view_user_profile_comment, name='view_user_profile_comment'),
 ]

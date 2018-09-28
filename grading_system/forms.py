@@ -13,6 +13,7 @@ class SubjectCreateForm(forms.ModelForm):
         exclude = ['date_created', 'updated', 'slug']
 
 
+# for administrator use only
 class SubjectGradeCreateForm(forms.ModelForm):
     class Meta:
         model = SubjectGrade
@@ -20,3 +21,23 @@ class SubjectGradeCreateForm(forms.ModelForm):
         labels = {
             'is_finalized': 'Finalized?',
         }
+
+
+# for faculty use only
+class SubjectGradeEditForm(forms.ModelForm):
+    class Meta:
+        model = SubjectGrade
+        exclude = [
+            'date_created', 'updated',
+            'student', 'school_year',
+            'subject', 'instructor']
+        labels = {
+            'is_finalized': 'Finalized',
+        }
+
+
+# for administrator use only
+class FinalGradeCreateForm(forms.ModelForm):
+    class Meta:
+        model = FinalGrade
+        exclude = ['date_created', 'updated']

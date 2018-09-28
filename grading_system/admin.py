@@ -20,5 +20,5 @@ class AdminSubjectGrade(admin.ModelAdmin):
 
 @admin.register(FinalGrade)
 class AdminFinalGrade(admin.ModelAdmin):
-    list_display = ('student', 'gwa', 'level', 'school_year')
+    list_display = ('student', 'grade', 'level', 'school_year')
     search_fields = ('student__email', 'school_year', 'level__level')

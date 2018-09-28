@@ -6,10 +6,16 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from account import forms
 from account.models import (
-    Profile, LevelAndSection, StudentProfile, StaffProfile, FacultyProfile)
+    Profile, LevelAndSection,
+    StudentProfile, StaffProfile,
+    FacultyProfile
+)
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from grading_system.models import Subject, SubjectGrade, FinalGrade
-from grading_system.forms import SubjectCreateForm, SubjectGradeCreateForm
+from grading_system.forms import (
+    FinalGradeCreateForm, SubjectCreateForm,
+    SubjectGradeCreateForm
+)
 from django.db.models import Q
 from datetime import datetime
 # Create your views here.
@@ -61,14 +67,25 @@ def view_users(request):
     faculty_query = request.GET.get("faculty_query")
     staff_query = request.GET.get("staff_query")
     if student_query:
-        student_list = student_list.filter(Q(first_name__icontains=student_query) | Q(last_name__icontains=student_query) |
-                                           Q(middle_name__icontains=student_query) | Q(email__icontains=student_query)).distinct()
+        student_list = student_list.filter(
+            Q(first_name__icontains=student_query) |
+            Q(last_name__icontains=student_query) |
+            Q(middle_name__icontains=student_query) |
+            Q(email__icontains=student_query) |
+            Q(student_profile__level_and_section__level__level__icontains=student_query) |
+            Q(student_profile__learner_reference_number__icontains=student_query)).distinct()
     if faculty_query:
-        faculty_list = faculty_list.filter(Q(first_name__icontains=faculty_query) | Q(last_name__icontains=faculty_query) |
-                                           Q(middle_name__icontains=faculty_query) | Q(email__icontains=faculty_query)).distinct()
+        faculty_list = faculty_list.filter(
+            Q(first_name__icontains=faculty_query) |
+            Q(last_name__icontains=faculty_query) |
+            Q(middle_name__icontains=faculty_query) |
+            Q(email__icontains=faculty_query)).distinct()
     if staff_query:
-        staff_list = staff_list.filter(Q(first_name__icontains=staff_query) | Q(last_name__icontains=staff_query) |
-                                       Q(middle_name__icontains=staff_query) | Q(email__icontains=staff_query)).distinct()
+        staff_list = staff_list.filter(
+            Q(first_name__icontains=staff_query) |
+            Q(last_name__icontains=staff_query) |
+            Q(middle_name__icontains=staff_query) |
+            Q(email__icontains=staff_query)).distinct()
     # Student Pagination
     student_paginator = Paginator(student_list, 10)
     student_page = request.GET.get('student_page')
@@ -255,7 +272,8 @@ def edit_subject(request, **kwargs):
         if edit_subject_form.is_valid():
             edit_subject_form.save()
             if kwargs['user_id'] == 0:
-                return HttpResponseRedirect(reverse('administrator:create_subject', args=[kwargs['user_id'], ]))
+                return HttpResponseRedirect(
+                    reverse('administrator:create_subject', args=[kwargs['user_id'], ]))
             else:
                 user = User.objects.get(id=kwargs['user_id'])
                 return HttpResponseRedirect(reverse('administrator:enrollment_admission',
@@ -271,7 +289,8 @@ def delete_subject(request, **kwargs):
     subject = get_object_or_404(Subject, slug=kwargs['subject_slug'])
     subject.delete()
     if kwargs['user_id'] == 0:
-        return HttpResponseRedirect(reverse('administrator:create_subject', args=[kwargs['user_id'], ]))
+        return HttpResponseRedirect(
+            reverse('administrator:create_subject', args=[kwargs['user_id'], ]))
     else:
         user = User.objects.get(id=kwargs['user_id'])
         return HttpResponseRedirect(reverse('administrator:enrollment_admission',
@@ -292,14 +311,19 @@ def enrollment_admission_student(request, user_id, user_full_name):
     if not request.user.is_superuser:
         raise PermissionDenied
     student_user = User.objects.get(id=user_id)
-    # I'am in love with this fucking Framework
-    available_subjects = Subject.objects.exclude(
-        subject_grade__student__user=student_user)
-    enrolled_subjects = SubjectGrade.objects.filter(student__user=student_user)
+#    I'am in love with this fucking Framework
+#    available_subjects = Subject.objects.exclude(
+#        subject_grade__student__user=student_user)
+    available_subjects = Subject.objects.all()
+    enrolled_subjects = SubjectGrade.objects.filter(
+        student__user=student_user).order_by('school_year')
+    finalGrades = FinalGrade.objects.filter(
+        student__user=student_user).order_by('school_year')
     context.update({'available_subjects': available_subjects,
                     'student_user': student_user,
                     'request': request,
-                    'enrolled_subjects': enrolled_subjects})
+                    'enrolled_subjects': enrolled_subjects,
+                    'finalGrades': finalGrades})
     if request.method == 'POST':
         subject_list = request.POST.getlist('subjectList')
         if subject_list:
@@ -312,8 +336,14 @@ def enrollment_admission_student(request, user_id, user_full_name):
                     "-" + str(datetime.now().year+1),
                     subject=each_subject
                 )
-                print(each_subject)
-            return HttpResponseRedirect(reverse('administrator:enrollment_admission', args=[user_id, user_full_name]))
+            FinalGrade.objects.get_or_create(
+                student=student_user.student_profile,
+                level=student_user.student_profile.level_and_section.level,
+                school_year=str(datetime.now().year) + "-" +
+                str(datetime.now().year+1),
+            )
+            return HttpResponseRedirect(
+                reverse('administrator:enrollment_admission', args=[user_id, user_full_name]))
     return render(request, 'student_enrollment.html', context)
 
 
@@ -323,8 +353,9 @@ def delete_subject_grade(request, user_id, user_full_name, subject_grade_id):
         raise PermissionDenied
     subject_grade_instance = SubjectGrade.objects.get(id=subject_grade_id)
     subject_grade_instance.delete()
-    return HttpResponseRedirect(reverse('administrator:enrollment_admission',
-                                        args=[user_id, user_full_name]))
+    return HttpResponseRedirect(
+        reverse('administrator:enrollment_admission',
+                args=[user_id, user_full_name]))
 
 
 @login_required
@@ -342,12 +373,35 @@ def edit_subjectGrade_admin(request, user_id, user_full_name, subject_grade_id):
         if subjectGrade_edit_form.is_valid():
             subjectGrade_edit_form.save()
             messages.success(request, 'Subject Grade Updated!')
-            return HttpResponseRedirect(reverse('administrator:edit_subjectGrade_admin',
-                                                args=[user_id, user_full_name, subject_grade_id]))
-    context.update(
-        {
-            'subjectGrade_edit_form': subjectGrade_edit_form,
-            'subjectGrade': subjectGrade
-        }
-    )
+            return HttpResponseRedirect(
+                reverse('administrator:edit_subjectGrade_admin',
+                        args=[user_id, user_full_name, subject_grade_id]))
+    context.update({
+        'subjectGrade_edit_form': subjectGrade_edit_form,
+        'subjectGrade': subjectGrade})
     return render(request, 'edit_subjectGrade_admin.html', context)
+
+
+@login_required
+def edit_student_finalLevelGradeAdmin(request, final_grade_id, user_full_name):
+    if not request.user.is_superuser:
+        raise PermissionDenied
+    finalGrade = FinalGrade.objects.get(id=final_grade_id)
+    student_user = User.objects.get(id=finalGrade.student.user.id)
+    context = {'request': request, 'student_user': student_user}
+    if request.method == 'GET':
+        finalGrade_form = FinalGradeCreateForm(instance=finalGrade)
+    elif request.method == 'POST':
+        finalGrade_form = FinalGradeCreateForm(
+            data=request.POST, instance=finalGrade)
+        if finalGrade_form.is_valid():
+            finalGrade_form.save()
+            messages.success(request, 'Final Year Grade Updated Successfully!')
+            return HttpResponseRedirect(
+                reverse(
+                    'administrator:edit_student_finalLevelGradeAdmin',
+                    args=[final_grade_id, user_full_name]
+                    )
+                )
+    context['finalGrade_form'] = finalGrade_form
+    return render(request, 'edit_student_finalLevelGradeAdmin.html', context)

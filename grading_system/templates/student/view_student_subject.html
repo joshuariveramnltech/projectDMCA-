@@ -21,5 +21,5 @@
             No Subjects for this Section Yet....
         {% endfor %}
     </table>
-    <a Href="{% url 'account:dashboard' %}">Dashboard</a>
+    <a href="{% url 'grading_system:student_level_section_subject' request.user.student_profile.level_and_section.level.level request.user.student_profile.level_and_section.section %}">Subjects</a>
 {% endblock content %}

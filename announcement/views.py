@@ -184,3 +184,11 @@ def edit_comment(request, a_id, a_slug, comment_id):
     context = {'edit_comment_form': edit_comment_form,
                'comment_instance': comment_instance}
     return render(request, 'edit_comment.html', context)
+
+
+@login_required
+def view_user_profile_comment(request, target_user_id, target_user_short_name, a_id):
+    announcement = Announcement.objects.get(id=a_id)
+    target_user = User.objects.get(id=target_user_id)
+    context = {'request': request, 'target_user': target_user, 'announcement': announcement}
+    return render(request, 'view_user_profile_comment.html', context)

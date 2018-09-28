@@ -95,14 +95,14 @@ class FinalGrade(models.Model):
         SY.append((str(year) + "-" + str(year+1),
                    str(year) + "-" + str(year+1)))
     student = models.ForeignKey(
-        StudentProfile, on_delete=models.CASCADE, related_name='gwa')
+        StudentProfile, on_delete=models.CASCADE, related_name='finalGrade')
     level = models.ForeignKey(
         Level, on_delete=models.SET_NULL, related_name='subject', null=True, blank=True)
     school_year = models.CharField(max_length=25, choices=SY, default=str(
         datetime.now().year) + "-" + str(datetime.now().year+1))
-    gwa = models.DecimalField(
+    grade = models.DecimalField(
         max_digits=10, decimal_places=4, null=True, blank=True)
-    comment = models.TextField()
+    comment = models.TextField(null=True, blank=True)
     is_finalized = models.BooleanField(default=False)
     date_created = models.DateTimeField(auto_now=False, auto_now_add=True)
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
@@ -111,7 +111,7 @@ class FinalGrade(models.Model):
         unique_together = ('student', 'level')
 
     def __str__(self):
-        return "{} GWA:{} SY: {}".format(self.student.get_full_name, self.gwa, self.school_year)
+        return "{} GWA:{} SY: {}".format(self.student.user.get_full_name, self.gwa, self.school_year)
 
 
 @receiver(post_save, sender=Subject)

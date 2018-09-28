@@ -10,6 +10,7 @@ from account.models import (
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Q
 from datetime import datetime
+from .forms import SubjectGradeEditForm
 # Create your views here.
 
 User = get_user_model()
@@ -76,13 +77,41 @@ def view_students_per_subject(request, level_section_id, subject_id):
 
 # for faculty account
 @login_required
-def update_view_grade(request):
+def edit_student_subjectGrade(request, user_id, user_full_name, subject_grade_id):
     if not request.user.is_teacher:
         raise PermissionDenied
+    student_user = User.objects.get(id=user_id)
+    level_and_section = LevelAndSection.objects.get(
+        id=student_user.student_profile.level_and_section.id)
+    subjectGrade = SubjectGrade.objects.get(id=subject_grade_id)
+    context = {
+        'student_user': student_user,
+        'request': request,
+        'subjectGrade': subjectGrade,
+        'level_and_section': level_and_section
+    }
+    if request.method == 'GET':
+        subjectGrade_edit_form = SubjectGradeEditForm(instance=subjectGrade)
+        context['subjectGrade_edit_form'] = subjectGrade_edit_form
+        print(subjectGrade_edit_form)
+    elif request.method == 'POST':
+        subjectGrade_edit_form = SubjectGradeEditForm(
+            data=request.POST,
+            instance=subjectGrade
+        )
+        if subjectGrade_edit_form.is_valid():
+            subjectGrade_edit_form.save()
+            messages.success(request, 'Subject Grade Updated Successfully!')
+            return HttpResponseRedirect(reverse(
+                'grading_system:edit_student_subjectGrade',
+                args=[user_id, user_full_name, subject_grade_id])
+            )
+    return render(request, 'edit_student_subjectGrade.html', context)
 
 
+# for student account
 @login_required
-def view_grade_details(request):
+def view_subjectGrade(request):
     if not request.user.is_student:
         raise PermissionDenied
 
@@ -125,7 +154,7 @@ def view_student_profile(request, user_id, short_name):
     return render(request, 'view_user_profile.html', context)
 
 
-# for student account only 
+# for student account only
 @login_required
 def view_faculty_profile(request, user_id, short_name):
     if not request.user.is_student:
@@ -134,3 +163,31 @@ def view_faculty_profile(request, user_id, short_name):
     user = User.objects.get(id=user_id)
     context['other_user'] = user
     return render(request, 'view_user_profile.html', context)
+
+
+# for faculty account only
+@login_required
+def edit_student_finalLevelGrade(request, user_id, level_id):
+    student_user = User.objects.get(id=user_id)
+    level_and_section = LevelAndSection.objects.get(
+        id=student_user.student_profile.level_and_section.level.id)
+    if not request.user.is_teacher and level_and_section.adviser != request.user.faculty_profile:
+        raise PermissionDenied
+    year_level_subjects = SubjectGrade.objects.filter(
+        student=student_user.student_profile,
+        subject__level_and_section__level=student_user.student_profile.level_and_section.level,
+        school_year=str(datetime.now().year) + "-" +
+        str(datetime.now().year+1),
+    )
+    if request.method == 'GET':
+        pass
+    elif request.method == 'POST':
+        pass
+
+    context = {
+        'request': request,
+        'level_and_section': level_and_section,
+        'year_level_subjects': year_level_subjects,
+    }
+
+    return render(request, '', context)

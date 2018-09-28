@@ -14,4 +14,6 @@ urlpatterns = [
          views.view_faculty_profile, name='view_faculty_profile'),
     path('faculty/view/student/profile/<int:user_id>/<short_name>/',
          views.view_student_profile, name='view_student_profile'),
+    path('faculty/edit/student/subjectGrade/<int:user_id>/<user_full_name>/<int:subject_grade_id>/',
+         views.edit_student_subjectGrade, name='edit_student_subjectGrade'),
 ]
