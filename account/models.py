@@ -188,7 +188,7 @@ class FacultyProfile(models.Model):
 class LevelAndSection(models.Model):
     level = models.ForeignKey(Level, on_delete=models.CASCADE)
     section = models.CharField(max_length=50)
-    adviser = models.OneToOneField(
+    adviser = models.ForeignKey(
         User, on_delete=models.SET_NULL, null=True, blank=True)
     # subjects = models.ManyToManyField()
     date_created = models.DateTimeField(auto_now_add=True, auto_now=False)
@@ -197,9 +197,15 @@ class LevelAndSection(models.Model):
     class Meta:
         verbose_name_plural = 'Levels and Sections'
         ordering = ('level', )
+        unique_together = ('level', 'section')
 
     def __str__(self):
         return "{} - {}".format(self.level.level, self.section)
+
+    def save(self, *args, **kwargs):
+        if self.section is not None and self.section != self.section.upper():
+            self.section = self.section.upper()
+        super(LevelAndSection, self).save(*args, **kwargs)
 
 
 class StudentProfile(models.Model):

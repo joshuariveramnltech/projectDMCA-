@@ -61,14 +61,25 @@ def view_users(request):
     faculty_query = request.GET.get("faculty_query")
     staff_query = request.GET.get("staff_query")
     if student_query:
-        student_list = student_list.filter(Q(first_name__icontains=student_query) | Q(last_name__icontains=student_query) |
-                                           Q(middle_name__icontains=student_query) | Q(email__icontains=student_query)).distinct()
+        student_list = student_list.filter(
+            Q(first_name__icontains=student_query) |
+            Q(last_name__icontains=student_query) |
+            Q(middle_name__icontains=student_query) |
+            Q(email__icontains=student_query) |
+            Q(student_profile__level_and_section__level__level__icontains=student_query) |
+            Q(student_profile__learner_reference_number__icontains=student_query)).distinct()
     if faculty_query:
-        faculty_list = faculty_list.filter(Q(first_name__icontains=faculty_query) | Q(last_name__icontains=faculty_query) |
-                                           Q(middle_name__icontains=faculty_query) | Q(email__icontains=faculty_query)).distinct()
+        faculty_list = faculty_list.filter(
+            Q(first_name__icontains=faculty_query) |
+            Q(last_name__icontains=faculty_query) |
+            Q(middle_name__icontains=faculty_query) |
+            Q(email__icontains=faculty_query)).distinct()
     if staff_query:
-        staff_list = staff_list.filter(Q(first_name__icontains=staff_query) | Q(last_name__icontains=staff_query) |
-                                       Q(middle_name__icontains=staff_query) | Q(email__icontains=staff_query)).distinct()
+        staff_list = staff_list.filter(
+            Q(first_name__icontains=staff_query) |
+            Q(last_name__icontains=staff_query) |
+            Q(middle_name__icontains=staff_query) |
+            Q(email__icontains=staff_query)).distinct()
     # Student Pagination
     student_paginator = Paginator(student_list, 10)
     student_page = request.GET.get('student_page')
@@ -255,7 +266,8 @@ def edit_subject(request, **kwargs):
         if edit_subject_form.is_valid():
             edit_subject_form.save()
             if kwargs['user_id'] == 0:
-                return HttpResponseRedirect(reverse('administrator:create_subject', args=[kwargs['user_id'], ]))
+                return HttpResponseRedirect(
+                    reverse('administrator:create_subject', args=[kwargs['user_id'], ]))
             else:
                 user = User.objects.get(id=kwargs['user_id'])
                 return HttpResponseRedirect(reverse('administrator:enrollment_admission',
@@ -271,7 +283,8 @@ def delete_subject(request, **kwargs):
     subject = get_object_or_404(Subject, slug=kwargs['subject_slug'])
     subject.delete()
     if kwargs['user_id'] == 0:
-        return HttpResponseRedirect(reverse('administrator:create_subject', args=[kwargs['user_id'], ]))
+        return HttpResponseRedirect(
+            reverse('administrator:create_subject', args=[kwargs['user_id'], ]))
     else:
         user = User.objects.get(id=kwargs['user_id'])
         return HttpResponseRedirect(reverse('administrator:enrollment_admission',
@@ -292,9 +305,10 @@ def enrollment_admission_student(request, user_id, user_full_name):
     if not request.user.is_superuser:
         raise PermissionDenied
     student_user = User.objects.get(id=user_id)
-    # I'am in love with this fucking Framework
-    available_subjects = Subject.objects.exclude(
-        subject_grade__student__user=student_user)
+#    I'am in love with this fucking Framework
+#    available_subjects = Subject.objects.exclude(
+#        subject_grade__student__user=student_user)
+    available_subjects = Subject.objects.all()
     enrolled_subjects = SubjectGrade.objects.filter(student__user=student_user)
     context.update({'available_subjects': available_subjects,
                     'student_user': student_user,
@@ -312,8 +326,8 @@ def enrollment_admission_student(request, user_id, user_full_name):
                     "-" + str(datetime.now().year+1),
                     subject=each_subject
                 )
-                print(each_subject)
-            return HttpResponseRedirect(reverse('administrator:enrollment_admission', args=[user_id, user_full_name]))
+            return HttpResponseRedirect(
+                reverse('administrator:enrollment_admission', args=[user_id, user_full_name]))
     return render(request, 'student_enrollment.html', context)
 
 
@@ -323,8 +337,9 @@ def delete_subject_grade(request, user_id, user_full_name, subject_grade_id):
         raise PermissionDenied
     subject_grade_instance = SubjectGrade.objects.get(id=subject_grade_id)
     subject_grade_instance.delete()
-    return HttpResponseRedirect(reverse('administrator:enrollment_admission',
-                                        args=[user_id, user_full_name]))
+    return HttpResponseRedirect(
+        reverse('administrator:enrollment_admission',
+                args=[user_id, user_full_name]))
 
 
 @login_required
@@ -342,12 +357,10 @@ def edit_subjectGrade_admin(request, user_id, user_full_name, subject_grade_id):
         if subjectGrade_edit_form.is_valid():
             subjectGrade_edit_form.save()
             messages.success(request, 'Subject Grade Updated!')
-            return HttpResponseRedirect(reverse('administrator:edit_subjectGrade_admin',
-                                                args=[user_id, user_full_name, subject_grade_id]))
-    context.update(
-        {
-            'subjectGrade_edit_form': subjectGrade_edit_form,
-            'subjectGrade': subjectGrade
-        }
-    )
+            return HttpResponseRedirect(
+                reverse('administrator:edit_subjectGrade_admin',
+                        args=[user_id, user_full_name, subject_grade_id]))
+    context.update({
+        'subjectGrade_edit_form': subjectGrade_edit_form,
+        'subjectGrade': subjectGrade})
     return render(request, 'edit_subjectGrade_admin.html', context)
