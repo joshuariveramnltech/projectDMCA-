@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.models import Group
-from .models import LevelAndSection, Profile
+from .models import (LevelAndSection, Profile, Level,
+                     StudentProfile, FacultyProfile, StaffProfile)
 from django.contrib.auth import get_user_model
 from .forms import UserAdmin
 
@@ -14,13 +15,39 @@ admin.site.register(User, UserAdmin)
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ['user', 'level_and_section', 'position']
-    search_fields = ['user__email',
-                     'level_and_section__level', 'level_and_section__section']
+    list_display = ['user', ]
+    search_fields = ['user__email', 'user__first_name', 'user__last_name', ]
 
 
 @admin.register(LevelAndSection)
-class LevelSectionAdminModel(admin.ModelAdmin):
+class LevelSectionAdmin(admin.ModelAdmin):
     list_display = ['level', 'section', 'adviser']
     list_filter = ['level', 'section', 'adviser__email']
-    search_fields = ['level', 'section', 'adviser__email']
+    search_fields = ['level__level', 'section', 'adviser__email']
+
+
+@admin.register(Level)
+class LevelAdmin(admin.ModelAdmin):
+    list_display = ['level', 'slug', 'date_created', 'updated']
+
+
+@admin.register(StudentProfile)
+class StudentProfileAdmin(admin.ModelAdmin):
+    list_display = ('user', 'level_and_section')
+    search_fields = ('user__email', 'level_and_section__level',
+                     'level_and_section__section', 'user__first_name', 'user__last_name')
+    list_filter = ('level_and_section__level', 'level_and_section__section')
+
+
+@admin.register(FacultyProfile)
+class FacultyProfileAdmin(admin.ModelAdmin):
+    list_display = ('user', 'designated_year_level')
+    search_fields = ('user__email', 'user__first_name',
+                     'user__last_name', 'designated_year_level__level')
+
+
+@admin.register(StaffProfile)
+class StaffProfileAdmin(admin.ModelAdmin):
+    list_display = ('user', )
+    search_fields = ('user__email', 'user__first_name',
+                     'user__last_name', 'position')

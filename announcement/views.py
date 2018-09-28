@@ -1,4 +1,4 @@
-from django.shortcuts import render, reverse, redirect
+from django.shortcuts import render, reverse, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth import get_user_model
@@ -6,9 +6,11 @@ from django.http import HttpResponseRedirect
 from . import forms
 from django.contrib import messages
 from .models import Announcement, Comment
+from account.models import LevelAndSection
 from django.utils import timezone
 from django.contrib import messages
-from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
+from django.core.paginator import (PageNotAnInteger, EmptyPage, Paginator)
+from django.db.models import Q
 # Create your views here.
 
 User = get_user_model()
@@ -16,19 +18,61 @@ User = get_user_model()
 
 @login_required
 def view_announcement(request):
-    dmca_announcement = Announcement.objects.filter(
+    user = get_object_or_404(User, email=request.user.email)
+    school_announcement_list = Announcement.objects.filter(
         send_to_all=True, status='published', publish_date__lte=timezone.now()).order_by('-publish_date')
+    school_paginator = Paginator(school_announcement_list, 10)
+    school_page = request.GET.get('school_page')
     try:
-        group_announcement = Announcement.objects.filter(
-            send_to_group=request.user.profile.level_and_section,
-            status='published', publish_date__lte=timezone.now()).order_by('-publish_date')
-        context = {
-            'request': request,
-            'dmca_announcement': dmca_announcement,
-            'group_announcement': group_announcement
-        }
+        school_announcement = school_paginator.page(school_page)
+    except PageNotAnInteger:
+        school_announcement = school_paginator.page(1)
+    except EmptyPage:
+        school_announcement = school_paginator.page(school_paginator.num_pages)
+    context = {'request': request, 'school_announcement': school_announcement}
+    if user.is_staff:
+        return render(request, 'view_announcement.html', context)
+    elif request.user.is_teacher:
+        try:
+            level_and_section = LevelAndSection.objects.get(
+                adviser__email=user.email)
+        except LevelAndSection.DoesNotExist:
+            level_and_section = None
+            print('No Level and Section Assigned for this Faculty')
+    try:
+        if user.is_student:
+            group_announcement_list = Announcement.objects.filter(
+                send_to_group=user.student_profile.level_and_section,
+                status='published',
+                publish_date__lte=timezone.now()).order_by('-publish_date')
+            group_paginator = Paginator(group_announcement_list, 10)
+            group_page = request.GET.get('group_page')
+            try:
+                group_announcement = group_paginator.page(group_page)
+            except PageNotAnInteger:
+                group_announcement = group_paginator.page(1)
+            except EmptyPage:
+                group_announcement = group_paginator.page(
+                    group_paginator.num_pages)
+            context['group_announcement'] = group_announcement
+        elif user.is_teacher and level_and_section:
+            group_announcement_list = Announcement.objects.filter(
+                send_to_group=level_and_section,
+                status='published',
+                publish_date__lte=timezone.now()).order_by('-publish_date')
+            group_paginator = Paginator(group_announcement_list, 10)
+            group_page = request.GET.get('group_page')
+            try:
+                group_announcement = group_paginator.page(group_page)
+            except PageNotAnInteger:
+                group_announcement = group_paginator.page(1)
+            except EmptyPage:
+                group_announcement = group_paginator.page(
+                    group_paginator.num_pages)
+            context.update({'group_announcement': group_announcement,
+                            'level_and_section': level_and_section})
     except Announcement.DoesNotExist:
-        context = {'request': request, 'dmca_announcement': dmca_announcement}
+        pass
     return render(request, 'view_announcement.html', context)
 
 
@@ -66,7 +110,8 @@ def create_announcement(request):
     if request.method == 'GET':
         create_announcement_form = forms.AnnouncementForm()
     elif request.method == 'POST':
-        create_announcement_form = forms.AnnouncementForm(data=request.POST)
+        create_announcement_form = forms.AnnouncementForm(
+            data=request.POST, files=request.FILES)
         if create_announcement_form.is_valid():
             new_announcement = create_announcement_form.save(commit=False)
             new_announcement.author = request.user
@@ -86,7 +131,7 @@ def edit_announcement(request, a_id, a_slug):
         announcement_edit_form = forms.AnnouncementForm(instance=announcement)
     elif request.method == 'POST':
         announcement_edit_form = forms.AnnouncementForm(
-            data=request.POST, instance=announcement)
+            data=request.POST, instance=announcement, files=request.FILES)
         if announcement_edit_form.is_valid():
             announcement_edit_form.save()
             messages.success(request, 'Your Announcement was updated.')

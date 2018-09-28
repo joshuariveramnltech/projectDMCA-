@@ -1,36 +1,81 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>DMCA|View Level Section</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <script src="main.js"></script>
-</head>
-<body>
-    <a href="{% url 'administrator:create_level_section' %}">Create Level and Section</a>
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}{{ request.user.get_short_name }}|Level and Section{% endblock title %}
+{% block content %}
+<div>
     <table border="1">
         <th>Level</th>
         <th>Section</th>
+        <th>Adviser</th>
         <th>Date added</th>
         <th>Updated</th>
-        <th>Members</th>
+        <th>Students</th>
         <th>Action</th>
 
         {% for each in level_section %}
             <tr>
                 <td>{{ each.level|title }}</td>
                 <td>{{ each.section }}</td>
+                <td>{{ each.adviser.get_full_name }}</td>
                 <td>{{ each.date_created }}</td>
                 <td>{{ each.updated }}</td>
-                <td> {{ each.members.count }} </td>
+                <td> {{ each.students.count }} </td>
                 <td>
                     <a href="{% url 'administrator:edit_level_section' level_section_id=each.id %}"><button>Edit</button></a> 
                     <a href="{% url 'administrator:delete_level_section' level_section_id=each.id %}" role="button"><button>Delete</button></a>
                 </td>
             </tr>
          {% endfor %}
-    </table>    
-</body>
-</html>
+    </table>
+    <br/>
+    <div class="pagination">
+        <span class="step-links">
+            {% if level_section.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ level_section.previous_page_number }}">previous</a>
+            {% endif %}
+        
+            <span class="current">
+                Page {{ level_section.number }} of {{ level_section.paginator.num_pages }}.
+            </span>
+        
+            {% if level_section.has_next %}
+                <a href="?page={{ level_section.next_page_number }}">next</a>
+                <a href="?page={{ level_section.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+    <h3>Create Level and Section</h3>    
+    <form method="POST" action=".">
+        {% csrf_token %}
+        {{level_section_create_form.level.errors}}
+        <p>
+            <label for="id_level">Level:</label> 
+            <select name="{{ level_section_create_form.level.name }}" required id="{{ level_section_create_form.level.id_for_label }}">
+            {% if level_section_create_form.level %}
+                {% for value in level_section_create_form.level %}
+                    {{ value }}
+                {% endfor %}
+            {% endif %}
+            </select>
+        </p>
+        <p>
+            <label for="id_section">Section:</label> 
+            <input type="text" name="section" maxlength="50" required id="id_section" />
+        </p>
+    
+    {{level_section_create_form.adviser.errors}}
+    <p>
+        <label for="id_adviser">Adviser:</label> 
+        <select name="{{ level_section_create_form.adviser.name }}" id="{{ level_section_create_form.adviser.id_for_label }}">
+            {% if level_section_create_form.adviser %}
+            {% for value in level_section_create_form.adviser %}
+                {{ value }}
+            {% endfor %}
+            {% endif %}
+        </select>
+    </p>
+        <button type="submit">Submit</button> <button type="reset">Reset</button>
+    </form>
+</div>
+{% endblock content %}

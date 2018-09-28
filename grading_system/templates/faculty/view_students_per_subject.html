@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}{{ subject.subject_name }}|{{ year_section }}{% endblock title %}
+{% block content %}
+    <div>
+        <div>
+            <h4>Students of {{ year_section }}</h4>
+            <form action="" method="GET">
+                <input type="text" placeholder="Search Students" name="yearSection_query" value="{{ request.GET.yearSection_query }}"/>
+                <input type="submit" value="Search"/>
+            </form>
+            {% if yearSectionStudents %}
+                {% for student in yearSectionStudents %}
+                <p><a style="color: #FFFFFF" href="{% url 'grading_system:view_student_profile' student.user.id student.user.get_short_name %}"> {{ student.user.get_full_name }} </a></p>    
+                {% endfor %}
+            {% else %}
+                No Results...
+            {% endif %}
+        </div>
+        
+        <div class="pagination">
+            <span class="step-links">
+                {% if yearSectionStudents.has_previous %}
+                    <a href="?yearSection_page=1&yearSection_query={{ request.GET.yearSection_query }}">&laquo; first</a>
+                    <a href="?yearSection_page={{ yearSectionStudents.previous_page_number }}&yearSection_query={{ request.GET.yearSection_query }}">previous</a>
+                {% endif %}
+                        
+                {% if yearSectionStudents %}
+                    <span class="current">
+                        Page {{ yearSectionStudents.number }} of {{ yearSectionStudents.paginator.num_pages }}.
+                    </span>
+                {% endif %}
+            
+                {% if yearSectionStudents.has_next %}
+                    <a href="?yearSection_page={{ yearSectionStudents.next_page_number }}&yearSection_query={{ request.GET.yearSection_query }}">next</a>
+                    <a href="?yearSection_page={{ yearSectionStudents.paginator.num_pages }}&yearSection_query={{ request.GET.yearSection_query }}">last &raquo;</a>
+                {% endif %}
+            </span>
+            </div>
+
+        <div>
+            <h4>Students Enrolled in this Subject </h4>
+            <form action="" method="GET">
+                <input type="text" placeholder="Search Students" name="enrolledStudent_query" value="{{ request.GET.enrolledStudent_query }}"/>
+                <input type="submit" value="Search"/>
+            </form>
+            {% if enrolledStudentsPerSubject %}
+                {% for instance in enrolledStudentsPerSubject %}
+                    {{ instance.student.user.get_full_name }}<br/>
+                {% endfor %}
+            {% endif %}
+        </div> 
+        <div class="pagination">
+            <span class="step-links">
+                {% if enrolledStudentsPerSubject.has_previous %}
+                    <a href="?enrolledStudent_page=1&enrolledStudent_query={{ request.GET.enrolledStudent_query }}">&laquo; first</a>
+                    <a href="?enrolledStudent_page={{ enrolledStudentsPerSubject.previous_page_number }}&enrolledStudent_query={{ request.GET.enrolledStudent_query }}">previous</a>
+                {% endif %}
+                        
+                {% if enrolledStudentsPerSubject %}
+                    <span class="current">
+                        Page {{ enrolledStudentsPerSubject.number }} of {{ enrolledStudentsPerSubject.paginator.num_pages }}.
+                    </span>
+                {% endif %}
+            
+                {% if enrolledStudentsPerSubject.has_next %}
+                    <a href="?enrolledStudent_page={{ enrolledStudentsPerSubject.next_page_number }}&enrolledStudent_query={{ request.GET.enrolledStudent_query }}">next</a>
+                    <a href="?enrolledStudent_page={{ enrolledStudentsPerSubject.paginator.num_pages }}&enrolledStudent_query={{ request.GET.enrolledStudent_query }}">last &raquo;</a>
+                {% endif %}
+                </span>
+        </div>
+
+    </div>
+{% endblock content %}

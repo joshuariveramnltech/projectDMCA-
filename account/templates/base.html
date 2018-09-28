@@ -126,6 +126,7 @@
             <li> <a href="{% url 'account:dashboard' %}" class="nav-link center black-text"><i class="material-icons black-text left">dvr</i>Dashboard</a></li>
             <li> <a href="" class="nav-link center black-text"><i class="material-icons black-text left">assignment</i>
                 Grades</a></li>
+                <li> <a href="{% url 'account:change_password' %}" class="nav-link center black-text"><i class="material-icons black-text left">account_circle</i>Change Password</a></li>
             <li> <a href="{% url 'logout' %}" class="nav-link red accent white-text center hoverable"><i class="material-icons left">exit_to_app</i>Logout</a></li>
           </ul>
         </div>
@@ -137,14 +138,16 @@
       <div class="user-view">
         <div class="background cyan">
         </div>
-        {% if user.profile.photo.url is not None %}
-        <a href="{% url 'account:dashboard' %}"><img class="circle responsive-img" src="{{ user.profile.photo.url }}"
+        {% if request.user.profile.photo.url is not None %}
+        <a href="{% url 'account:dashboard' %}"><img class="circle responsive-img" src="{{ request.user.profile.photo.url }}"
             style="object-fit: cover; "></a>
-        {% else %}
-        <a href="{% url 'account:dashboard' %}"><img class="circle" src="{% static "img/girl.svg" %}" style="object-fit: cover;"></a>
+        {% elif request.user.gender == "female" %}
+          <a href="{% url 'account:dashboard' %}"><img class="circle" src="{% static "img/girl.svg" %}" style="object-fit: cover;"></a>
+        {% elif request.user.gender == "male" %}
+          <a href="{% url 'account:dashboard' %}"><img class="circle" src="{% static "img/boy.svg" %}" style="object-fit: cover;"></a>
         {% endif %}
-        <a href="{% url 'account:view_edit_profile' %}"><span class="white-text name"><b>{{ user.get_full_name }}</b></span></a>
-        <span class="white-text email">{{ user.email }}</span>
+        <a href="{% url 'account:view_edit_profile' %}"><span class="white-text name"><b>{{ request.user.get_full_name }}</b></span></a>
+        <span class="white-text email">{{ request.user.email }}</span>
       </div>
     </li>
     <li> <a href="{% url 'account:dashboard' %}" class="black-text"><i class="material-icons black-text left">home</i>

@@ -25,6 +25,9 @@ urlpatterns = [
     path('account/', include('django.contrib.auth.urls')),
     path('administrator/', include('administrator.urls', namespace='administrator')),
     path('announcement/', include('announcement.urls', namespace='announcement')),
+    path('academic/', include('grading_system.urls', namespace='grading_system')),
+    path('accounting/transaction/', include('accounting_transaction.urls',
+                                            namespace='accounting_transaction')),
 ]
 
 if settings.DEBUG:

@@ -112,20 +112,11 @@
                     <input id="id_phone_number" type="text" name="phone_number" maxlength="13" placeholder="0912-345-6789" />
                     <label for="id_phone_number">Phone number:</label>
                 </div>
-                <div class="input-field col s6">
-                    <input type="text" name="contact_person" maxlength="255" id="id_contact_person" />
-                    <label for="id_contact_person">Contact Person In Case of Emergency</label>
-                </div>
             </div>
-            <p><label for="id_level_and_section">Level and section:</label>
-                <select name="{{ profile_form.level_and_section.name }}" id="{{ profile_form.level_and_section.id_for_label }}">
-                    {% if profile_form.level_and_section %}
-                    {% for value in profile_form.level_and_section %}
-                    {{ value }}
-                    {% endfor %}
-                    {% endif %}
-                </select></p>
-            <p><label for="id_position">Position:</label> <input type="text" name="position" maxlength="200" id="id_position" /></p>
+            <div class="input-field col s6">
+                <input type="text" name="age" maxlength="3" id="id_age">
+                <label for="id_age">Age:</label>
+            </div>
             <div class="center">
                 <button class="btn btn-large waves-green waves-teal orange accent-3" type="submit"><i class="material-icons right">send</i>
                     Submit</button>

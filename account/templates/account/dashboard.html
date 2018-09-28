@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}{{ user.get_full_name }} | Dashboard{% endblock title %}
+{% block title %}{{ request.user.get_full_name }}|Dashboard{% endblock title %}
 {% block content %}
 {% load staticfiles %}
 <!-- FLOATING ACTION BUTTON -->
@@ -16,38 +16,45 @@
     <div class="col s12 m12 l3">
       <div class="card">
         <div class="card-image" style="height: 300px; overflow:hidden;">
-          {% if user.profile.photo.url is not None %}
-          <img src="{{ user.profile.photo.url }}" style="height:100%; object-fit: cover;">
-          {% else %}
-          <img src="{% static "img/girl.svg" %}" style="object-fit: cover;">
+          {% if request.user.profile.photo.url is not None %}
+            <img src="{{ request.user.profile.photo.url }}" style="height:100%; object-fit: cover;">
+          {% elif request.user.gender == "female" %}
+            <img src="{% static "img/girl.svg" %}" style="object-fit: cover;">
+          {% elif request.user.gender == "male" %}
+            <img src="{% static "img/boy.svg" %}" style="object-fit: cover;">
           {% endif %}
         </div>
         <div class="card-content">
-          <p>
-            <h6>Name: &nbsp; <b>{{ user.get_full_name }}</b> </h6>
-          </p>
-          {% if user.is_student %}
-          <p>
-            <h6>Level: &nbsp; <b>{{ user.profile.level_and_section.level }}</b> </h6>
-          </p>
-          <p>
-            <h6>Section: &nbsp; <b>{{ user.profile.level_and_section.section }}</b> </h6>
-          </p>
-          <p>
-            <h6>Teacher &nbsp; <b>{{ user.profile.level_and_section.adviser.get_full_name }}</b> </h6>
-          </p>
-          {% elif user.is_teacher %}
-          <p>
-            <h6>Level: &nbsp; <b>{{ user.profile.level_and_section.level }}</b> </h6>
-          </p>
-          <p>
-            <h6>Section: &nbsp; <b>{{ user.profile.level_and_section.section }}</b> </h6>
-          </p>
+          <p><h6>Name: &nbsp; <b>{{ request.user.get_full_name }}</b> </h6></p>
+          {% if request.user.is_student %}
+          <p><h6>LRN: &nbsp; <b>{{ request.user.student_profile.learner_reference_number }}</b> </h6></p>
+            <p><h6>Level: &nbsp; <b>{{ request.user.student_profile.level_and_section.level }}</b> </h6></p>
+            <p><h6>Section: &nbsp; <b>{{ request.user.student_profile.level_and_section.section }}</b> </h6></p>
+            <p><h6>Adviser: &nbsp; <b>{{ request.user.student_profile.level_and_section.adviser.get_full_name }}</b> </h6></p>
+            <p><h6>Parent/Guardian: &nbsp; <b>{{ request.user.student_profile.guardian }}</b></h6></p>
+          {% elif request.user.is_teacher %}
+            {% if level_and_section %}
+              <p><h6>Designation: &nbsp; <b>Adviser/Instructor</b></h6></p>
+              <p><h6>Level: &nbsp; <b>{{ level_and_section.level }}</b> </h6></p>
+              <p><h6>Section: &nbsp; <b>{{ level_and_section.section }}</b> </h6>
+            {% else %}
+              <p><h6>Designation: &nbsp; <b>Instructor</b></h6></p>
+              <p><h6>Year level: &nbsp; <b>{{ request.user.faculty_profile.designated_year_level.level }}</b> </h6></p>
+            {% endif %}
+          {% elif request.user.is_staff %}
+            <p><h6>Position: &nbsp; <b>{{ request.user.staff_profile.position }}</b> </h6></p>
           {% endif %}
         </div>
         <div class="card-action center">
           <div class="row">
-              <a href="#" class="col s12">Subjects</a>
+              {% if request.user.is_student %}
+                <a 
+                href="{% url 'grading_system:student_level_section_subject' request.user.student_profile.level_and_section.level.level request.user.student_profile.level_and_section.section %}" 
+                class="col s12">Subjects</a>
+              {% elif request.user.is_teacher %}
+                <a href="{% url 'grading_system:view_assigned_subject' %}" class="col s12">Subjects</a>
+              {% endif %}
+
           </div>
         </div>
       </div>

@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'account.apps.AccountConfig',
     'announcement.apps.AnnouncementConfig',
     'grading_system.apps.GradingSystemConfig',
+    'accounting_transaction.apps.AccountingTransactionConfig',
 ]
 
 AUTH_USER_MODEL = 'account.User'
@@ -65,12 +66,14 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'account\\templates'),
-            os.path.join(BASE_DIR, 'account\\templates\\account'),
+            os.path.join(BASE_DIR, 'account/templates'),
+            os.path.join(BASE_DIR, 'account/templates/account'),
             os.path.join(
-                BASE_DIR, 'account\\templates\\account\\registration'),
-            os.path.join(BASE_DIR, 'administrator\\templates'),
-            os.path.join(BASE_DIR, 'announcement\\templates'),
+                BASE_DIR, 'account/templates/account/registration'),
+            os.path.join(BASE_DIR, 'administrator/templates'),
+            os.path.join(BASE_DIR, 'announcement/templates'),
+            os.path.join(BASE_DIR, 'grading_system/templates/student'),
+            os.path.join(BASE_DIR, 'grading_system/templates/faculty'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -150,7 +153,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
-    os.path.join(BASE_DIR, 'static\\img')
+    os.path.join(BASE_DIR, 'static/img')
 ]
 
 LOGIN_URL = 'login'

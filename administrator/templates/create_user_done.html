@@ -1,12 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Divine Miracle Christian Academy|Create user Done</title>
-</head>
-<body>
-    New User is Added. <a href="{% url 'administrator:create_user' %}">Create Another?</a><br/>
-    <a href="{% url 'account:dashboard' %} ">Go Back to Home page</a>
-    <a href="{% url 'administrator:view_users' %}">Manage Users</a>
-</body>
-</html>
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}Divine Miracle Christian Academy|Create User Done{% endblock title %}
+{% block content %}
+    <div>
+        <h3>New User is Added!</h3>
+        <div>
+            <a href="{% url 'administrator:create_user' %}"><h4 style="color:black">Create Another?</h4></a><br/>
+            <a href="{% url 'administrator:view_users' %}"><h4 style="color:black">Manage Users</h4></a>
+        </div>
+    </div>
+{% endblock content %}

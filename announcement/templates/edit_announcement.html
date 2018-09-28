@@ -16,7 +16,7 @@
     {% endif %}
     <h3>Author: {{ announcement.author.get_full_name }}</h3>
    
-    <form method="POST" action="{% url 'announcement:edit_announcement' announcement.id announcement.slug %}">
+    <form method="POST" action="{% url 'announcement:edit_announcement' announcement.id announcement.slug %}" enctype="multipart/form-data">
         {% csrf_token %}
         {{ announcement_edit_form.as_p }}
         <input type="submit" value="Submit"/>

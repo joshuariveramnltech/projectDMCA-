@@ -1,103 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Divine Miracle Christian Academy|Administrator|Edit User</title>
-
-</head>
-<style>
-        .modal {
-        display: none; /* Hidden by default */
-        position: fixed; /* Stay in place */
-        z-index: 1; /* Sit on top */
-        left: 0;
-        top: 0;
-        width: 100%; /* Full width */
-        height: 100%; /* Full height */
-        overflow: auto; /* Enable scroll if needed */
-        background-color: rgb(0,0,0); /* Fallback color */
-        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-    }
-    
-    /* Modal Content/Box */
-    .modal-content {
-        background-color: #fefefe;
-        margin: 15% auto; /* 15% from the top and centered */
-        padding: 20px;
-        border: 1px solid #888;
-        width: 80%; /* Could be more or less, depending on screen size */
-    }
-    
-    /* The Close Button */
-    .close {
-        color: #aaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-    }
-    
-    .close:hover,
-    .close:focus {
-        color: black;
-        text-decoration: none;
-        cursor: pointer;
-    }
-    </style>
-<body>
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}{{ request.user.get_short_name }}|Edit User{% endblock title %}
+{% block content %}
+<div>
     <form method="POST" action="." enctype="multipart/form-data">
         {% csrf_token %}
         {{ user_form.as_p }}
-        {% if profile_form %}
-            <p>Profile</p>
-            {{ profile_form.as_p }}
-        {% endif %}
+        {{ profile_form.as_p }}
+        {{ dynamic_profile_form.as_p }}
         <button type="submit">Save Changes</button>
     </form>
         <a href="{% url 'administrator:view_users' %}">View Users</a>
-        <!-- <button id="createLevelSection">Create Level and Section</button> -->
-        <!-- The Modal -->
-        <div id="myModal" class="modal">
-        <!-- Modal content -->
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <form method="POST" action=".">
-                    {% csrf_token %}
-                    {{ level_section_form.as_p }}
-                    <input type="submit" value="Create"/>
-                </form>
-            </div>  
-        </div>
-    </body>
-    </form>
-
-    <!--Javascript-->
-    <script>
-            // Get the modal
-    var modal = document.getElementById('myModal');
-    
-    // Get the button that opens the modal
-    var btn = document.getElementById("createLevelSection");
-    
-    // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
-    
-    // When the user clicks on the button, open the modal
-    btn.onclick = function() {
-        modal.style.display = "block";
-    }
-    
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function() {
-        modal.style.display = "none";
-    }
-    
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    }
-    </script>
-
-</body>
-</html>
+</div>
+{% endblock content %}

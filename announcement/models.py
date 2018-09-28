@@ -16,17 +16,17 @@ class Announcement(models.Model):
     )
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='created_announcements')
-    tags = TaggableManager()
+    # tags = TaggableManager()
     title = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250, unique_for_date='publish_date')
     body = models.TextField()
-    files = models.FileField(
+    file = models.FileField(
         upload_to='file/announcement/%Y/%m/%d/', blank=True, null=True)
     publish_date = models.DateField(auto_now_add=False, auto_now=False)
     created = models.DateTimeField(auto_now_add=True, auto_now=False)
     updated = models.DateTimeField(auto_now_add=False, auto_now=True)
     status = models.CharField(
-        max_length=10, choices=STATUS_CHOICES, default='draft')
+        max_length=10, choices=STATUS_CHOICES, default='published')
     send_to_group = models.ForeignKey(
         LevelAndSection, on_delete=models.CASCADE,
         related_name='group_announcements', null=True,
