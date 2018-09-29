@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Subject, SubjectGrade, FinalGrade
+from .models import Subject, SubjectGrade, FinalGrade, GeneralSchoolYear
 # Register your models here.
 
 
@@ -22,3 +22,8 @@ class AdminSubjectGrade(admin.ModelAdmin):
 class AdminFinalGrade(admin.ModelAdmin):
     list_display = ('student', 'grade', 'level', 'school_year')
     search_fields = ('student__email', 'school_year', 'level__level')
+
+
+@admin.register(GeneralSchoolYear)
+class GeneralSchoolYearAdmin(admin.ModelAdmin):
+    list_display = ['school_year']

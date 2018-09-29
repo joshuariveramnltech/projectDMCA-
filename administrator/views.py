@@ -11,7 +11,7 @@ from account.models import (
     FacultyProfile
 )
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from grading_system.models import Subject, SubjectGrade, FinalGrade
+from grading_system.models import Subject, SubjectGrade, FinalGrade, GeneralSchoolYear
 from grading_system.forms import (
     FinalGradeCreateForm, SubjectCreateForm,
     SubjectGradeCreateForm
@@ -21,6 +21,7 @@ from datetime import datetime
 # Create your views here.
 
 User = get_user_model()
+current_school_year = GeneralSchoolYear.objects.get(id=1)
 
 
 @login_required
@@ -131,13 +132,11 @@ def delete_user(request, user_id):
 def edit_user(request, user_id):
     if not request.user.is_superuser:
         raise PermissionDenied
-    context = {}
+    context = {'request': request}
     user_instance = get_object_or_404(User, id=user_id)
     if request.method == 'GET':
         user_form = forms.UserChangeForm(instance=user_instance)
         profile_form = forms.ProfileCreateForm(instance=user_instance.profile)
-        context.update(
-            {'user_form': user_form, 'profile_form': profile_form, })
         if user_instance.is_student:
             context['dynamic_profile_form'] = forms.StudentProfileAdminForm(
                 instance=user_instance.student_profile)
@@ -161,11 +160,14 @@ def edit_user(request, user_id):
         elif user_instance.is_staff:
             dynamic_profile_form = forms.StaffProfileAdminForm(
                 data=request.POST, instance=user_instance.staff_profile)
+        context['dynamic_profile_form'] = dynamic_profile_form
         if user_form.is_valid() and profile_form.is_valid() and dynamic_profile_form.is_valid():
             user_form.save()
             profile_form.save()
             dynamic_profile_form.save()
             return HttpResponseRedirect(reverse('administrator:view_users'))
+    context.update(
+            {'user_form': user_form, 'profile_form': profile_form, 'target_user': user_instance})
     return render(request, 'edit_user.html', context)
 
 
@@ -258,7 +260,6 @@ def create_subject(request, **kwargs):
 
 @login_required
 def edit_subject(request, **kwargs):
-    context = {'request': request}
     if not request.user.is_superuser:
         raise PermissionDenied
     subject = Subject.objects.get(slug=kwargs['subject_slug'])
@@ -297,14 +298,6 @@ def delete_subject(request, **kwargs):
                                             args=[user.id, user.get_full_name]))
 
 
-# view students per level and section (administrator only)
-@login_required
-def view_students_level_section(request):
-    if not request.user.is_superuser:
-        raise PermissionDenied
-    pass
-
-
 @login_required
 def enrollment_admission_student(request, user_id, user_full_name):
     context = {}
@@ -319,28 +312,29 @@ def enrollment_admission_student(request, user_id, user_full_name):
         student__user=student_user).order_by('school_year')
     finalGrades = FinalGrade.objects.filter(
         student__user=student_user).order_by('school_year')
+    for_filtering_subjects = Subject.objects.filter(
+        subject_grade__student__user=student_user)
     context.update({'available_subjects': available_subjects,
                     'student_user': student_user,
                     'request': request,
                     'enrolled_subjects': enrolled_subjects,
-                    'finalGrades': finalGrades})
+                    'finalGrades': finalGrades,
+                    'for_filtering_subjects': for_filtering_subjects})
     if request.method == 'POST':
         subject_list = request.POST.getlist('subjectList')
         if subject_list:
             for each in subject_list:
                 each_subject = Subject.objects.get(id=int(each))
-                SubjectGrade.objects.get_or_create(
+                SubjectGrade.objects.create(
                     student=student_user.student_profile,
                     instructor=each_subject.designated_instructor,
-                    school_year=str(datetime.now().year) +
-                    "-" + str(datetime.now().year+1),
+                    school_year=current_school_year,
                     subject=each_subject
                 )
             FinalGrade.objects.get_or_create(
                 student=student_user.student_profile,
                 level=student_user.student_profile.level_and_section.level,
-                school_year=str(datetime.now().year) + "-" +
-                str(datetime.now().year+1),
+                school_year=current_school_year
             )
             return HttpResponseRedirect(
                 reverse('administrator:enrollment_admission', args=[user_id, user_full_name]))
@@ -383,14 +377,39 @@ def edit_subjectGrade_admin(request, user_id, user_full_name, subject_grade_id):
 
 
 @login_required
+def create_student_finalLevelGradeAdmin(request):
+    if not request.user.is_superuser:
+        raise PermissionDenied
+    context = {'request': request}
+    if request.method == 'GET':
+        finalGrade_form = FinalGradeCreateForm()
+        context['finalGrade_form'] = finalGrade_form
+    elif request.method == 'POST':
+        finalGrade_form = FinalGradeCreateForm(data=request.POST)
+        if finalGrade_form.is_valid():
+            new_finalGrade = finalGrade_form.save(commit=False)
+            new_finalGrade.save()
+            student_user = User.objects.get(id=new_finalGrade.student.user.id)
+            return HttpResponseRedirect(reverse(
+                'administrator:enrollment_admission',
+                args=[student_user.id, student_user.get_full_name]))
+    return render(request, 'create_student_finalgrade_admin.html', context)
+
+
+@login_required
 def edit_student_finalLevelGradeAdmin(request, final_grade_id, user_full_name):
     if not request.user.is_superuser:
         raise PermissionDenied
     finalGrade = FinalGrade.objects.get(id=final_grade_id)
     student_user = User.objects.get(id=finalGrade.student.user.id)
-    context = {'request': request, 'student_user': student_user}
+    context = {
+        'request': request,
+        'student_user': student_user,
+        'finalGrade': finalGrade
+    }
     if request.method == 'GET':
         finalGrade_form = FinalGradeCreateForm(instance=finalGrade)
+        context['finalGrade_form'] = finalGrade_form
     elif request.method == 'POST':
         finalGrade_form = FinalGradeCreateForm(
             data=request.POST, instance=finalGrade)
@@ -401,7 +420,19 @@ def edit_student_finalLevelGradeAdmin(request, final_grade_id, user_full_name):
                 reverse(
                     'administrator:edit_student_finalLevelGradeAdmin',
                     args=[final_grade_id, user_full_name]
-                    )
                 )
+            )
     context['finalGrade_form'] = finalGrade_form
-    return render(request, 'edit_student_finalLevelGradeAdmin.html', context)
+    return render(request, 'edit_student_finalgrade_admin.html', context)
+
+
+@login_required
+def delete_student_finalLevelGradeAdmin(request, final_grade_id, user_full_name):
+    if not request.user.is_superuser:
+        raise PermissionDenied
+    finalGrade = FinalGrade.objects.get(id=final_grade_id)
+    student_user = User.objects.get(id=finalGrade.student.user.id)
+    finalGrade.delete()
+    return HttpResponseRedirect(reverse(
+        'administrator:enrollment_admission',
+        args=[student_user.id, student_user.get_full_name]))

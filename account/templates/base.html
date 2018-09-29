@@ -124,8 +124,10 @@
             <li> <a href="{% url 'announcement:view_announcement' %}" class="nav-link center black-text"><i class="material-icons black-text left">email</i>Messages</a></li>
             <li> <a href="{% url 'account:view_edit_profile' %}" class="nav-link center black-text"><i class="material-icons black-text left">account_circle</i>Account</a></li>
             <li> <a href="{% url 'account:dashboard' %}" class="nav-link center black-text"><i class="material-icons black-text left">dvr</i>Dashboard</a></li>
-            <li> <a href="" class="nav-link center black-text"><i class="material-icons black-text left">assignment</i>
-                Grades</a></li>
+            {% if request.user.is_student %}
+            <li> <a href="{% url 'grading_system:view_all_grades' %}" class="nav-link center black-text"><i class="material-icons black-text left">assignment</i>
+              Grades</a></li>
+            {% endif %}
                 <li> <a href="{% url 'account:change_password' %}" class="nav-link center black-text"><i class="material-icons black-text left">account_circle</i>Change Password</a></li>
             <li> <a href="{% url 'logout' %}" class="nav-link red accent white-text center hoverable"><i class="material-icons left">exit_to_app</i>Logout</a></li>
           </ul>

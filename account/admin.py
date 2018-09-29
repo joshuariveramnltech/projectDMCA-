@@ -4,12 +4,11 @@ from .models import (LevelAndSection, Profile, Level,
                      StudentProfile, FacultyProfile, StaffProfile)
 from django.contrib.auth import get_user_model
 from .forms import UserAdmin
-
-
 # Register your models here.
+
+
 User = get_user_model()
 admin.site.unregister(Group)
-
 admin.site.register(User, UserAdmin)
 
 
@@ -22,8 +21,12 @@ class ProfileAdmin(admin.ModelAdmin):
 @admin.register(LevelAndSection)
 class LevelSectionAdmin(admin.ModelAdmin):
     list_display = ['level', 'section', 'adviser']
-    list_filter = ['level', 'section', 'adviser__email']
-    search_fields = ['level__level', 'section', 'adviser__email']
+    list_filter = ['level', 'section', 'adviser__user__email', ]
+    search_fields = [
+        'level__level', 'section',
+        'adviser__user__email', 'adviser__user__first_name',
+        'adviser__user__last_name', 'adviser__user__middle_name'
+    ]
 
 
 @admin.register(Level)

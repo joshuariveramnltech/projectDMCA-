@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
-{% block title %}Assigned Subjects|{{ request.user.get_full_name }}{% endblock title %}
+{% block title %} {{ current_school_year }} | Subjects | {{ request.user.get_short_name }} {% endblock title %}
 {% block content %}
     <div>
         <table>
@@ -11,7 +11,7 @@
             <th>End Time</th>
             {% for subject in assigned_subjects %}
             <tr>
-                <td><a style="color: #FFFFFF" href="{% url 'grading_system:view_students_per_subject' subject.level_and_section.id subject.id %}" title="View Students Enrolled to this Subject" >{{ subject.subject_name }}</a></td>
+                <td><a style="color: #FFFFFF" href="{% url 'grading_system:view_students_per_subject' subject.level_and_section.id subject.id school_year %}" title="View Students Enrolled to this Subject" >{{ subject.subject_name }}</a></td>
                 <td>{{ subject.level_and_section }}</td>
                 <td>{{ subject.schedule }}</td>
                 <td>{{ subject.start_time }}</td>
@@ -22,7 +22,7 @@
             {% endfor %}
         </table>
         <div>
-            <span href="#" a style="color: #FFFFFF">Final Grade</span>
+            <a href="{% url 'grading_system:view_students_finalgrade' %}" style="color: #FFFFFF">Final Grade</a>
         </div>
     </div>
 {% endblock content %}

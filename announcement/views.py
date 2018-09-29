@@ -18,7 +18,6 @@ User = get_user_model()
 
 @login_required
 def view_announcement(request):
-    user = get_object_or_404(User, email=request.user.email)
     school_announcement_list = Announcement.objects.filter(
         send_to_all=True, status='published', publish_date__lte=timezone.now()).order_by('-publish_date')
     school_paginator = Paginator(school_announcement_list, 10)
@@ -30,19 +29,19 @@ def view_announcement(request):
     except EmptyPage:
         school_announcement = school_paginator.page(school_paginator.num_pages)
     context = {'request': request, 'school_announcement': school_announcement}
-    if user.is_staff:
+    if request.user.is_staff:
         return render(request, 'view_announcement.html', context)
     elif request.user.is_teacher:
         try:
             level_and_section = LevelAndSection.objects.get(
-                adviser__email=user.email)
+                adviser__user__email=request.user.email)
         except LevelAndSection.DoesNotExist:
             level_and_section = None
             print('No Level and Section Assigned for this Faculty')
     try:
-        if user.is_student:
+        if request.user.is_student:
             group_announcement_list = Announcement.objects.filter(
-                send_to_group=user.student_profile.level_and_section,
+                send_to_group=request.user.student_profile.level_and_section,
                 status='published',
                 publish_date__lte=timezone.now()).order_by('-publish_date')
             group_paginator = Paginator(group_announcement_list, 10)
@@ -55,7 +54,7 @@ def view_announcement(request):
                 group_announcement = group_paginator.page(
                     group_paginator.num_pages)
             context['group_announcement'] = group_announcement
-        elif user.is_teacher and level_and_section:
+        elif request.user.is_teacher and level_and_section:
             group_announcement_list = Announcement.objects.filter(
                 send_to_group=level_and_section,
                 status='published',
@@ -190,5 +189,6 @@ def edit_comment(request, a_id, a_slug, comment_id):
 def view_user_profile_comment(request, target_user_id, target_user_short_name, a_id):
     announcement = Announcement.objects.get(id=a_id)
     target_user = User.objects.get(id=target_user_id)
-    context = {'request': request, 'target_user': target_user, 'announcement': announcement}
+    context = {'request': request, 'target_user': target_user,
+               'announcement': announcement}
     return render(request, 'view_user_profile_comment.html', context)

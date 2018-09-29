@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
-{% block title %}{{ request.user.get_short_name }}|Level and Section{% endblock title %}
+{% block title %}{{ request.user.get_short_name }}|{{ request.user.staff_profile.position }}{% endblock title %}
 {% block content %}
 <div>
     <table border="1">
@@ -16,7 +16,7 @@
             <tr>
                 <td>{{ each.level|title }}</td>
                 <td>{{ each.section }}</td>
-                <td>{{ each.adviser.get_full_name }}</td>
+                <td>{{ each.adviser.user.get_full_name }}</td>
                 <td>{{ each.date_created }}</td>
                 <td>{{ each.updated }}</td>
                 <td> {{ each.students.count }} </td>
@@ -48,33 +48,7 @@
     <h3>Create Level and Section</h3>    
     <form method="POST" action=".">
         {% csrf_token %}
-        {{level_section_create_form.level.errors}}
-        <p>
-            <label for="id_level">Level:</label> 
-            <select name="{{ level_section_create_form.level.name }}" required id="{{ level_section_create_form.level.id_for_label }}">
-            {% if level_section_create_form.level %}
-                {% for value in level_section_create_form.level %}
-                    {{ value }}
-                {% endfor %}
-            {% endif %}
-            </select>
-        </p>
-        <p>
-            <label for="id_section">Section:</label> 
-            <input type="text" name="section" maxlength="50" required id="id_section" />
-        </p>
-    
-    {{level_section_create_form.adviser.errors}}
-    <p>
-        <label for="id_adviser">Adviser:</label> 
-        <select name="{{ level_section_create_form.adviser.name }}" id="{{ level_section_create_form.adviser.id_for_label }}">
-            {% if level_section_create_form.adviser %}
-            {% for value in level_section_create_form.adviser %}
-                {{ value }}
-            {% endfor %}
-            {% endif %}
-        </select>
-    </p>
+         {{ level_section_create_form.as_p }}
         <button type="submit">Submit</button> <button type="reset">Reset</button>
     </form>
 </div>

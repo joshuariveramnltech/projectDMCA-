@@ -30,7 +30,7 @@
           <p><h6>LRN: &nbsp; <b>{{ request.user.student_profile.learner_reference_number }}</b> </h6></p>
             <p><h6>Level: &nbsp; <b>{{ request.user.student_profile.level_and_section.level }}</b> </h6></p>
             <p><h6>Section: &nbsp; <b>{{ request.user.student_profile.level_and_section.section }}</b> </h6></p>
-            <p><h6>Adviser: &nbsp; <b>{{ request.user.student_profile.level_and_section.adviser.get_full_name }}</b> </h6></p>
+            <p><h6>Adviser: &nbsp; <b>{{ request.user.student_profile.level_and_section.adviser.user.get_full_name }}</b> </h6></p>
             <p><h6>Parent/Guardian: &nbsp; <b>{{ request.user.student_profile.guardian }}</b></h6></p>
           {% elif request.user.is_teacher %}
             {% if level_and_section %}

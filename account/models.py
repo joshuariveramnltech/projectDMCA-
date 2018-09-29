@@ -8,8 +8,8 @@ from django.dispatch import receiver
 from django.utils.text import slugify
 from django.urls import reverse
 # from gdstorage.storage import GoogleDriveStorage
-# Create your models here.
 # gd_storage = GoogleDriveStorage()
+# Create your models here.
 
 phone_regex = RegexValidator(
     regex=r'^\d{4}\-\d{3}\-\d{4}$', message="Accepted Format:0999-999-9999.")
@@ -20,9 +20,9 @@ CIVIL_STATUS_CHOICES = (('single', 'Single'), ('married', 'Married'))
 
 LEVEL_CHOICES = (
     ('Nursery', 'Nursery'), ('Kinder', 'Kinder'),
-    ('Grade1', 'Grade 1'), ('Grade2', 'Grade 2'),
-    ('Grade3', 'Grade 3'), ('Grade4', 'Grade 4'),
-    ('Grade5', 'Grade 5'), ('Grade6', 'Grade 6')
+    ('Grade 1', 'Grade 1'), ('Grade 2', 'Grade 2'),
+    ('Grade 3', 'Grade 3'), ('Grade 4', 'Grade 4'),
+    ('Grade 5', 'Grade 5'), ('Grade 6', 'Grade 6')
 )
 
 
@@ -32,6 +32,7 @@ class UserManager(BaseUserManager):
         first_name=None, last_name=None,
         middle_name=None, password=None,
         is_active=True, is_staff=False,
+        is_student=False, is_teacher=False,
         is_superuser=False
     ):
         if email is None:
@@ -42,18 +43,20 @@ class UserManager(BaseUserManager):
             raise ValueError("Users must have a first name!")
         if last_name is None:
             raise ValueError("Users must have a last name!")
-
+        if is_student == is_teacher == is_staff == is_superuser == False:
+            raise ValueError("Users must have account type")
         user = self.model(
             email=self.normalize_email(email),
             first_name=first_name.title(),
             last_name=last_name.title(),
-            middle_name=middle_name,
+            middle_name=middle_name.title(),
         )
         user.set_password(password)
         user.is_active = is_active
+        user.is_student = is_student
+        user.is_teacher = is_teacher
         user.is_staff = is_staff
         user.is_superuser = is_superuser
-
         user.save(using=self._db)
         return user
 
@@ -65,7 +68,6 @@ class UserManager(BaseUserManager):
             password=password,
             is_staff=True
         )
-
         return user
 
     def create_superuser(self, email, first_name, last_name, password):
@@ -76,9 +78,7 @@ class UserManager(BaseUserManager):
             password=password,
             is_staff=True,
             is_superuser=True
-
         )
-
         return user
 
 
@@ -129,6 +129,7 @@ class User(AbstractBaseUser):
         return True
 
     def __str__(self):
+        self.__account_type = "Floating Account"
         if self.is_superuser:
             self.__account_type = 'Administrator'
         elif self.is_student:
@@ -142,12 +143,13 @@ class User(AbstractBaseUser):
 
 class Level(models.Model):
     level = models.CharField(max_length=25, choices=LEVEL_CHOICES, unique=True)
-    slug = models.SlugField(max_length=250, null=True, blank=True)
+    slug = models.SlugField(max_length=250, null=True,
+                            blank=True, editable=False)
     date_created = models.DateTimeField(auto_now_add=True, auto_now=False)
     updated = models.DateTimeField(auto_now_add=False, auto_now=True)
 
     class Meta:
-        ordering = ('level', )
+        ordering = ('-level', )
 
     def __str__(self):
         return self.level
@@ -186,8 +188,8 @@ class LevelAndSection(models.Model):
     level = models.ForeignKey(Level, on_delete=models.CASCADE)
     section = models.CharField(max_length=50)
     adviser = models.ForeignKey(
-        User, on_delete=models.SET_NULL, null=True, blank=True)
-    # subjects = models.ManyToManyField()
+        FacultyProfile, on_delete=models.SET_NULL, null=True, blank=True,
+        related_name='assigned_year_and_section')
     date_created = models.DateTimeField(auto_now_add=True, auto_now=False)
     updated = models.DateTimeField(auto_now_add=False, auto_now=True)
 
@@ -297,3 +299,11 @@ def create_dynamic_profile(sender, **kwargs):
             FacultyProfile.objects.create(user=kwargs['instance'])
         elif kwargs['instance'].is_staff:
             StaffProfile.objects.create(user=kwargs['instance'])
+
+
+@receiver(post_save, sender=Level)
+def create_level_slug(sender, **kwargs):
+    if kwargs['created']:
+        kwargs['instance'].slug = slugify(
+            kwargs['instance'].level + " " + str(kwargs['instance'].date_created))
+        kwargs['instance'].save()

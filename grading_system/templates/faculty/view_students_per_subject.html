@@ -44,7 +44,7 @@
             </div>
 
         <div>
-            <h4>Students Enrolled in this Subject </h4>
+            <h4>Students Enrolled in {{ subject.subject_name }} </h4>
             <form action="" method="GET">
                 <input type="text" placeholder="Search Students" name="enrolledStudent_query" value="{{ request.GET.enrolledStudent_query }}"/>
                 <input type="submit" value="Search"/>
@@ -53,8 +53,8 @@
                 {% for instance in enrolledStudentsPerSubject %}
                     <p>
                         {{ instance.student.user.get_full_name }}
-                        <a href="{% url 'grading_system:edit_student_subjectGrade' instance.student.user.id instance.student.user.get_full_name instance.id  %}">
-                            Edit Grade
+                        <a style="color:white" href="{% url 'grading_system:edit_student_subjectGrade' instance.student.user.id instance.student.user.get_full_name instance.id school_year %}">
+                            Update Grade
                         </a>
                     </p>
                 {% endfor %}
