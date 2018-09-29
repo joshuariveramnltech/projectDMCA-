@@ -30,4 +30,10 @@ urlpatterns = [
          views.delete_subject_grade, name='delete_subject_grade'),
     path('dmca/edit/subject/grade/<int:user_id>/<user_full_name>/<int:subject_grade_id>/',
          views.edit_subjectGrade_admin, name='edit_subjectGrade_admin'),
+    path('dmca/create/final/grade/',
+         views.create_student_finalLevelGradeAdmin, name='create_student_finalLevelGradeAdmin'),
+    path('dmca/edit/final/grade/<int:final_grade_id>/<user_full_name>/',
+         views.edit_student_finalLevelGradeAdmin, name='edit_student_finalLevelGradeAdmin'),
+    path('dmca/delete/grade/<int:final_grade_id>/<user_full_name>/',
+         views.delete_student_finalLevelGradeAdmin, name='delete_student_finalLevelGradeAdmin'),
 ]

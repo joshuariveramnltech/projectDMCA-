@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Final Grade|{{student_user.get_full_name}}|{{ student_user.student_profile.level_and_section }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+</head>
+
+<body>
+    <div>
+        <p>Student: {{ student_user.get_full_name }}</p>
+        <p>Section: {{ student_user.student_profile.level_and_section }}</p>
+    </div>
+
+    <h3>Subjects</h3>
+    <div>
+        <table border="1">
+            <th>Subject</th>
+            <th>First Quarter</th>
+            <th>Second Quarter</th>
+            <th>Third Quarter</th>
+            <th>Fourth Quarter</th>
+            <th>Final Subject Grade</th>
+            <th>Option</th>
+            {% for each_subject in year_level_subjects %}
+                <tr>
+                    <td>{{ each_subject.subject.subject_name }}</td>
+                    <td>{{ each_subject.first_quarter }}</td>
+                    <td>{{ each_subject.second_quarter }}</td>
+                    <td>{{ each_subject.third_quarter }}</td>
+                    <td>{{ each_subject.fourth_quarter }}</td>
+                    <td>{{ each_subject.final_subject_grade }}</td>
+                    <td>
+                        <a href="{% url 'grading_system:edit_student_subjectGrade' student_user.id student_user.get_full_name each_subject.id current_school_year %}">
+                            Update
+                        </a>
+                    </td>
+                </tr>
+        {% endfor %}
+        </table>
+    </div>
+    <form method="POST" action="{% url 'grading_system:edit_student_finalgrade' student_user.id level_and_section.level.id current_school_year %}">
+        {% csrf_token %}
+        {{ finalGrade_form.as_p }}
+        <input type="submit" value="Submit" />
+    </form>
+    <a href="{% url 'grading_system:view_assigned_subject' %}" >Subjects</a>
+    <a href="{% url 'grading_system:view_students_finalgrade' %}" >Back</a>
+</body>
+
+</html>

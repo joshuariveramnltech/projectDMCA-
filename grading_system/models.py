@@ -9,18 +9,23 @@ from django.dispatch import receiver
 from random import shuffle
 # Create your models here.
 
+SY = []
+for year in range(2010, datetime.now().year + 15):
+    SY.append((str(year) + "-" + str(year+1), str(year) + "-" + str(year+1)))
+
 User = get_user_model()
 
-CODED_VERSION = [
-    ' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
-    'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
-    't', 'u', 'v', 'w', 'x', 'y', 'z', '1', '2', '3',
-    '4', '5', '6', '7', '8', '9', '0', ' ', 'a', 'b',
-    'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
-    'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
-    'w', 'x', 'y', 'z', '1', '2', '3', '4', '5', '6',
-    '7', '8', '9', '0'
-]
+
+class GeneralSchoolYear(models.Model):
+    school_year = models.CharField(max_length=25, choices=SY)
+    date_created = models.DateTimeField(auto_now=False, auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+
+    class Meta:
+        verbose_name_plural = 'General School Year'
+
+    def __str__(self):
+        return self.school_year
 
 
 class Subject(models.Model):
@@ -52,10 +57,6 @@ class Subject(models.Model):
 
 
 class SubjectGrade(models.Model):
-    SY = []
-    for year in range(2010, datetime.now().year + 15):
-        SY.append((str(year) + "-" + str(year+1),
-                   str(year) + "-" + str(year+1)))
     student = models.ForeignKey(
         StudentProfile, on_delete=models.CASCADE, related_name='grade')
     school_year = models.CharField(
@@ -75,7 +76,8 @@ class SubjectGrade(models.Model):
     final_subject_grade = models.DecimalField(
         max_digits=10, decimal_places=4, null=True, blank=True)
     is_finalized = models.BooleanField(
-        default=False, help_text="Once finalized, you can no longer make any more changes..")
+        verbose_name="Finalized?", default=False,
+        help_text="Once finalized, you can no longer make any more changes.")
     date_created = models.DateTimeField(auto_now=False, auto_now_add=True)
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
 
@@ -88,22 +90,33 @@ class SubjectGrade(models.Model):
             self.student.user.get_full_name
         )
 
+    def save(self, *args, **kwargs):
+
+        if (self.first_quarter and self.second_quarter and self.third_quarter and self.fourth_quarter):
+            self.final_subject_grade = (
+                self.first_quarter + self.second_quarter +
+                self.third_quarter + self.fourth_quarter
+            )/4
+        else:
+            self.final_subject_grade = 0
+        super(SubjectGrade, self).save(*args, **kwargs)
+
 
 class FinalGrade(models.Model):
-    SY = []
-    for year in range(2010, datetime.now().year + 15):
-        SY.append((str(year) + "-" + str(year+1),
-                   str(year) + "-" + str(year+1)))
     student = models.ForeignKey(
         StudentProfile, on_delete=models.CASCADE, related_name='finalGrade')
     level = models.ForeignKey(
         Level, on_delete=models.SET_NULL, related_name='subject', null=True, blank=True)
-    school_year = models.CharField(max_length=25, choices=SY, default=str(
-        datetime.now().year) + "-" + str(datetime.now().year+1))
+    school_year = models.CharField(
+        max_length=25, choices=SY,
+        default=str(datetime.now().year) + "-" + str(datetime.now().year+1))
     grade = models.DecimalField(
         max_digits=10, decimal_places=4, null=True, blank=True)
     comment = models.TextField(null=True, blank=True)
-    is_finalized = models.BooleanField(default=False)
+    is_finalized = models.BooleanField(
+        verbose_name="Finalized?", default=False,
+        help_text="Once finalized, you can no longer make any more changes."
+    )
     date_created = models.DateTimeField(auto_now=False, auto_now_add=True)
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
 
@@ -111,7 +124,7 @@ class FinalGrade(models.Model):
         unique_together = ('student', 'level')
 
     def __str__(self):
-        return "{} GWA:{} SY: {}".format(self.student.user.get_full_name, self.gwa, self.school_year)
+        return "{} GWA:{} SY: {}".format(self.student.user.get_full_name, self.grade, self.school_year)
 
 
 @receiver(post_save, sender=Subject)

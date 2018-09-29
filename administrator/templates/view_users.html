@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
-{% block title %}{{ request.user.get_short_name }}|View Users{% endblock title %}
+{% block title %}{{ request.user.get_short_name }}|{{request.user.staff_profile.position}}|View Users{% endblock title %}
 {% block content %}
 <div>
     <h1>Accounts and Users</h1>
-    <a href="{% url 'administrator:create_user' %}" role="button">Add New User?</a><br/> 
+    <a href="{% url 'administrator:create_user' %}" role="button" target="_blank">Create New User?</a><br/> 
+    <a href="{% url 'administrator:create_subject' 0 %}" role="button" target="_blank">Create Subject?</a><br/>
+    <a href="{% url 'administrator:view_level_section' %}" target="_blank">Create Level and Section</a> 
     <div>
         <form action="" method="GET">
             <input type="text" placeholder="Search Students" name="student_query" value="{{ request.GET.student_query }}"/>
@@ -42,7 +44,7 @@
                     <a href="{% url 'administrator:edit_user' student.id %}">Edit</a>
                     <a href="{% url 'administrator:delete_user' student.id %}" 
                     onclick="return confirm('Are you sure you want to DELETE {{ student.get_full_name}}?')">
-                    Delete
+                    Delete</a>
                     <a href="{% url 'administrator:enrollment_admission' student.id student.get_full_name %}">Enrollment</a>
                     </a>
                 </td>

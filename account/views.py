@@ -18,11 +18,10 @@ User = get_user_model()
 @login_required
 def dashboard(request):
     context = {'request': request}
-    user = get_object_or_404(User, email=request.user.email)
-    if user.is_teacher:
+    if request.user.is_teacher:
         try:
             level_and_section = LevelAndSection.objects.get(
-                adviser__email=user.email)
+                adviser__user__email=request.user.email)
             context['level_and_section'] = level_and_section
         except LevelAndSection.DoesNotExist:
             print('No Level and Section Assigned for this Faculty')
