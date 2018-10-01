@@ -48,14 +48,30 @@ def view_user_list(request):
 # staff account only
 @login_required
 def update_statement(request, statement_id, student_full_name, student_id):
-    context = {'request': request}
     if not request.user.is_staff:
         raise PermissionDenied
+    student_user = User.objects.get(id=student_id)
+    statement_instance = Statement.objects.get(id=statement_id)
+    context = {
+        'request': request, 'student_user': student_user,
+        'statement_instance': statement_instance,
+    }
     if request.method == 'GET':
-        pass
+        update_statement_form = StatementAddForm(instance=statement_instance)
     elif request.method == 'POST':
-        pass
-    return render(request, 'edit_statement.html', context)
+        update_statement_form = StatementAddForm(
+            data=request.POST, instance=statement_instance)
+        if update_statement_form.is_valid():
+            update_statement_form.save()
+            messages.success(request, 'Statement Updated Sucessfully')
+            return HttpResponseRedirect(
+                reverse(
+                    'accounting_transaction:update_statement',
+                    args=[statement_id, student_full_name, student_id]
+                )
+            )
+    context['update_statement_form'] = update_statement_form
+    return render(request, 'update_statement.html', context)
 
 
 # staff account only

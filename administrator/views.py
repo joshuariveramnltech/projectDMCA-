@@ -10,10 +10,11 @@ from account.models import (
     StudentProfile, StaffProfile,
     FacultyProfile
 )
+from accounting_transaction.forms import StatementAddForm, StatementCreateForm
 from accounting_transaction.forms import StatementCreateForm
 from accounting_transaction.models import Statement
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from grading_system.models import Subject, SubjectGrade, FinalGrade, GeneralSchoolYear
+from grading_system.models import Subject, SubjectGrade, FinalGrade
 from grading_system.forms import (
     FinalGradeCreateForm, SubjectCreateForm,
     SubjectGradeCreateForm
@@ -23,7 +24,6 @@ from datetime import datetime
 # Create your views here.
 
 User = get_user_model()
-current_school_year = GeneralSchoolYear.objects.get(id=1)
 
 
 @login_required
@@ -279,8 +279,9 @@ def edit_subject(request, **kwargs):
                     reverse('administrator:create_subject', args=[kwargs['user_id'], ]))
             else:
                 user = User.objects.get(id=kwargs['user_id'])
-                return HttpResponseRedirect(reverse('administrator:enrollment_admission',
-                                                    args=[user.id, user.get_full_name]))
+                return HttpResponseRedirect(
+                    reverse('administrator:enrollment_admission',
+                            args=[user.id, user.get_full_name]))
     context['edit_subject_form'] = edit_subject_form
     return render(request, 'edit_subject.html', context)
 
@@ -302,14 +303,12 @@ def delete_subject(request, **kwargs):
 
 @login_required
 def enrollment_admission_student(request, user_id, user_full_name):
-    current_school_year = GeneralSchoolYear.objects.get(id=1)
+    current_school_year = str(datetime.now().year) + \
+        "-" + str(datetime.now().year+1)
     context = {}
     if not request.user.is_superuser:
         raise PermissionDenied
     student_user = User.objects.get(id=user_id)
-#    I'am in love with this fucking Framework
-#    available_subjects = Subject.objects.exclude(
-#        subject_grade__student__user=student_user)
     available_subjects = Subject.objects.all()
     enrolled_subjects = SubjectGrade.objects.filter(
         student__user=student_user).order_by('school_year')
@@ -442,24 +441,77 @@ def delete_student_finalLevelGradeAdmin(request, final_grade_id, user_full_name)
 
 
 @login_required
-def add_statement_admin(request):
+def update_statement_admin(request, statement_id, student_full_name, student_id):
     if not request.user.is_superuser:
         raise PermissionDenied
+    student_user = User.objects.get(id=student_id)
+    statement_instance = Statement.objects.get(id=statement_id)
+    context = {
+        'request': request, 'student_user': student_user,
+        'statement_instance': statement_instance,
+    }
+    if request.method == 'GET':
+        update_statement_form = StatementAddForm(instance=statement_instance)
+    elif request.method == 'POST':
+        update_statement_form = StatementAddForm(
+            data=request.POST, instance=statement_instance)
+        if update_statement_form.is_valid():
+            update_statement_form.save()
+            messages.success(request, 'Statement Updated Sucessfully')
+            return HttpResponseRedirect(
+                reverse(
+                    'administrator:update_statement_admin',
+                    args=[statement_id, student_full_name, student_id]
+                )
+            )
+    context['update_statement_form'] = update_statement_form
+    return render(request, 'update_statement.html', context)
 
 
+# for admin account use
 @login_required
-def edit_statement_admin(request):
+def delete_statement_admin(request, statement_id, student_full_name, student_id):
     if not request.user.is_superuser:
         raise PermissionDenied
+    statement_instance = Statement.objects.get(id=statement_id)
+    statement_instance.delete()
+    return HttpResponseRedirect(
+        reverse(
+            'administrator:view_statement_admin',
+            args=[student_full_name, student_id]
+        )
+    )
 
 
+# administrator account only
 @login_required
-def delete_statement_admin(request):
+def view_statement_admin(request, user_full_name,  user_id):
     if not request.user.is_superuser:
         raise PermissionDenied
-
-
-@login_required
-def view_statement_admin(request):
-    if not request.user.is_superuser:
-        raise PermissionDenied
+    student_user = User.objects.get(id=user_id)
+    account_statements = Statement.objects.filter(
+        student=student_user.student_profile).order_by('school_year')
+    context = {
+        'request': request, 'student_user': student_user,
+        'account_statements': account_statements,
+        'account_statements': account_statements
+    }
+    if request.method == 'GET':
+        add_statement_form = StatementAddForm()
+    elif request.method == 'POST':
+        add_statement_form = StatementAddForm(data=request.POST)
+        if add_statement_form.is_valid():
+            new_statement = add_statement_form.save(commit=False)
+            new_statement.student = student_user.student_profile
+            new_statement.save()
+            message = 'New Account Statement Added for {}'.format(
+                student_user.get_full_name)
+            messages.success(request, message)
+            return HttpResponseRedirect(
+                reverse(
+                    'administrator:view_statement_admin',
+                    args=[student_user.get_full_name, student_user.id]
+                )
+            )
+    context['add_statement_form'] = add_statement_form
+    return render(request, 'view_statement.html', context)

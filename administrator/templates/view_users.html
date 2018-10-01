@@ -1,16 +1,18 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
-{% block title %}{{ request.user.get_short_name }}|{{request.user.staff_profile.position}}|View Users{% endblock title %}
+{% block title %}
+{{ request.user.get_short_name }}|{{request.user.staff_profile.position}}|View Users
+{% endblock title%}
 {% block content %}
 <div>
     <h1>Accounts and Users</h1>
-    <a href="{% url 'administrator:create_user' %}" role="button" target="_blank">Create New User?</a><br/> 
-    <a href="{% url 'administrator:create_subject' 0 %}" role="button" target="_blank">Create Subject?</a><br/>
-    <a href="{% url 'administrator:view_level_section' %}" target="_blank">Create Level and Section</a> 
+    <a href="{% url 'administrator:create_user' %}" role="button" target="_blank">Create New User?</a><br />
+    <a href="{% url 'administrator:create_subject' 0 %}" role="button" target="_blank">Create Subject?</a><br />
+    <a href="{% url 'administrator:view_level_section' %}" target="_blank">Create Level and Section</a>
     <div>
         <form action="" method="GET">
-            <input type="text" placeholder="Search Students" name="student_query" value="{{ request.GET.student_query }}"/>
-            <input type="submit" value="Search"/>
+            <input type="text" placeholder="Search Students" name="student_query" value="{{ request.GET.student_query }}" />
+            <input type="submit" value="Search" />
         </form>
         <table border="1">
             <th>Full Name</th>
@@ -30,9 +32,9 @@
                 <td>{{ student.student_profile.learner_reference_number }}</td>
                 <td>{{ student.email }}</td>
                 {% if student.is_active %}
-                    <td>Active</td>
+                <td>Active</td>
                 {% else %}
-                    <td>Disabled</td>
+                <td>Disabled</td>
                 {% endif %}
                 <td>{{ student.date_of_birth }}</td>
                 <td>{{ student.address }}</td>
@@ -41,44 +43,46 @@
                 <td>{{ student.student_profile.guardian_contact_number }}</td>
                 <td>{{ student.student_profile.level_and_section }}</td>
                 <td>
-                    <a href="{% url 'administrator:edit_user' student.id %}">Edit</a>
-                    <a href="{% url 'administrator:delete_user' student.id %}" 
-                    onclick="return confirm('Are you sure you want to DELETE {{ student.get_full_name}}?')">
-                    Delete</a>
-                    <a href="{% url 'administrator:enrollment_admission' student.id student.get_full_name %}">Enrollment</a>
+                    <a href="{% url 'administrator:edit_user' student.id %}">Edit</a><br />
+                    <a href="{% url 'administrator:delete_user' student.id %}" onclick="return confirm('Are you sure you want to DELETE {{ student.get_full_name}}?')">
+                        Delete</a><br />
+                    <a href="{% url 'administrator:enrollment_admission' student.id student.get_full_name %}">Enrollment</a><br />
+                    <a href="{% url 'accounting_transaction:view_statement' student.get_full_name student.id %}">Account
+                        Statements</a>
                     </a>
                 </td>
             </tr>
             {% empty %}
-                Empty Result.
+            Empty Result.
             {% endfor %}
-        </table>    
+        </table>
     </div>
-    
+
     <div class="pagination">
         <span class="step-links">
             {% if students.has_previous %}
-                <a href="?student_page=1&student_query={{ request.GET.student_query }}">&laquo; first</a>
-                <a href="?student_page={{ student.previous_page_number }}&student_query={{ request.GET.student_query }}">previous</a>
+            <a href="?student_page=1&student_query={{ request.GET.student_query }}">&laquo; first</a>
+            <a href="?student_page={{ student.previous_page_number }}&student_query={{ request.GET.student_query }}">previous</a>
             {% endif %}
-                
+
             {% if students %}
-                <span class="current">
-                    Page {{ students.number }} of {{ students.paginator.num_pages }}.
-                </span>
+            <span class="current">
+                Page {{ students.number }} of {{ students.paginator.num_pages }}.
+            </span>
             {% endif %}
-    
+
             {% if students.has_next %}
-                <a href="?student_page={{ students.next_page_number }}&student_query={{ request.GET.student_query }}">next</a>
-                <a href="?student_page={{ students.paginator.num_pages }}&student_query={{ request.GET.student_query }}">last &raquo;</a>
+            <a href="?student_page={{ students.next_page_number }}&student_query={{ request.GET.student_query }}">next</a>
+            <a href="?student_page={{ students.paginator.num_pages }}&student_query={{ request.GET.student_query }}">last
+                &raquo;</a>
             {% endif %}
         </span>
     </div>
 
     <div>
         <form action="" method="GET">
-            <input type="text" placeholder="Search Faculty" name="faculty_query" value="{{ request.GET.faculty_query }}"/>
-            <input type="submit" value="Search"/>
+            <input type="text" placeholder="Search Faculty" name="faculty_query" value="{{ request.GET.faculty_query }}" />
+            <input type="submit" value="Search" />
         </form>
         <table>
             <th>Full Name</th>
@@ -90,39 +94,38 @@
             <th>Designated Year Level</th>
             <th>Options</th>
             {% for teacher in faculty %}
-                <tr>
-                    <td>{{ teacher.get_full_name }}</td>
-                    <td>{{ teacher.email }}</td>
-                    {% if teacher.is_active %}
-                        <td>Active</td>
-                    {% else %}
-                        <td>Disabled</td>
-                    {% endif %}
-                    <td>{{ teacher.date_of_birth }}</td>
-                    <td>{{ teacher.address }}</td>
-                    <td>{{ teacher.profile.phone_number }}</td>
-                    <td>{{ teacher.faculty_profile.designated_year_level }}</td>
-                    <td>
-                        <a href="{% url 'administrator:edit_user' teacher.id %}">Edit</a>
-                        <a href="{% url 'administrator:delete_user' teacher.id %}" 
-                            onclick="return confirm('Are you sure you want to DELETE {{ student.get_full_name}}?')">
+            <tr>
+                <td>{{ teacher.get_full_name }}</td>
+                <td>{{ teacher.email }}</td>
+                {% if teacher.is_active %}
+                <td>Active</td>
+                {% else %}
+                <td>Disabled</td>
+                {% endif %}
+                <td>{{ teacher.date_of_birth }}</td>
+                <td>{{ teacher.address }}</td>
+                <td>{{ teacher.profile.phone_number }}</td>
+                <td>{{ teacher.faculty_profile.designated_year_level }}</td>
+                <td>
+                    <a href="{% url 'administrator:edit_user' teacher.id %}">Edit</a>
+                    <a href="{% url 'administrator:delete_user' teacher.id %}" onclick="return confirm('Are you sure you want to DELETE {{ student.get_full_name}}?')">
                         Delete
-                        </a>
-                    </td>
-                </tr>
+                    </a>
+                </td>
+            </tr>
             {% empty %}
-                Empty Result.
+            Empty Result.
             {% endfor %}
-        </table>  
+        </table>
     </div>
 
     <div class="pagination">
         <span class="step-links">
             {% if faculty.has_previous %}
-                <a href="?faculty_page=1&faculty_query={{ request.GET.faculty_query }}">&laquo; first</a>
-                <a href="?faculty_page={{ faculty.previous_page_number }}&faculty_query={{ request.GET.faculty_query }}">previous</a>
+            <a href="?faculty_page=1&faculty_query={{ request.GET.faculty_query }}">&laquo; first</a>
+            <a href="?faculty_page={{ faculty.previous_page_number }}&faculty_query={{ request.GET.faculty_query }}">previous</a>
             {% endif %}
-            
+
             {% if faculty %}
             <span class="current">
                 Page {{ faculty.number }} of {{ faculty.paginator.num_pages }}.
@@ -130,17 +133,18 @@
             {% endif %}
 
             {% if faculty.has_next %}
-                <a href="?faculty_page={{ faculty.next_page_number }}&faculty_query={{ request.GET.faculty_query }}">next</a>
-                <a href="?faculty_page={{ faculty.paginator.num_pages }}&faculty_query={{ request.GET.faculty_query }}">last &raquo;</a>
+            <a href="?faculty_page={{ faculty.next_page_number }}&faculty_query={{ request.GET.faculty_query }}">next</a>
+            <a href="?faculty_page={{ faculty.paginator.num_pages }}&faculty_query={{ request.GET.faculty_query }}">last
+                &raquo;</a>
             {% endif %}
-            </span>
+        </span>
     </div>
 
 
     <div>
         <form action="" method="GET">
-            <input type="text" placeholder="Search Staff" name="staff_query" value="{{ request.GET.staff_query }}"/>
-            <input type="submit" value="Search"/>
+            <input type="text" placeholder="Search Staff" name="staff_query" value="{{ request.GET.staff_query }}" />
+            <input type="submit" value="Search" />
         </form>
         <table>
             <th>Full Name</th>
@@ -152,46 +156,46 @@
             <th>Position</th>
             <th>Options</th>
             {% for staff in staffs %}
-                <tr>
-                    <td>{{ staff.get_full_name }}</td>
-                    <td>{{ staff.email }}</td>
-                    {% if staff.is_active %}
-                        <td>Active</td>
-                    {% else %}
-                        <td>Disabled</td>
-                    {% endif %}
-                    <td>{{ staff.date_of_birth }}</td>
-                    <td>{{ staff.address }}</td>
-                    <td>{{ staff.profile.phone_number }}</td>
-                    <td>{{ staff.staff_profile.position }}</td>
-                    <td>
-                        <a href="{% url 'administrator:edit_user' staff.id %}">Edit</a>
-                        <a href="{% url 'administrator:delete_user' staff.id %}" 
-                            onclick="return confirm('Are you sure you want to DELETE {{ staff.get_full_name}}?')">
-                        Delete  
-                    </td>
-                </tr>
+            <tr>
+                <td>{{ staff.get_full_name }}</td>
+                <td>{{ staff.email }}</td>
+                {% if staff.is_active %}
+                <td>Active</td>
+                {% else %}
+                <td>Disabled</td>
+                {% endif %}
+                <td>{{ staff.date_of_birth }}</td>
+                <td>{{ staff.address }}</td>
+                <td>{{ staff.profile.phone_number }}</td>
+                <td>{{ staff.staff_profile.position }}</td>
+                <td>
+                    <a href="{% url 'administrator:edit_user' staff.id %}">Edit</a>
+                    <a href="{% url 'administrator:delete_user' staff.id %}" onclick="return confirm('Are you sure you want to DELETE {{ staff.get_full_name}}?')">
+                        Delete
+                </td>
+            </tr>
             {% empty %}
-                Empty Result.
+            Empty Result.
             {% endfor %}
         </table>
     </div>
     <div class="pagination">
         <span class="step-links">
             {% if staffs.has_previous %}
-                <a href="?staff_page=1&staff_query={{ request.GET.staff_query }}">&laquo; first</a>
-                <a href="?staff_page={{ staff.previous_page_number }}&staff_query={{ request.GET.staff_query }}">previous</a>
+            <a href="?staff_page=1&staff_query={{ request.GET.staff_query }}">&laquo; first</a>
+            <a href="?staff_page={{ staff.previous_page_number }}&staff_query={{ request.GET.staff_query }}">previous</a>
             {% endif %}
-                    
+
             {% if staffs %}
-                <span class="current">
-                    Page {{ staffs.number }} of {{ staffs.paginator.num_pages }}.
-                </span>
+            <span class="current">
+                Page {{ staffs.number }} of {{ staffs.paginator.num_pages }}.
+            </span>
             {% endif %}
-        
+
             {% if staffs.has_next %}
-                <a href="?staff_page={{ staffs.next_page_number }}&staff_query={{ request.GET.staff_query }}">next</a>
-                <a href="?staff_page={{ staffs.paginator.num_pages }}&staff_query={{ request.GET.staff_query }}">last &raquo;</a>
+            <a href="?staff_page={{ staffs.next_page_number }}&staff_query={{ request.GET.staff_query }}">next</a>
+            <a href="?staff_page={{ staffs.paginator.num_pages }}&staff_query={{ request.GET.staff_query }}">last
+                &raquo;</a>
             {% endif %}
         </span>
     </div>

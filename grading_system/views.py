@@ -4,7 +4,7 @@ from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import get_user_model
-from .models import Subject, SubjectGrade, FinalGrade, GeneralSchoolYear
+from .models import Subject, SubjectGrade, FinalGrade
 from account.models import (
     StudentProfile, StaffProfile,
     FacultyProfile, LevelAndSection,
@@ -22,7 +22,7 @@ User = get_user_model()
 # for faculty account
 @login_required
 def view_students_per_subject(request, level_section_id, subject_id):
-    current_school_year = GeneralSchoolYear.objects.get(id=1)
+    current_school_year = str(datetime.now().year) + "-" + str(datetime.now().year+1)
     if not request.user.is_teacher:
         raise PermissionDenied
     context = {'request': request, 'current_school_year': current_school_year}
@@ -32,7 +32,7 @@ def view_students_per_subject(request, level_section_id, subject_id):
         level_and_section=level_section_id).order_by('-date_created')
     enrolledStudentsPerSubject_list = SubjectGrade.objects.filter(
         subject=subject_id,
-        school_year=current_school_year,
+        student__level_and_section__level=subject.level_and_section.level,
         instructor=request.user.faculty_profile.id).order_by('-date_created')
     yearSection_query = request.GET.get("yearSection_query")
     enrolledStudent_query = request.GET.get("enrolledStudent_query")
@@ -79,7 +79,7 @@ def view_students_per_subject(request, level_section_id, subject_id):
 # for faculty account
 @login_required
 def view_assigned_subject(request):
-    current_school_year = GeneralSchoolYear.objects.get(id=1)
+    current_school_year = str(datetime.now().year) + "-" + str(datetime.now().year+1)
     context = {
         'request': request,
         'current_school_year': current_school_year,
@@ -106,7 +106,7 @@ def view_student_profile(request, user_id, short_name):
 # for faculty account
 @login_required
 def edit_student_subjectgrade(request, user_id, user_full_name, subject_grade_id):
-    current_school_year = GeneralSchoolYear.objects.get(id=1)
+    current_school_year = str(datetime.now().year) + "-" + str(datetime.now().year+1)
     if not request.user.is_teacher:
         raise PermissionDenied
     student_user = User.objects.get(id=user_id)
@@ -143,7 +143,7 @@ def edit_student_subjectgrade(request, user_id, user_full_name, subject_grade_id
 # for faculty account only
 @login_required
 def edit_student_finalgrade(request, user_id, level_id):
-    current_school_year = GeneralSchoolYear.objects.get(id=1)
+    current_school_year = str(datetime.now().year) + "-" + str(datetime.now().year+1)
     student_user = User.objects.get(id=user_id)
     level_and_section = LevelAndSection.objects.get(
         id=student_user.student_profile.level_and_section.level.id)
@@ -151,7 +151,6 @@ def edit_student_finalgrade(request, user_id, level_id):
         raise PermissionDenied
     final_LevelGrade = FinalGrade.objects.get(
         student=student_user.student_profile,
-        school_year=current_school_year,
         level=student_user.student_profile.level_and_section.level
     )
     if final_LevelGrade.is_finalized:
@@ -159,7 +158,6 @@ def edit_student_finalgrade(request, user_id, level_id):
     year_level_subjects = SubjectGrade.objects.filter(
         student=student_user.student_profile,
         subject__level_and_section__level=student_user.student_profile.level_and_section.level,
-        school_year=current_school_year,
     )
     context = {
         'request': request,
@@ -188,13 +186,13 @@ def edit_student_finalgrade(request, user_id, level_id):
 # for faculty account only
 @login_required
 def view_students_finalgrade(request):
-    current_school_year = GeneralSchoolYear.objects.get(id=1)
+    current_school_year = str(datetime.now().year) + "-" + str(datetime.now().year+1)
     student_query = None
     if not request.user.is_teacher:
         raise PermissionDenied
     student_list = User.objects.filter(
         student_profile__level_and_section__adviser=request.user.faculty_profile,
-    ).order_by('student_profile__level_and_section')
+    ).order_by('-date_created')
     student_query = request.GET.get('student_query')
     if student_query:
         student_list = student_list.filter(
@@ -247,7 +245,7 @@ def student_level_section_subject(request, student_level, student_section):
 # for student account
 @login_required
 def view_all_grades(request):
-    current_school_year = GeneralSchoolYear.objects.get(id=1)
+    current_school_year = str(datetime.now().year) + "-" + str(datetime.now().year+1)
     if not request.user.is_student:
         raise PermissionDenied
     context = {

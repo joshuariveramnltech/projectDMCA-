@@ -17,18 +17,6 @@ for year in range(2010, datetime.now().year + 15):
 User = get_user_model()
 
 
-class GeneralSchoolYear(models.Model):
-    school_year = models.CharField(max_length=25, choices=SY)
-    date_created = models.DateTimeField(auto_now=False, auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
-
-    class Meta:
-        verbose_name_plural = 'General School Year'
-
-    def __str__(self):
-        return self.school_year
-
-
 class Subject(models.Model):
     subject_name = models.CharField(max_length=50)
     level_and_section = models.ForeignKey(
@@ -134,3 +122,15 @@ def create_dynamic_subject_slug(sender, **kwargs):
         kwargs['instance'].slug = slugify(
             kwargs['instance'].subject_name + " " + str(kwargs['instance'].id))
         kwargs['instance'].save()
+
+
+@receiver(post_save, sender=FinalGrade)
+def sync_subject_school_year(sender, **kwargs):
+    pass
+    subjects = SubjectGrade.objects.filter(
+        subject__level_and_section__level=kwargs['instance'].level)
+    sample = subjects.first()
+    if sample.school_year != kwargs['instance'].school_year:
+        for subject in subjects:
+            subject.school_year = kwargs['instance'].school_year
+            subject.save()

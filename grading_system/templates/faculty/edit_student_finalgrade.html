@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Final Grade|{{student_user.get_full_name}}|{{ student_user.student_profile.level_and_section }}</title>
+    <title>SY: {{ final_LevelGrade.school_year }} | Final Grade |{{student_user.get_full_name}}|{{ student_user.student_profile.level_and_section }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
     <script src="main.js"></script>
@@ -20,6 +20,7 @@
     <div>
         <table border="1">
             <th>Subject</th>
+            <th>SY</th>
             <th>First Quarter</th>
             <th>Second Quarter</th>
             <th>Third Quarter</th>
@@ -29,7 +30,7 @@
             {% for each_subject in year_level_subjects %}
                 <tr>
                     <td>{{ each_subject.subject.subject_name }}</td>
-                    
+                    <td>{{ each_subject.school_year }}</td>
                     {% if each_subject.first_quarter %}
                         <td>{{ each_subject.first_quarter }}</td>
                     {% else %}

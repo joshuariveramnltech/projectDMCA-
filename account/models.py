@@ -30,7 +30,7 @@ class UserManager(BaseUserManager):
     def create_user(
         self, email=None,
         first_name=None, last_name=None,
-        middle_name=None, password=None,
+        middle_name='', password=None,
         is_active=True, is_staff=False,
         is_student=False, is_teacher=False,
         is_superuser=False
