@@ -21,4 +21,4 @@ class Statement(models.Model):
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
 
     def __str__(self):
-    return self.student.user.get_full_name + " " + self.school_year
+        return self.student.user.get_full_name + " " + self.school_year

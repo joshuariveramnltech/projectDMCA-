@@ -21,7 +21,6 @@ from datetime import datetime
 # Create your views here.
 
 User = get_user_model()
-current_school_year = GeneralSchoolYear.objects.get(id=1)
 
 
 @login_required
@@ -167,7 +166,7 @@ def edit_user(request, user_id):
             dynamic_profile_form.save()
             return HttpResponseRedirect(reverse('administrator:view_users'))
     context.update(
-            {'user_form': user_form, 'profile_form': profile_form, 'target_user': user_instance})
+        {'user_form': user_form, 'profile_form': profile_form, 'target_user': user_instance})
     return render(request, 'edit_user.html', context)
 
 
@@ -300,6 +299,7 @@ def delete_subject(request, **kwargs):
 
 @login_required
 def enrollment_admission_student(request, user_id, user_full_name):
+    current_school_year = GeneralSchoolYear.objects.get(id=1)
     context = {}
     if not request.user.is_superuser:
         raise PermissionDenied

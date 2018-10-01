@@ -33,7 +33,7 @@
                     <td>{{ student.student_profile.guardian }}</td>
                     <td>{{ student.student_profile.guardian_contact_number }}</td>
                     <td>{{ student.student_profile.level_and_section }}</td>
-                    <td><a href="{% url 'grading_system:edit_student_finalgrade' student.id student.student_profile.level_and_section.level.id current_school_year %}">Update</a></td>
+                    <td><a href="{% url 'grading_system:edit_student_finalgrade' student.id student.student_profile.level_and_section.level.id  %}">Update</a></td>
                 </tr>
                 {% empty %}
                     Empty Result.

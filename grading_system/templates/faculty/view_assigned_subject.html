@@ -11,7 +11,7 @@
             <th>End Time</th>
             {% for subject in assigned_subjects %}
             <tr>
-                <td><a style="color: #FFFFFF" href="{% url 'grading_system:view_students_per_subject' subject.level_and_section.id subject.id school_year %}" title="View Students Enrolled to this Subject" >{{ subject.subject_name }}</a></td>
+                <td><a style="color: #FFFFFF" href="{% url 'grading_system:view_students_per_subject' subject.level_and_section.id subject.id %}" title="View Students Enrolled to this Subject" >{{ subject.subject_name }}</a></td>
                 <td>{{ subject.level_and_section }}</td>
                 <td>{{ subject.schedule }}</td>
                 <td>{{ subject.start_time }}</td>

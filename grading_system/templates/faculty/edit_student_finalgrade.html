@@ -35,7 +35,7 @@
                     <td>{{ each_subject.fourth_quarter }}</td>
                     <td>{{ each_subject.final_subject_grade }}</td>
                     <td>
-                        <a href="{% url 'grading_system:edit_student_subjectGrade' student_user.id student_user.get_full_name each_subject.id current_school_year %}">
+                        <a href="{% url 'grading_system:edit_student_subjectGrade' student_user.id student_user.get_full_name each_subject.id %}" target="_blank">
                             Update
                         </a>
                     </td>
@@ -43,7 +43,12 @@
         {% endfor %}
         </table>
     </div>
-    <form method="POST" action="{% url 'grading_system:edit_student_finalgrade' student_user.id level_and_section.level.id current_school_year %}">
+    <ul>  
+    {% for message in messages %}
+        <li>{{message}}</li>
+    {% endfor %}
+    </ul>
+    <form method="POST" action="{% url 'grading_system:edit_student_finalgrade' student_user.id level_and_section.level.id %}">
         {% csrf_token %}
         {{ finalGrade_form.as_p }}
         <input type="submit" value="Submit" />

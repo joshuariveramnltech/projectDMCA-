@@ -18,11 +18,11 @@ User = get_user_model()
 
 # for faculty account
 @login_required
-def view_students_per_subject(request, level_section_id, subject_id, school_year="#!"):
+def view_students_per_subject(request, level_section_id, subject_id):
     current_school_year = GeneralSchoolYear.objects.get(id=1)
     if not request.user.is_teacher:
         raise PermissionDenied
-    context = {'request': request, 'school_year': school_year}
+    context = {'request': request, 'current_school_year': current_school_year}
     year_section = LevelAndSection.objects.get(id=level_section_id)
     subject = Subject.objects.get(id=subject_id)
     yearSectionStudents_list = StudentProfile.objects.filter(
@@ -103,7 +103,8 @@ def view_student_profile(request, user_id, short_name):
 
 # for faculty account
 @login_required
-def edit_student_subjectgrade(request, user_id, user_full_name, subject_grade_id, school_year):
+def edit_student_subjectgrade(request, user_id, user_full_name, subject_grade_id):
+    current_school_year = GeneralSchoolYear.objects.get(id=1)
     if not request.user.is_teacher:
         raise PermissionDenied
     student_user = User.objects.get(id=user_id)
@@ -117,11 +118,10 @@ def edit_student_subjectgrade(request, user_id, user_full_name, subject_grade_id
         'request': request,
         'subjectGrade': subjectGrade,
         'level_and_section': level_and_section,
-        'school_year': school_year
+        'current_school_year': current_school_year
     }
     if request.method == 'GET':
         subjectGrade_edit_form = SubjectGradeEditForm(instance=subjectGrade)
-        context['subjectGrade_edit_form'] = subjectGrade_edit_form
     elif request.method == 'POST':
         subjectGrade_edit_form = SubjectGradeEditForm(
             data=request.POST,
@@ -129,23 +129,19 @@ def edit_student_subjectgrade(request, user_id, user_full_name, subject_grade_id
         )
         if subjectGrade_edit_form.is_valid():
             subjectGrade_edit_form.save()
-            if school_year != "#!":
-                return HttpResponseRedirect(
-                    reverse('grading_system:edit_student_finalgrade',
-                            args=[user_id, level_and_section.level.id, school_year])
-                )
             messages.success(request, 'Subject Grade Updated Successfully!')
             return HttpResponseRedirect(reverse(
                 'grading_system:edit_student_subjectGrade',
-                args=[user_id, user_full_name, subject_grade_id, school_year])
+                args=[user_id, user_full_name, subject_grade_id])
             )
+    context['subjectGrade_edit_form'] = subjectGrade_edit_form
     return render(request, 'edit_student_subjectGrade.html', context)
 
 
 # for faculty account only
 @login_required
-def edit_student_finalgrade(request, user_id, level_id, school_year):
-    # current_school_year = GeneralSchoolYear.objects.get(id=1)
+def edit_student_finalgrade(request, user_id, level_id):
+    current_school_year = GeneralSchoolYear.objects.get(id=1)
     student_user = User.objects.get(id=user_id)
     level_and_section = LevelAndSection.objects.get(
         id=student_user.student_profile.level_and_section.level.id)
@@ -153,7 +149,7 @@ def edit_student_finalgrade(request, user_id, level_id, school_year):
         raise PermissionDenied
     final_LevelGrade = FinalGrade.objects.get(
         student=student_user.student_profile,
-        school_year=school_year,
+        school_year=current_school_year,
         level=student_user.student_profile.level_and_section.level
     )
     if final_LevelGrade.is_finalized:
@@ -161,7 +157,7 @@ def edit_student_finalgrade(request, user_id, level_id, school_year):
     year_level_subjects = SubjectGrade.objects.filter(
         student=student_user.student_profile,
         subject__level_and_section__level=student_user.student_profile.level_and_section.level,
-        school_year=school_year,
+        school_year=current_school_year,
     )
     context = {
         'request': request,
@@ -169,18 +165,21 @@ def edit_student_finalgrade(request, user_id, level_id, school_year):
         'level_and_section': level_and_section,
         'year_level_subjects': year_level_subjects,
         'final_LevelGrade': final_LevelGrade,
-        'current_school_year': school_year,
+        'current_school_year': current_school_year,
     }
     if request.method == 'GET':
         finalGrade_form = FinalGradeEditForm(instance=final_LevelGrade)
-        context['finalGrade_form'] = finalGrade_form
     elif request.method == 'POST':
         finalGrade_form = FinalGradeEditForm(
             data=request.POST, instance=final_LevelGrade)
         if finalGrade_form.is_valid():
             finalGrade_form.save()
             messages.success(request, 'Final Grade Updated Successfully!')
-            return HttpResponseRedirect(reverse('grading_system:edit_student_finalgrade'))
+            return HttpResponseRedirect(
+                reverse('grading_system:edit_student_finalgrade',
+                        args=[student_user.id, level_and_section.level.id])
+            )
+    context['finalGrade_form'] = finalGrade_form
     return render(request, 'edit_student_finalgrade.html', context)
 
 
