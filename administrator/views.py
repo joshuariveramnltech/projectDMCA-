@@ -25,7 +25,6 @@ from datetime import datetime
 
 User = get_user_model()
 
-
 @login_required
 def create_user_done(request):
     if not request.user.is_superuser:

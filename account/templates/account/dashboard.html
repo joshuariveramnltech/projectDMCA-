@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}{{ request.user.get_full_name }}|Dashboard{% endblock title %}
+{% block title %}{{ request.user.get_full_name }} | Dashboard{% endblock title %}
 {% block content %}
 {% load staticfiles %}
 <!-- FLOATING ACTION BUTTON -->
@@ -47,7 +47,7 @@
         </div>
         <div class="card-action center">
           <div class="row">
-              {% if request.user.is_student %}
+              {% if request.user.is_student and request.user.student_profile.level_and_section.level.level%}
                 <a 
                 href="{% url 'grading_system:student_level_section_subject' request.user.student_profile.level_and_section.level.level request.user.student_profile.level_and_section.section %}" 
                 class="col s12">Subjects</a>

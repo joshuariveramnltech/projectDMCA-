@@ -2,7 +2,11 @@
     {% block title %}{{ request.user.get_short_name }}|Create Subject{% endblock title %}
     {% load staticfiles %}
     {% block content %}
-    <h3>Create Subject</h3>
+    <div class="white">
+        <div class="row">
+        <br>
+        
+    <h4>Create Subject</h4>
     <div>
         <form method="POST" action="{% url 'administrator:create_subject' user_id %}">
             {% csrf_token %}
@@ -51,4 +55,8 @@
             {% endif %}
         </span>
     </div>
+</div>
+    <br>
+
+</div>
     {% endblock content %}
