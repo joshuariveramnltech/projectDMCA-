@@ -21,6 +21,7 @@ from datetime import datetime
 # Create your views here.
 
 User = get_user_model()
+current_school_year = GeneralSchoolYear.objects.get(id=1)
 
 
 @login_required

@@ -21,7 +21,7 @@
         <li>Year and Section: {{ student_user.student_profile.level_and_section }}</li>
     </ul>
 
-    <form method="POST" action="{% url 'grading_system:edit_student_subjectGrade' student_user.id student_user.get_full_name subjectGrade.id %}">
+    <form method="POST" action="{% url 'grading_system:edit_student_subjectGrade' student_user.id student_user.get_full_name subjectGrade.id school_year %}">
         {% csrf_token %} 
         {{ subjectGrade_edit_form.as_p }}
         <input type="submit" value="Submit"/>

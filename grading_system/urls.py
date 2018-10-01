@@ -6,7 +6,7 @@ app_name = 'grading_system'
 urlpatterns = [
     path('faculty/assigned/subjects/',
          views.view_assigned_subject, name="view_assigned_subject"),
-    path('faculty/view/students/per/subject/<int:level_section_id>/<int:subject_id>/',
+    path('faculty/view/students/per/subject/<int:level_section_id>/<int:subject_id>/<school_year>/',
          views.view_students_per_subject, name="view_students_per_subject"),
     path('faculty/view/student/profile/<int:user_id>/<short_name>/',
          views.view_student_profile, name='view_student_profile'),
