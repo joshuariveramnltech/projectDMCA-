@@ -12,7 +12,7 @@ class Statement(models.Model):
         "-" + str(datetime.now().year+1)
     student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE)
     school_year = models.CharField(
-        max_length=25, choices=SY, default=str(current_school_year))
+        max_length=25, choices=SY, default="2018-2019")
     break_down = models.TextField(null=True, blank=True)
     assessment = models.DecimalField(
         default=0.0, max_digits=12,

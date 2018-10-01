@@ -4,23 +4,24 @@
 {% load staticfiles %}
 
 <div class="white">
-    <a class="btn" href="{% url 'administrator:view_users' %}">View Users</a>
+   <br>
     <form method="POST" action="." enctype="multipart/form-data">
         {% csrf_token %}
-        <div class="container">
-            {{ profile_form.photo.errors }}
-            <div class="file-field input-field">
-                <div class="btn">
-                    <span><i class="material-icons left">image</i> Profile Picture</span>
-                    <input type="file" name="photo" id="id_photo">
-                </div>
-                <div class="file-path-wrapper">
-                    <input class="file-path validate" type="text">
-                </div>
-            </div>
-        </div>
 
         <div class="center"><i class="material-icons indigo-text" style="font-size: 6rem;">person_add</i></div>
+        <h4 class="center"><b>Create New User</b></h4>
+        <div class="container">
+                {{ profile_form.photo.errors }}
+                <div class="file-field input-field">
+                    <div class="btn">
+                        <span><i class="material-icons left">image</i> Profile Picture</span>
+                        <input type="file" name="photo" id="id_photo">
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input class="file-path validate" type="text">
+                    </div>
+                </div>
+            </div>
         <div class="container">
             <div class="row">
                 {{ user_form.first_name.errors }}
@@ -112,11 +113,20 @@
                     <input id="id_phone_number" type="text" name="phone_number" maxlength="13" placeholder="0912-345-6789" />
                     <label for="id_phone_number">Phone number:</label>
                 </div>
+                <div class="input-field col s2">
+                    <input type="text" name="age" maxlength="3" id="id_age">
+                    <label for="id_age">Age:</label>
+                </div>
+                <div class="input-field col s4">
+                    <select name="gender" id="id_gender">
+                        <option value="" selected>---------</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                    <label for="id_gender">Gender:</label> 
+                </div>
             </div>
-            <div class="input-field col s6">
-                <input type="text" name="age" maxlength="3" id="id_age">
-                <label for="id_age">Age:</label>
-            </div>
+            
             <div class="center">
                 <button class="btn btn-large waves-green waves-teal orange accent-3" type="submit"><i class="material-icons right">send</i>
                     Submit</button>
@@ -124,6 +134,8 @@
             </div>
         </div>
     </form>
+
+    
     <div>
         <br><br>
     </div>

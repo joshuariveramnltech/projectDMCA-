@@ -119,11 +119,9 @@
           <a href="#!" class="brand-logo"><img src="{% static "img/DMCA logo.png" %}" alt="" class="left" style="width:43px"><span
               class="black-text hide-on-med-and-down">&nbsp; Divine Miracle Christian Academy</span> </a>
           <ul class="right hide-on-med-and-down">
-            <li> <a href="{% url 'account:dashboard' %}" class="nav-link center black-text"><i class="material-icons black-text left">home</i>
-                Home</a></li>
-            <li> <a href="{% url 'announcement:view_announcement' %}" class="nav-link center black-text"><i class="material-icons black-text left">email</i>Messages</a></li>
-            <li> <a href="{% url 'account:view_edit_profile' %}" class="nav-link center black-text"><i class="material-icons black-text left">account_circle</i>Account</a></li>
-            <li> <a href="{% url 'account:dashboard' %}" class="nav-link center black-text"><i class="material-icons black-text left">dvr</i>Dashboard</a></li>
+            <li class="tooltipped" data-tooltip="Home"> <a href="{% url 'account:dashboard' %}" class="nav-link center black-text"><i class="material-icons black-text left">home</i></a></li>
+            <li class="tooltipped" data-tooltip="Announcements"> <a href="{% url 'announcement:view_announcement' %}" class="nav-link center black-text"><i class="material-icons black-text left">email</i></a></li>
+            <li class="tooltipped" data-tooltip="Dashboard"> <a href="{% url 'account:dashboard' %}" class="nav-link center black-text"><i class="material-icons black-text left">dvr</i></a></li>
             {% if request.user.is_student %}
             <li> <a href="{% url 'grading_system:view_all_grades' %}" class="nav-link center black-text"><i class="material-icons black-text left">assignment</i>
               Grades</a></li>
@@ -132,13 +130,31 @@
             <li> <a href="{% url 'accounting_transaction:view_user_list' %}" class="nav-link center black-text"><i class="material-icons black-text left">assignment</i>
               Account Statements </a></li>
             {% endif %}
-              <li> <a href="{% url 'account:change_password' %}" class="nav-link center black-text"><i class="material-icons black-text left">account_circle</i>Change Password</a></li>
-            <li> <a href="{% url 'logout' %}" class="nav-link red accent white-text center hoverable"><i class="material-icons left">exit_to_app</i>Logout</a></li>
+            {% if request.user.is_superuser%}
+            <li> <a href="" class="nav-link dropdown-trigger center black-text" data-target='adminTools'><i class="material-icons black-text left">build</i>Admin Tools<i class="material-icons black-text right">expand_more</i></a></li>
+            {% endif %}
+            <li><a href="{% url 'account:view_edit_profile' %}" class="nav-link dropdown-trigger center black-text" data-target='accountDropdown'><i class="material-icons black-text left">account_circle</i>{{ request.user.get_full_name }}<i class="material-icons black-text right">expand_more</i></a></li>
           </ul>
         </div>
       </nav>
     </div>
   </nav>
+
+  <ul id='accountDropdown' class='dropdown-content'>
+    <li> <a href="" class="center black-text"><i class="material-icons black-text left">account_circle</i>{{ request.user.get_full_name }}</a></li>
+    <li> <a href="{% url 'account:change_password' %}" class="center black-text"><i class="material-icons black-text left">vpn_key</i>Change Password</a></li>
+    <li> <a class="black-text center" href="{% url 'account:view_edit_profile' %}"><i class="material-icons">settings</i>Settings</a></li>
+    <li> <a href="{% url 'logout' %}" class="nav-link red accent white-text center hoverable"><i class="material-icons left">exit_to_app</i>Logout</a></li>
+  </ul>
+
+  <ul id='adminTools' class='dropdown-content'>
+    <li> <a href="" class="nav-link center black-text"><i class="material-icons black-text left">build</i>Admin Tools</a></li>
+    <li> <a href="{% url 'administrator:view_users' %}" class="nav-link center black-text"><i class="material-icons black-text left">search</i>View User</a></li>
+    <li> <a href="{% url 'administrator:create_user' %}" class="nav-link center black-text"><i class="material-icons black-text left">add</i>Create User</a></li>
+    <li> <a href="{% url 'administrator:view_level_section' %}" class="nav-link center black-text"><i class="material-icons black-text left">search</i>View Year & Sections</a></li>
+    <li> <a href="{% url 'administrator:create_subject' 0 %}" class="nav-link center black-text"><i class="material-icons black-text left">add</i>Create Year & Sections</a></li>
+  </ul>
+
   <ul id="slide-out" class="sidenav">
     <li>
       <div class="user-view">
@@ -264,7 +280,8 @@
     document.addEventListener('DOMContentLoaded', function () {
       var elems = document.querySelectorAll('.datepicker');
       var instances = M.Datepicker.init(elems, {
-        format: 'm/d/yyyy'
+        format: 'm/d/yyyy',
+        yearRange: [1950, 2018]
       });
     });
     document.addEventListener('DOMContentLoaded', function () {
@@ -282,7 +299,6 @@
     document.addEventListener('DOMContentLoaded', function () {
       var elems = document.querySelectorAll('.dropdown-trigger');
       var instances = M.Dropdown.init(elems, {
-        hover: 'true'
       });
     });
     document.addEventListener('DOMContentLoaded', function () {

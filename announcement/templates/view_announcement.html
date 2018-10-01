@@ -45,7 +45,7 @@
                     </div>
                     <div class="card-action center">
                         <div class="row">
-                            {% if request.user.is_student %}
+                            {% if request.user.is_student and request.user.student_profile.level_and_section.level.level %}
                             <a href="{% url 'grading_system:student_level_section_subject' request.user.student_profile.level_and_section.level.level request.user.student_profile.level_and_section.section %}" class="col s12">
                                 Subjects
                             </a>
@@ -125,10 +125,10 @@
                         <a href="#!" class="secondary-content"><i class="material-icons">mail_outline</i></a>
                     </li>
                     <div style="height:10px; visibility:none;"></div>
-                    {% empty %} No Announcements So Far... {% endfor %}
+                    {% empty %}  <center><img src="{% static "img/astronaut.svg" %}" style="object-fit: fill; height: 300px"> <br> <h5><b>No Announcements So Far...</b></h5> </center> {% endfor %}
                 </ul>
             </div>
-            
+            <hr>
             <div class="school-pagination">
                 <span class="step-links">
                     {% if school_announcement.has_previous %}
@@ -195,7 +195,7 @@
                         <a href="#!" class="secondary-content"><i class="material-icons">mail_outline</i></a>
                     </li>
                     <div style="height:10px; visibility:none;"></div>
-                    {% empty %} No Group Announcements So Far...
+                    {% empty %}  <center><img src="{% static "img/bacteria.svg" %}" style="object-fit: fill; height: 300px"> <br> <h5><b>No Group Announcements So Far...</b></h5> </center>
                 </ul> {% endfor %}
             </div>
 

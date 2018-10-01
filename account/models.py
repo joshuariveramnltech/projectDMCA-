@@ -49,7 +49,7 @@ class UserManager(BaseUserManager):
             email=self.normalize_email(email),
             first_name=first_name.title(),
             last_name=last_name.title(),
-            middle_name=middle_name.title(),
+            middle_name=middle_name,
         )
         user.set_password(password)
         user.is_active = is_active
