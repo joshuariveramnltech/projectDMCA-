@@ -80,7 +80,6 @@ def view_assigned_subject(request):
     context = {
         'request': request,
         'current_school_year': current_school_year,
-        'school_year': '#!'
     }
     if not request.user.is_teacher:
         raise PermissionDenied
@@ -129,15 +128,10 @@ def edit_student_subjectgrade(request, user_id, user_full_name, subject_grade_id
         )
         if subjectGrade_edit_form.is_valid():
             subjectGrade_edit_form.save()
-            if school_year != "#!":
-                return HttpResponseRedirect(
-                    reverse('grading_system:edit_student_finalgrade',
-                            args=[user_id, level_and_section.level.id, school_year])
-                )
             messages.success(request, 'Subject Grade Updated Successfully!')
             return HttpResponseRedirect(reverse(
                 'grading_system:edit_student_subjectGrade',
-                args=[user_id, user_full_name, subject_grade_id, school_year])
+                args=[user_id, user_full_name, subject_grade_id])
             )
     context['subjectGrade_edit_form'] = subjectGrade_edit_form
     return render(request, 'edit_student_subjectGrade.html', context)
