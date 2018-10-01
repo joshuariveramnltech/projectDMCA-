@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from account.models import LevelAndSection, Level
 from datetime import datetime
+from django.core.validators import RegexValidator
 from django.utils.text import slugify
 from account.models import FacultyProfile, StudentProfile
 from django.db.models.signals import (pre_save, post_save)

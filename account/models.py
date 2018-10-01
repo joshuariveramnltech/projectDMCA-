@@ -85,27 +85,27 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser):
     GENDER_CHOICES = (('male', 'Male'), ('female', 'Female'))
     email = models.EmailField(max_length=255, unique=True)
-    first_name = models.CharField(max_length=255, blank=True, null=True)
-    last_name = models.CharField(max_length=255, blank=True, null=True)
-    middle_name = models.CharField(max_length=255, blank=True, null=True)
+    first_name = models.CharField(max_length=255, null=True)
+    last_name = models.CharField(max_length=255, null=True)
+    middle_name = models.CharField(max_length=255, null=True)
     date_of_birth = models.DateField(
         max_length=255, blank=True, null=True, help_text="Please use the format: mm/dd/yyyy")
     gender = models.CharField(
         max_length=25, blank=True, null=True, choices=GENDER_CHOICES, default='male')
-    address = models.CharField(max_length=255, blank=True, null=True)
+    address = models.CharField(max_length=255, blank=True, default='')
     is_active = models.BooleanField(default=True, verbose_name=u"Active")
     is_student = models.BooleanField(default=False)
     is_teacher = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
-    date_joined = models.DateTimeField(auto_now_add=True)
+    date_created = models.DateTimeField(auto_now_add=True)
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name']
 
     class Meta:
-        ordering = ['-date_joined', ]
+        ordering = ['-date_created', ]
 
     @property
     def get_full_name(self):
@@ -211,13 +211,13 @@ class StudentProfile(models.Model):
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, related_name="student_profile")
     learner_reference_number = models.CharField(
-        max_length=12, null=True, blank=True, validators=[lrn_regex, ],
-        help_text="12 digit number", unique=True)
-    guardian = models.CharField(max_length=255, null=True, blank=True)
+        max_length=12, blank=True, validators=[lrn_regex, ],
+        help_text="12 digit number", unique=True, default='')
+    guardian = models.CharField(max_length=255, blank=True, default='')
     guardian_contact_number = models.CharField(
         validators=[phone_regex, ],
         max_length=15,
-        blank=True, null=True,
+        blank=True, default='',
         help_text="Please use the format: 0999-999-9999"
     )
     level_and_section = models.ForeignKey(
@@ -266,18 +266,16 @@ class StaffProfile(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="profile")
-
     # storage=gd_storage
     photo = models.ImageField(
         upload_to='user/profile/%Y/%m/%d/',
         blank=True, null=True,
     )
-
-    age = models.CharField(max_length=3, blank=True, null=True)
+    age = models.CharField(max_length=3, blank=True, default='')
     phone_number = models.CharField(
         validators=[phone_regex, ],
         max_length=15,
-        blank=True, null=True,
+        blank=True, default='',
         help_text="Please use the format: 0999-999-9999"
     )
 

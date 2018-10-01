@@ -2,244 +2,436 @@
 {% load staticfiles %}
 {% block title %}{{ current_school_year }}| {{ request.user.get_short_name }}{% endblock title %}
 {% block content %}
-    {% if grade6_final_grade and grade6_subject_grades %}
-    <div class="grade6">
-        <p>Level: {{ grade6_final_grade.level }}</p>
-        <p>School Year: {{ grade6_final_grade.school_year }}</p>
-        <p>Final Grade: {{ grade6_final_grade.grade }}</p>
-        <table border="1">
-            <th>Subject</th>
-            <th>Instructor</th>
-            <th>Level and Section</th>
-            <th>First Quarter</th>
-            <th>Second Quarter</th>
-            <th>Third Quarter</th>
-            <th>Fourth Quarter</th>
-            <th>Final</th>
-            {% for subject in grade6_subject_grades %}
-            <tr>
-                <td>{{ subject.subject.subject_name }}</td>
-                <td>{{ subject.instructor.user.get_full_name }}</td>
-                <td>{{ subject.subject.level_and_section }}</td>
-                <td>{{ subject.first_quarter }}</td>
-                <td>{{ subject.second_quarter }}</td>
-                <td>{{ subject.third_quarter }}</td>
-                <td>{{ subject.fourth_quarter }}</td>
-                <td>{{ subject.final_subject_grade }}</td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
-    {% endif %}
+{% if grade6_final_grade and grade6_subject_grades %}
+<div class="grade6">
+    <p>Level: {{ grade6_final_grade.level }}</p>
+    <p>School Year: {{ grade6_final_grade.school_year }}</p>
+    <p>Final Grade: {{ grade6_final_grade.grade }}</p>
+    <table border="1">
+        <th>Subject</th>
+        <th>Instructor</th>
+        <th>Level and Section</th>
+        <th>First Quarter</th>
+        <th>Second Quarter</th>
+        <th>Third Quarter</th>
+        <th>Fourth Quarter</th>
+        <th>Final</th>
+        {% for subject in grade6_subject_grades %}
+        <tr>
+            <td>{{ subject.subject.subject_name }}</td>
+            <td>{{ subject.instructor.user.get_full_name }}</td>
+            <td>{{ subject.subject.level_and_section }}</td>
+            {% if subject.first_quarter %}
+            <td>{{ subject.first_quarter }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
 
-    {% if grade5_final_grade and grade5_subject_grades %}
-    <div class="grade5">
-        <p>Level: {{ grade5_final_grade.level }}</p>
-        <p>School Year: {{ grade5_final_grade.school_year }}</p>
-        <p>Final Grade: {{ grade5_final_grade.grade }}</p>
-        <table border="1">
-            <th>Subject</th>
-            <th>Instructor</th>
-            <th>Level and Section</th>
-            <th>First Quarter</th>
-            <th>Second Quarter</th>
-            <th>Third Quarter</th>
-            <th>Fourth Quarter</th>
-            <th>Final</th>
-            {% for subject in grade5_subject_grades %}
-            <tr>
-                <td>{{ subject.subject.subject_name }}</td>
-                <td>{{ subject.instructor.user.get_full_name }}</td>
-                <td>{{ subject.subject.level_and_section }}</td>
-                <td>{{ subject.first_quarter }}</td>
-                <td>{{ subject.second_quarter }}</td>
-                <td>{{ subject.third_quarter }}</td>
-                <td>{{ subject.fourth_quarter }}</td>
-                <td>{{ subject.final_subject_grade }}</td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
-    {% endif %}
+            {% if subject.second_quarter %}
+            <td>{{ subject.second_quarter }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
 
-    {% if grade4_final_grade and grade4_subject_grades %}
-    <div class="grade4">
-        <p>Level: {{ grade4_final_grade.level }}</p>
-        <p>School Year: {{ grade4_final_grade.school_year }}</p>
-        <p>Final Grade: {{ grade4_final_grade.grade }}</p>
-        <table border="1">
-            <th>Subject</th>
-            <th>Instructor</th>
-            <th>Level and Section</th>
-            <th>First Quarter</th>
-            <th>Second Quarter</th>
-            <th>Third Quarter</th>
-            <th>Fourth Quarter</th>
-            <th>Final</th>
-            {% for subject in grade4_subject_grades %}
-            <tr>
-                <td>{{ subject.subject.subject_name }}</td>
-                <td>{{ subject.instructor.user.get_full_name }}</td>
-                <td>{{ subject.subject.level_and_section }}</td>
-                <td>{{ subject.first_quarter }}</td>
-                <td>{{ subject.second_quarter }}</td>
-                <td>{{ subject.third_quarter }}</td>
-                <td>{{ subject.fourth_quarter }}</td>
-                <td>{{ subject.final_subject_grade }}</td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
-    {% endif %}
+            {% if subject.third_quarter %}
+            <td>{{ subject.third_quarter }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
 
-    {% if grade3_final_grade and grade3_subject_grades %}
-    <div class="grade3">
-        <p>Level: {{ grade3_final_grade.level }}</p>
-        <p>School Year: {{ grade3_final_grade.school_year }}</p>
-        <p>Final Grade: {{ grade3_final_grade.grade }}</p>
-        <table border="1">
-            <th>Subject</th>
-            <th>Instructor</th>
-            <th>Level and Section</th>
-            <th>First Quarter</th>
-            <th>Second Quarter</th>
-            <th>Third Quarter</th>
-            <th>Fourth Quarter</th>
-            <th>Final</th>
-            {% for subject in grade3_subject_grades %}
-            <tr>
-                <td>{{ subject.subject.subject_name }}</td>
-                <td>{{ subject.instructor.user.get_full_name }}</td>
-                <td>{{ subject.subject.level_and_section }}</td>
-                <td>{{ subject.first_quarter }}</td>
-                <td>{{ subject.second_quarter }}</td>
-                <td>{{ subject.third_quarter }}</td>
-                <td>{{ subject.fourth_quarter }}</td>
-                <td>{{ subject.final_subject_grade }}</td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
-    {% endif %}
+            {% if subject.fourth_quarter %}
+            <td>{{ subject.fourth_quarter }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
 
-    {% if grade2_final_grade and grade2_subject_grades %}
-    <div class="grade2">
-        <p>Level: {{ grade2_final_grade.level }}</p>
-        <p>School Year: {{ grade2_final_grade.school_year }}</p>
-        <p>Final Grade: {{ grade2_final_grade.grade }}</p>
-        <table border="1">
-            <th>Subject</th>
-            <th>Instructor</th>
-            <th>Level and Section</th>
-            <th>First Quarter</th>
-            <th>Second Quarter</th>
-            <th>Third Quarter</th>
-            <th>Fourth Quarter</th>
-            <th>Final</th>
-            {% for subject in grade2_subject_grades %}
-            <tr>
-                <td>{{ subject.subject.subject_name }}</td>
-                <td>{{ subject.instructor.user.get_full_name }}</td>
-                <td>{{ subject.subject.level_and_section }}</td>
-                <td>{{ subject.first_quarter }}</td>
-                <td>{{ subject.second_quarter }}</td>
-                <td>{{ subject.third_quarter }}</td>
-                <td>{{ subject.fourth_quarter }}</td>
-                <td>{{ subject.final_subject_grade }}</td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
-    {% endif %}
+            {% if subject.final_subject_grade %}
+            <td>{{ subject.final_subject_grade }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endif %}
 
-    {% if grade1_final_grade and grade1_subject_grades %}
-    <div class="grade1">
-        <p>Level: {{ grade1_final_grade.level }}</p>
-        <p>School Year: {{ grade1_final_grade.school_year }}</p>
-        <p>Final Grade: {{ grade1_final_grade.grade }}</p>
-        <table border="1">
-            <th>Subject</th>
-            <th>Instructor</th>
-            <th>Level and Section</th>
-            <th>First Quarter</th>
-            <th>Second Quarter</th>
-            <th>Third Quarter</th>
-            <th>Fourth Quarter</th>
-            <th>Final</th>
-            {% for subject in grade1_subject_grades %}
-            <tr>
-                <td>{{ subject.subject.subject_name }}</td>
-                <td>{{ subject.instructor.user.get_full_name }}</td>
-                <td>{{ subject.subject.level_and_section }}</td>
-                <td>{{ subject.first_quarter }}</td>
-                <td>{{ subject.second_quarter }}</td>
-                <td>{{ subject.third_quarter }}</td>
-                <td>{{ subject.fourth_quarter }}</td>
-                <td>{{ subject.final_subject_grade }}</td>
-            </tr>
-            {% endfor %}
-        </table>
+{% if grade5_final_grade and grade5_subject_grades %}
+<div class="grade5">
+    <p>Level: {{ grade5_final_grade.level }}</p>
+    <p>School Year: {{ grade5_final_grade.school_year }}</p>
+    <p>Final Grade: {{ grade5_final_grade.grade }}</p>
+    <table border="1">
+        <th>Subject</th>
+        <th>Instructor</th>
+        <th>Level and Section</th>
+        <th>First Quarter</th>
+        <th>Second Quarter</th>
+        <th>Third Quarter</th>
+        <th>Fourth Quarter</th>
+        <th>Final</th>
+        {% for subject in grade5_subject_grades %}
+        <tr>
+            <td>{{ subject.subject.subject_name }}</td>
+            <td>{{ subject.instructor.user.get_full_name }}</td>
+            <td>{{ subject.subject.level_and_section }}</td>
+            {% if subject.first_quarter %}
+            <td>{{ subject.first_quarter }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
 
-    </div>
-    {% endif %}
+            {% if subject.second_quarter %}
+            <td>{{ subject.second_quarter }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
 
-    {% if kinder_final_grade and kinder_subject_grades %}
-    <div class="kinder">
-        <p>Level: {{ kinder_final_grade.level }}</p>
-        <p>School Year: {{ kinder_final_grade.school_year }}</p>
-        <p>Final Grade: {{ kinder_final_grade.grade }}</p>
-        <table border="1">
-            <th>Subject</th>
-            <th>Instructor</th>
-            <th>Level and Section</th>
-            <th>First Quarter</th>
-            <th>Second Quarter</th>
-            <th>Third Quarter</th>
-            <th>Fourth Quarter</th>
-            <th>Final</th>
-            {% for subject in kinder_subject_grades %}
-            <tr>
-                <td>{{ subject.subject.subject_name }}</td>
-                <td>{{ subject.instructor.user.get_full_name }}</td>
-                <td>{{ subject.subject.level_and_section }}</td>
-                <td>{{ subject.first_quarter }}</td>
-                <td>{{ subject.second_quarter }}</td>
-                <td>{{ subject.third_quarter }}</td>
-                <td>{{ subject.fourth_quarter }}</td>
-                <td>{{ subject.final_subject_grade }}</td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
-    {% endif %}
+            {% if subject.third_quarter %}
+            <td>{{ subject.third_quarter }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
 
-    {% if nursery_final_grade and nursery_subject_grades %}
-    <div class="nursery">
-        <p>Level: {{ nursery_final_grade.level }}</p>
-        <p>School Year: {{ nursery_final_grade.school_year }}</p>
-        <p>Final Grade: {{ nursery_final_grade.grade }}</p>
-        <table border="1">
-            <th>Subject</th>
-            <th>Instructor</th>
-            <th>Level and Section</th>
-            <th>First Quarter</th>
-            <th>Second Quarter</th>
-            <th>Third Quarter</th>
-            <th>Fourth Quarter</th>
-            <th>Final</th>
-            {% for subject in nursery_subject_grades %}
-            <tr>
-                <td>{{ subject.subject.subject_name }}</td>
-                <td>{{ subject.instructor.user.get_full_name }}</td>
-                <td>{{ subject.subject.level_and_section }}</td>
-                <td>{{ subject.first_quarter }}</td>
-                <td>{{ subject.second_quarter }}</td>
-                <td>{{ subject.third_quarter }}</td>
-                <td>{{ subject.fourth_quarter }}</td>
-                <td>{{ subject.final_subject_grade }}</td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
-    {% endif %}
+            {% if subject.fourth_quarter %}
+            <td>{{ subject.fourth_quarter }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+
+            {% if subject.final_subject_grade %}
+            <td>{{ subject.final_subject_grade }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endif %}
+
+{% if grade4_final_grade and grade4_subject_grades %}
+<div class="grade4">
+    <p>Level: {{ grade4_final_grade.level }}</p>
+    <p>School Year: {{ grade4_final_grade.school_year }}</p>
+    <p>Final Grade: {{ grade4_final_grade.grade }}</p>
+    <table border="1">
+        <th>Subject</th>
+        <th>Instructor</th>
+        <th>Level and Section</th>
+        <th>First Quarter</th>
+        <th>Second Quarter</th>
+        <th>Third Quarter</th>
+        <th>Fourth Quarter</th>
+        <th>Final</th>
+        {% for subject in grade4_subject_grades %}
+        <tr>
+            <td>{{ subject.subject.subject_name }}</td>
+            <td>{{ subject.instructor.user.get_full_name }}</td>
+            <td>{{ subject.subject.level_and_section }}</td>
+            {% if subject.first_quarter %}
+            <td>{{ subject.first_quarter }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+
+            {% if subject.second_quarter %}
+            <td>{{ subject.second_quarter }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+
+            {% if subject.third_quarter %}
+            <td>{{ subject.third_quarter }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+
+            {% if subject.fourth_quarter %}
+            <td>{{ subject.fourth_quarter }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+
+            {% if subject.final_subject_grade %}
+            <td>{{ subject.final_subject_grade }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endif %}
+
+{% if grade3_final_grade and grade3_subject_grades %}
+<div class="grade3">
+    <p>Level: {{ grade3_final_grade.level }}</p>
+    <p>School Year: {{ grade3_final_grade.school_year }}</p>
+    <p>Final Grade: {{ grade3_final_grade.grade }}</p>
+    <table border="1">
+        <th>Subject</th>
+        <th>Instructor</th>
+        <th>Level and Section</th>
+        <th>First Quarter</th>
+        <th>Second Quarter</th>
+        <th>Third Quarter</th>
+        <th>Fourth Quarter</th>
+        <th>Final</th>
+        {% for subject in grade3_subject_grades %}
+        <tr>
+            <td>{{ subject.subject.subject_name }}</td>
+            <td>{{ subject.instructor.user.get_full_name }}</td>
+            <td>{{ subject.subject.level_and_section }}</td>
+            {% if subject.first_quarter %}
+            <td>{{ subject.first_quarter }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+
+            {% if subject.second_quarter %}
+            <td>{{ subject.second_quarter }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+
+            {% if subject.third_quarter %}
+            <td>{{ subject.third_quarter }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+
+            {% if subject.fourth_quarter %}
+            <td>{{ subject.fourth_quarter }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+
+            {% if subject.final_subject_grade %}
+            <td>{{ subject.final_subject_grade }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endif %}
+
+{% if grade2_final_grade and grade2_subject_grades %}
+<div class="grade2">
+    <p>Level: {{ grade2_final_grade.level }}</p>
+    <p>School Year: {{ grade2_final_grade.school_year }}</p>
+    <p>Final Grade: {{ grade2_final_grade.grade }}</p>
+    <table border="1">
+        <th>Subject</th>
+        <th>Instructor</th>
+        <th>Level and Section</th>
+        <th>First Quarter</th>
+        <th>Second Quarter</th>
+        <th>Third Quarter</th>
+        <th>Fourth Quarter</th>
+        <th>Final</th>
+        {% for subject in grade2_subject_grades %}
+        <tr>
+            <td>{{ subject.subject.subject_name }}</td>
+            <td>{{ subject.instructor.user.get_full_name }}</td>
+            <td>{{ subject.subject.level_and_section }}</td>
+            {% if subject.first_quarter %}
+            <td>{{ subject.first_quarter }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+
+            {% if subject.second_quarter %}
+            <td>{{ subject.second_quarter }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+
+            {% if subject.third_quarter %}
+            <td>{{ subject.third_quarter }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+
+            {% if subject.fourth_quarter %}
+            <td>{{ subject.fourth_quarter }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+
+            {% if subject.final_subject_grade %}
+            <td>{{ subject.final_subject_grade }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endif %}
+
+{% if grade1_final_grade and grade1_subject_grades %}
+<div class="grade1">
+    <p>Level: {{ grade1_final_grade.level }}</p>
+    <p>School Year: {{ grade1_final_grade.school_year }}</p>
+    <p>Final Grade: {{ grade1_final_grade.grade }}</p>
+    <table border="1">
+        <th>Subject</th>
+        <th>Instructor</th>
+        <th>Level and Section</th>
+        <th>First Quarter</th>
+        <th>Second Quarter</th>
+        <th>Third Quarter</th>
+        <th>Fourth Quarter</th>
+        <th>Final</th>
+        {% for subject in grade1_subject_grades %}
+        <tr>
+            <td>{{ subject.subject.subject_name }}</td>
+            <td>{{ subject.instructor.user.get_full_name }}</td>
+            <td>{{ subject.subject.level_and_section }}</td>
+            {% if subject.first_quarter %}
+            <td>{{ subject.first_quarter }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+
+            {% if subject.second_quarter %}
+            <td>{{ subject.second_quarter }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+
+            {% if subject.third_quarter %}
+            <td>{{ subject.third_quarter }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+
+            {% if subject.fourth_quarter %}
+            <td>{{ subject.fourth_quarter }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+
+            {% if subject.final_subject_grade %}
+            <td>{{ subject.final_subject_grade }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+
+</div>
+{% endif %}
+
+{% if kinder_final_grade and kinder_subject_grades %}
+<div class="kinder">
+    <p>Level: {{ kinder_final_grade.level }}</p>
+    <p>School Year: {{ kinder_final_grade.school_year }}</p>
+    <p>Final Grade: {{ kinder_final_grade.grade }}</p>
+    <table border="1">
+        <th>Subject</th>
+        <th>Instructor</th>
+        <th>Level and Section</th>
+        <th>First Quarter</th>
+        <th>Second Quarter</th>
+        <th>Third Quarter</th>
+        <th>Fourth Quarter</th>
+        <th>Final</th>
+        {% for subject in kinder_subject_grades %}
+        <tr>
+            <td>{{ subject.subject.subject_name }}</td>
+            <td>{{ subject.instructor.user.get_full_name }}</td>
+            <td>{{ subject.subject.level_and_section }}</td>
+            {% if subject.first_quarter %}
+            <td>{{ subject.first_quarter }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+
+            {% if subject.second_quarter %}
+            <td>{{ subject.second_quarter }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+
+            {% if subject.third_quarter %}
+            <td>{{ subject.third_quarter }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+
+            {% if subject.fourth_quarter %}
+            <td>{{ subject.fourth_quarter }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+
+            {% if subject.final_subject_grade %}
+            <td>{{ subject.final_subject_grade }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endif %}
+
+{% if nursery_final_grade and nursery_subject_grades %}
+<div class="nursery">
+    <p>Level: {{ nursery_final_grade.level }}</p>
+    <p>School Year: {{ nursery_final_grade.school_year }}</p>
+    <p>Final Grade: {{ nursery_final_grade.grade }}</p>
+    <table border="1">
+        <th>Subject</th>
+        <th>Instructor</th>
+        <th>Level and Section</th>
+        <th>First Quarter</th>
+        <th>Second Quarter</th>
+        <th>Third Quarter</th>
+        <th>Fourth Quarter</th>
+        <th>Final</th>
+        {% for subject in nursery_subject_grades %}
+        <tr>
+            <td>{{ subject.subject.subject_name }}</td>
+            <td>{{ subject.instructor.user.get_full_name }}</td>
+            <td>{{ subject.subject.level_and_section }}</td>
+            {% if subject.first_quarter %}
+            <td>{{ subject.first_quarter }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+
+            {% if subject.second_quarter %}
+            <td>{{ subject.second_quarter }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+
+            {% if subject.third_quarter %}
+            <td>{{ subject.third_quarter }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+
+            {% if subject.fourth_quarter %}
+            <td>{{ subject.fourth_quarter }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+
+            {% if subject.final_subject_grade %}
+            <td>{{ subject.final_subject_grade }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endif %}
 {% endblock content %}
