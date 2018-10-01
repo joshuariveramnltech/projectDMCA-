@@ -3,15 +3,6 @@ from account.models import StudentProfile
 from grading_system.models import GeneralSchoolYear
 from grading_system.models import SY
 # Create your models here.
-# Student
-# Year Level
-# School Year
-# Break Down
-# Assessment
-# Paymennt
-# Balance
-# Date Created
-# Date Updated
 
 
 class Statement(models.Model):
@@ -20,9 +11,12 @@ class Statement(models.Model):
     school_year = models.CharField(
         max_length=25, choices=SY, default=str(current_school_year))
     break_down = models.TextField(null=True, blank=True)
-    assessment = models.DecimalField(max_digits=12, decimal_places=2, verbose_name="Assessment (Php)")
-    payment = models.DecimalField(max_digits=12, decimal_places=2, verbose_name="Payment (Php)")
-    balance = models.DecimalField(max_digits=12, decimal_places=2, verbose_name="Balance (Php)")
+    assessment = models.DecimalField(
+        max_digits=12, decimal_places=2, verbose_name="Assessment (Php)")
+    payment = models.DecimalField(
+        max_digits=12, decimal_places=2, verbose_name="Payment (Php)")
+    balance = models.DecimalField(
+        max_digits=12, decimal_places=2, verbose_name="Balance (Php)")
     date_created = models.DateTimeField(auto_now=False, auto_now_add=True)
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
 
