@@ -10,4 +10,6 @@ urlpatterns = [
          views.view_statement, name='view_statement'),
     path('delete/statement/<int:statement_id>/<student_full_name>/<int:student_id>/',
          views.delete_statement, name='delete_statement'),
+    path('update/statement/<int:statement_id>/<student_full_name>/<int:student_id>/',
+         views.update_statement, name='update_statement'),
 ]

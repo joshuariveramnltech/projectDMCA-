@@ -35,7 +35,7 @@
         <td>{{ student.student_profile.guardian_contact_number }}</td>
         <td>{{ student.student_profile.level_and_section }}</td>
         <td>
-            <a href="{% url 'accounting_transaction:view_statement' student.get_full_name student.id %}" target="_blank">Account Statements</a>
+            <a href="{% url 'accounting_transaction:view_statement' student.get_full_name student.id %}" >Account Statements</a>
             </a>
         </td>
     </tr>

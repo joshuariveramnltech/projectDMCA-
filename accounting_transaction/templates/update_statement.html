@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Update Statement</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+</head>
+
+<body>
+    <div>
+        <p>Name: {{ statement_instance.student.user.get_full_name }}</p>
+        <p>SY: {{ statement_instance.school_year }}</p>
+        <p>Year and Section: {{ statement_instance.student.level_and_section }}</p>
+    </div>
+    <ul>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+        {% if request.user.is_superuser and request.user.is_staff %}
+        <form method="POST" action="{% url 'administrator:update_statement_admin' statement_instance.id student_user.get_full_name student_user.id %}">
+            {% csrf_token %}
+            {{ update_statement_form.as_p }}
+            <input type="submit" value="Submit" />
+        </form>
+    </ul>
+
+    <a href="{% url 'administrator:view_statement_admin' student_user.get_full_name student_user.id %}"><button>Back</button></a>
+    <a href="{% url 'administrator:view_users' %}"><button>View Users</button></a>
+    {% elif request.user.is_staff %}
+    <form method="POST" action="{% url 'accounting_transaction:update_statement' statement_instance.id student_user.get_full_name student_user.id %}">
+        {% csrf_token %}
+        {{ update_statement_form.as_p }}
+        <input type="submit" value="Submit" />
+    </form>
+    </ul>
+
+    <a href="{% url 'accounting_transaction:view_statement' student_user.get_full_name student_user.id %}"><button>Back</button></a>
+    <a href="{% url 'accounting_transaction:view_user_list' %}"><button>Account Statements</button></a>
+    {% endif %}
+    <div>
+
+    </div>
+</body>
+
+</html>
