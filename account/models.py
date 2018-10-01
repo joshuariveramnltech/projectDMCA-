@@ -212,7 +212,7 @@ class StudentProfile(models.Model):
         User, on_delete=models.CASCADE, related_name="student_profile")
     learner_reference_number = models.CharField(
         max_length=12, blank=True, validators=[lrn_regex, ],
-        help_text="12 digit number", unique=True, default='')
+        help_text="12 digit number", default='')
     guardian = models.CharField(max_length=255, blank=True, default='')
     guardian_contact_number = models.CharField(
         validators=[phone_regex, ],
