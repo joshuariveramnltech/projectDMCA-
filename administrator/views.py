@@ -10,6 +10,8 @@ from account.models import (
     StudentProfile, StaffProfile,
     FacultyProfile
 )
+from accounting_transaction.forms import StatementCreateForm
+from accounting_transaction.models import Statement
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from grading_system.models import Subject, SubjectGrade, FinalGrade, GeneralSchoolYear
 from grading_system.forms import (
@@ -59,11 +61,11 @@ def create_user(request):
 def view_users(request):
     if not request.user.is_superuser:
         raise PermissionDenied
-    staff_list = User.objects.filter(is_staff=True).order_by('-date_joined')
+    staff_list = User.objects.filter(is_staff=True).order_by('-date_created')
     faculty_list = User.objects.all().filter(
-        is_teacher=True).order_by('-date_joined')
+        is_teacher=True).order_by('-date_created')
     student_list = User.objects.filter(
-        is_student=True).order_by('-date_joined')
+        is_student=True).order_by('-date_created')
     student_query = request.GET.get("student_query")
     faculty_query = request.GET.get("faculty_query")
     staff_query = request.GET.get("staff_query")
@@ -437,3 +439,27 @@ def delete_student_finalLevelGradeAdmin(request, final_grade_id, user_full_name)
     return HttpResponseRedirect(reverse(
         'administrator:enrollment_admission',
         args=[student_user.id, student_user.get_full_name]))
+
+
+@login_required
+def add_statement_admin(request):
+    if not request.user.is_superuser:
+        raise PermissionDenied
+
+
+@login_required
+def edit_statement_admin(request):
+    if not request.user.is_superuser:
+        raise PermissionDenied
+
+
+@login_required
+def delete_statement_admin(request):
+    if not request.user.is_superuser:
+        raise PermissionDenied
+
+
+@login_required
+def view_statement_admin(request):
+    if not request.user.is_superuser:
+        raise PermissionDenied

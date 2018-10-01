@@ -6,7 +6,10 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from .models import Subject, SubjectGrade, FinalGrade, GeneralSchoolYear
 from account.models import (
-    StudentProfile, StaffProfile, FacultyProfile, LevelAndSection, Level)
+    StudentProfile, StaffProfile,
+    FacultyProfile, LevelAndSection,
+    Level
+)
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Q
 from datetime import datetime
