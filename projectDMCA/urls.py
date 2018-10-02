@@ -28,6 +28,7 @@ urlpatterns = [
     path('academic/', include('grading_system.urls', namespace='grading_system')),
     path('accounting/transaction/', include('accounting_transaction.urls',
                                             namespace='accounting_transaction')),
+    path('', include('admission.urls', namespace='admission')),
 ]
 
 if settings.DEBUG:

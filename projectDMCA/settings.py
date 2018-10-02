@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
-
+import django_heroku
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -25,7 +25,7 @@ SECRET_KEY = '=f4+!%730tokqts67vbbrbayp)(66vwmsez%89wj)m_m$nxh-j'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost',]
+ALLOWED_HOSTS = ['dmca-edu-ph.herokuapp.com', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -37,15 +37,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # custom applications
     # 'gdstorage',
     'phonenumber_field',
     'taggit',
+    # custom applications
     'administrator.apps.AdministratorConfig',
     'account.apps.AccountConfig',
     'announcement.apps.AnnouncementConfig',
     'grading_system.apps.GradingSystemConfig',
     'accounting_transaction.apps.AccountingTransactionConfig',
+    'admission.apps.AdmissionConfig',
 ]
 
 AUTH_USER_MODEL = 'account.User'
@@ -75,6 +76,7 @@ TEMPLATES = [
             os.path.join(BASE_DIR, 'grading_system/templates/student'),
             os.path.join(BASE_DIR, 'grading_system/templates/faculty'),
             os.path.join(BASE_DIR, 'accounting_transaction/templates'),
+            os.path.join(BASE_DIR, 'admission/templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -153,10 +155,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'static/'),
     os.path.join(BASE_DIR, 'static/img')
 ]
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'account:dashboard'
 LOGOUT_REDIRECT_URL = 'login'
@@ -171,5 +173,5 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 PHONENUMBER_DEFAULT_REGION = 'PH'
-
+# django_heroku.settings(locals())
 # GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = os.path.join(BASE_DIR, 'dmca-bataan-5db059fab413.json')

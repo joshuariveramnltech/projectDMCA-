@@ -34,7 +34,11 @@
                                     <div class="card-content">
                                         <center><h6><b>{{ student.get_full_name }} </b></h6></center>
                                         <center><h6>{{ student.student_profile.learner_reference_number }} </h6></center>
+                                        {% if student.student_profile.level_and_section is None %}
+                                        <center><h6>No Year and Section </h6></center>
+                                        {% else %}
                                         <center><h6>{{ student.student_profile.level_and_section }} </h6></center>
+                                        {% endif %}
                                     </div>
                                     <div class="card-action center">
                                         <a class="tooltipped" data-tooltip="Edit User" href="{% url 'administrator:edit_user' student.id %}"><i class="material-icons small light-green-text text-accent-4">edit</i></a>
@@ -110,7 +114,11 @@
                                     <div class="card-content">
                                         <center><h6><b>{{ teacher.get_full_name }} </b></h6></center>
                                         <center><h6>{{ teacher.email }} </h6></center>
+                                        {% if teacher.faculty_profile.designated_year_level is not None %}
                                         <center><h6>{{ teacher.faculty_profile.designated_year_level }} </h6></center>
+                                        {% else %}
+                                        <center><h6>No Year and Section </h6></center>
+                                        {% endif %}
                                     </div>
                                     <div class="card-action center">
                                             <a class="tooltipped" data-tooltip="Edit User" href="{% url 'administrator:edit_user' teacher.id %}"><i class="material-icons small light-green-text text-accent-4">edit</i></a>
@@ -291,7 +299,11 @@
                                     <div class="card-content">
                                         <center><h6><b>{{ staff.get_full_name }}</b></h6></center>
                                         <center><h6>{{ staff.profile.phone_number }}</h6></center>
+                                        {% if staff.staff_profile.position %}
                                         <center><h6>{{ staff.staff_profile.position }}</h6></center>
+                                        {% else %}
+                                        <center><h6>No Position</h6></center>
+                                        {% endif %}
                                     </div>
                                     <div class="card-action center">
                                             <a class="tooltipped" data-tooltip="Edit User" href="{% url 'administrator:edit_user' staff.id %}"><i class="material-icons small light-green-text text-accent-4">edit</i></a>
