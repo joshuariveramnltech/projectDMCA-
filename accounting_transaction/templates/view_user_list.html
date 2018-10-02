@@ -2,67 +2,74 @@
 {% load staticfiles %}
 {% block title %}Balance Statement{% endblock title %}
 {% block content %}
-<form action="" method="GET">
-    <input type="text" placeholder="Search Students" name="student_query" value="{{ request.GET.student_query }}" />
-    <input type="submit" value="Search" />
-</form>
-<table border="1">
-    <th>Full Name</th>
-    <th>LRN</th>
-    <th>Email</th>
-    <th>Account Status</th>
-    <th>Birthday</th>
-    <th>Address</th>
-    <th>Contact Number</th>
-    <th>Parent/Guardian</th>
-    <th>Contact Number</th>
-    <th>Year and Section</th>
-    <th>Options</th>
-    {% for student in students %}
-    <tr>
-        <td>{{ student.get_full_name }}</td>
-        <td>{{ student.student_profile.learner_reference_number }}</td>
-        <td>{{ student.email }}</td>
-        {% if student.is_active %}
-        <td>Active</td>
-        {% else %}
-        <td>Disabled</td>
-        {% endif %}
-        <td>{{ student.date_of_birth }}</td>
-        <td>{{ student.address }}</td>
-        <td>{{ student.profile.phone_number }}</td>
-        <td>{{ student.student_profile.guardian }}</td>
-        <td>{{ student.student_profile.guardian_contact_number }}</td>
-        <td>{{ student.student_profile.level_and_section }}</td>
-        <td>
-            <a href="{% url 'accounting_transaction:view_statement' student.get_full_name student.id %}" >Account Statements</a>
-            </a>
-        </td>
-    </tr>
-    {% empty %}
-    Empty Result.
-    {% endfor %}
-</table>
+<div class="white">
+    <br><br>
+    <div>
+        <form action="" method="GET">
+                <input type="text" placeholder="Search Students" name="student_query" value="{{ request.GET.student_query }}" />
+                <input type="submit" value="Search" />
+            </form>
+            <table border="1">
+                <th>Full Name</th>
+                <th>LRN</th>
+                <th>Email</th>
+                <th>Account Status</th>
+                <th>Birthday</th>
+                <th>Address</th>
+                <th>Contact Number</th>
+                <th>Parent/Guardian</th>
+                <th>Contact Number</th>
+                <th>Year and Section</th>
+                <th>Options</th>
+                {% for student in students %}
+                <tr>
+                    <td>{{ student.get_full_name }}</td>
+                    <td>{{ student.student_profile.learner_reference_number }}</td>
+                    <td>{{ student.email }}</td>
+                    {% if student.is_active %}
+                    <td>Active</td>
+                    {% else %}
+                    <td>Disabled</td>
+                    {% endif %}
+                    <td>{{ student.date_of_birth }}</td>
+                    <td>{{ student.address }}</td>
+                    <td>{{ student.profile.phone_number }}</td>
+                    <td>{{ student.student_profile.guardian }}</td>
+                    <td>{{ student.student_profile.guardian_contact_number }}</td>
+                    <td>{{ student.student_profile.level_and_section }}</td>
+                    <td>
+                        <a href="{% url 'accounting_transaction:view_statement' student.get_full_name student.id %}" >Account Statements</a>
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                Empty Result.
+                {% endfor %}
+            </table>
+        </div>
+                
+        <div class="pagination">
+            <span class="step-links">
+                {% if students.has_previous %}
+                <a href="?student_page=1&student_query={{ request.GET.student_query }}">&laquo; first</a>
+                <a href="?student_page={{ student.previous_page_number }}&student_query={{ request.GET.student_query }}">previous</a>
+                {% endif %}
+        
+                {% if students %}
+                <span class="current">
+                    Page {{ students.number }} of {{ students.paginator.num_pages }}.
+                </span>
+                {% endif %}
+        
+                {% if students.has_next %}
+                <a href="?student_page={{ students.next_page_number }}&student_query={{ request.GET.student_query }}">next</a>
+                <a href="?student_page={{ students.paginator.num_pages }}&student_query={{ request.GET.student_query }}">last
+                    &raquo;</a>
+                {% endif %}
+            </span>
+        </div> 
+    </div>
+    <br><br>
 </div>
 
-<div class="pagination">
-    <span class="step-links">
-        {% if students.has_previous %}
-        <a href="?student_page=1&student_query={{ request.GET.student_query }}">&laquo; first</a>
-        <a href="?student_page={{ student.previous_page_number }}&student_query={{ request.GET.student_query }}">previous</a>
-        {% endif %}
-
-        {% if students %}
-        <span class="current">
-            Page {{ students.number }} of {{ students.paginator.num_pages }}.
-        </span>
-        {% endif %}
-
-        {% if students.has_next %}
-        <a href="?student_page={{ students.next_page_number }}&student_query={{ request.GET.student_query }}">next</a>
-        <a href="?student_page={{ students.paginator.num_pages }}&student_query={{ request.GET.student_query }}">last
-            &raquo;</a>
-        {% endif %}
-    </span>
-</div>
 {% endblock content %}
