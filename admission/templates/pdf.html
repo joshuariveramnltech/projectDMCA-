@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>app_req_{{ appointment_request.id }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+</head>
+
+<body>
+    <h3>REF. Code: {{ appointment_request.slug }}</h3>
+    <h3>Date: {{ appointment_request.date_created }}</h3>
+    <h2> First Name: {{ appointment_request.get_complete_name }}</h2>
+    <h2> Email: {{ appointment_request.email }}</h2>
+    <h2> Address: {{ appointment_request.address }}</h2>
+    <h2>Birthday: {{ appointment_request.birthday }}</h2>
+    <h2>Age: {{ appointment_request.age }}</h2>
+    <h2>Gender: {{ appointment_request.gender }}</h2>
+    <h2>Guardian: {{ appointment_request.guardian|title }}</h2>
+    <h2>Contact Number: {{ appointment_request.contact_number }}</h2>
+    <h3>Date and Time of Appointment: {{ appointment_request.schedule }}</h3>
+</body>
+
+</html>

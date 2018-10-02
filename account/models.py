@@ -49,7 +49,7 @@ class UserManager(BaseUserManager):
             email=self.normalize_email(email),
             first_name=first_name.title(),
             last_name=last_name.title(),
-            middle_name=middle_name,
+            middle_name=middle_name.title(),
         )
         user.set_password(password)
         user.is_active = is_active
@@ -87,9 +87,11 @@ class User(AbstractBaseUser):
     email = models.EmailField(max_length=255, unique=True)
     first_name = models.CharField(max_length=255, null=True)
     last_name = models.CharField(max_length=255, null=True)
-    middle_name = models.CharField(max_length=255, null=True)
+    middle_name = models.CharField(max_length=255, null=True, blank=True)
     date_of_birth = models.DateField(
-        max_length=255, blank=True, null=True, help_text="Please use the format: mm/dd/yyyy")
+        max_length=255, blank=True, null=True,
+        help_text="Please use the format: mm/dd/yyyy"
+    )
     gender = models.CharField(
         max_length=25, blank=True, null=True, choices=GENDER_CHOICES, default='male')
     address = models.CharField(max_length=255, blank=True, default='')
@@ -245,13 +247,22 @@ class StudentProfile(models.Model):
 
 
 class StaffProfile(models.Model):
+    POSITION_CHOICES = (
+        ('Caretaker', 'Caretaker'), ('Teacher Aide', 'Teacher Aide'),
+        ('Registrar', 'Registrar'), ('Board:President', 'Board:President'),
+        ('Board:Member', 'Board:Member'), ('Board:Corporate Secretary',
+                                           'Board:Corporate Secretary'),
+        ('Board:Treasurer', 'Board:Treasurer'), ('Principal', 'Principal'),
+        ('Administrator', 'Administrator'),
+    )
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, related_name="staff_profile")
     civil_status = models.CharField(
         max_length=25, choices=CIVIL_STATUS_CHOICES, default='single')
     spouse = models.CharField(max_length=50, null=True,
                               blank=True, help_text="If Applicable", default='N/A')
-    position = models.CharField(max_length=200, blank=True, null=True)
+    position = models.CharField(
+        max_length=200, blank=True, null=True, choices=POSITION_CHOICES)
     additional_information = models.TextField(blank=True, null=True)
     date_created = models.DateTimeField(auto_now=False, auto_now_add=True)
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Success</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+</head>
+
+<body>
+    <h2>Mr/Ms {{ appointment_request_instance.get_complete_name }}, your Application for Appointment is Successful. 
+    For the finalization of your request,</h2>
+    <h2>Click this <a href="{% url 'admission:appointment_request_pdf' appointment_request_instance.id appointment_request_instance.slug %}"
+            target="_blank">
+            Link</a> to view your Appointment Request Voucher
+    </h2>
+    <h1>Do not forget to bring the hard copy of your voucher on the day of your appointment.</h1>
+    <h1>The Copy of This Voucher is also sent to the email provided on your application..</h1>
+    <a href="{% url 'admission:cancel_appointment_request' appointment_request_instance.id %}" onclick="return confirm('Cancel Appointment Request and go Back to Home Page?')">Cancel
+        Request?</a>
+</body>
+
+</html>
