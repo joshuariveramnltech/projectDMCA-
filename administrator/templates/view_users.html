@@ -8,81 +8,180 @@
     <br>
     <div class="center"><i class="material-icons indigo-text" style="font-size: 6rem;">group_work</i></div>
     <h4 class="center"><b>Accounts and Users</b></h4>
-    <a href="{% url 'administrator:create_user' %}" role="button" target="_blank">Create New User?</a><br/> 
-    <a href="{% url 'administrator:create_subject' 0 %}" role="button" target="_blank">Create Subject?</a><br/>
-    <a href="{% url 'administrator:view_level_section' %}" target="_blank">Create Level and Section</a> 
-    <div class="container">
-        <form class="row" action="" method="GET">
-            <div class="col s5">&nbsp;</div>
-            <input class="col s5" type="text" placeholder="Search Students" name="student_query" value="{{ request.GET.student_query }}"/>
-            
-            <button class="btn btn-medium waves-effect black-text col s2 indigo lighten-3" type="submit" value="Search">Search <i class="material-icons right">search</i></button>
-        </form>
-        <table class="responsive-table" border="1">
-            <th>Full Name</th>
-            <th>LRN</th>
-            <th>Email</th>
-            <th>Account Status</th>
-            <th>Birthday</th>
-            <th>Address</th>
-            <th>Contact Number</th>
-            <th>Parent/Guardian</th>
-            <th>Contact Number</th>
-            <th>Year and Section</th>
-            <th>Options</th>
-            {% for student in students %}
-            <tr>
-                <td>{{ student.get_full_name }}</td>
-                <td>{{ student.student_profile.learner_reference_number }}</td>
-                <td>{{ student.email }}</td>
-                {% if student.is_active %}
-                <td>Active</td>
-                {% else %}
-                <td>Disabled</td>
-                {% endif %}
-                <td>{{ student.date_of_birth }}</td>
-                <td>{{ student.address }}</td>
-                <td>{{ student.profile.phone_number }}</td>
-                <td>{{ student.student_profile.guardian }}</td>
-                <td>{{ student.student_profile.guardian_contact_number }}</td>
-                <td>{{ student.student_profile.level_and_section }}</td>
-                <td>
-                    <a href="{% url 'administrator:edit_user' student.id %}">Edit</a><br />
-                    <a href="{% url 'administrator:delete_user' student.id %}" onclick="return confirm('Are you sure you want to DELETE {{ student.get_full_name}}?')">
-                        Delete</a><br />
-                    <a href="{% url 'administrator:enrollment_admission' student.id student.get_full_name %}">Enrollment</a><br />
-                    <a href="{% url 'accounting_transaction:view_statement' student.get_full_name student.id %}">Account
-                        Statements</a>
-                    </a>
-                </td>
-            </tr>
-            {% empty %}
-            Empty Result.
-            {% endfor %}
-        </table>    
-        <div class="pagination right">
-                <span class="step-links">
-                    {% if students.has_previous %}
-                        <a href="?student_page=1&student_query={{ request.GET.student_query }}">&laquo; first</a>
-                        <a href="?student_page={{ student.previous_page_number }}&student_query={{ request.GET.student_query }}">previous</a>
-                    {% endif %}
-                        
-                    {% if students %}
-                        <span class="current">
-                            Page {{ students.number }} of {{ students.paginator.num_pages }}.
-                        </span>
-                    {% endif %}
-            
-                    {% if students.has_next %}
-                        <a href="?student_page={{ students.next_page_number }}&student_query={{ request.GET.student_query }}">next</a>
-                        <a href="?student_page={{ students.paginator.num_pages }}&student_query={{ request.GET.student_query }}">last &raquo;</a>
-                    {% endif %}
-                </span>
-            </div>
+    <br>
+    <div>
+        <div class="card z-depth-4">
+            <br>
+                <form class="row" action="" method="GET">
+                    <div class="col s12 m6 l6"><h5><i class="material-icons left">assignment_ind</i> <b>Students</b></h5></div>
+                    <input class="col s5" type="text" placeholder="Search Students" name="student_query" value="{{ request.GET.student_query }}"/>
+                    <button class="btn-floating btn-large waves-effect waves-light orange accent-3" type="submit" value="Search"><i class="material-icons">search</i></button>
+                </form>
+                    <div class="row">
+                        {% for student in students %}
+                        <div class="col s6 m3 l2">
+                            <div>
+                                <div class="card">
+                                    <div class="card-image" style="height:200px; overflow:hidden;">
+                                        {% if student.profile.photo.url is not None %}
+                                        <img src="{{ student.profile.photo.url }}" style="height:100%; object-fit: cover;">
+                                        {% elif student.gender == "female" %}
+                                        <img src="{% static "img/girl.svg" %}" style="object-fit: cover;">
+                                        {% elif student.gender == "male" %}
+                                        <img src="{% static "img/boy.svg" %}" style="object-fit: cover;">
+                                        {% endif %}
+                                    </div>
+                                    <div class="card-content">
+                                        <center><h6><b>{{ student.get_full_name }} </b></h6></center>
+                                        <center><h6>{{ student.student_profile.learner_reference_number }} </h6></center>
+                                        <center><h6>{{ student.student_profile.level_and_section }} </h6></center>
+                                    </div>
+                                    <div class="card-action center">
+                                        <a class="tooltipped" data-tooltip="Edit User" href="{% url 'administrator:edit_user' student.id %}"><i class="material-icons small light-green-text text-accent-4">edit</i></a>
+                                        <a class="tooltipped" data-tooltip="View Student Info" href="{% url 'administrator:enrollment_admission' student.id student.get_full_name %}"><i class="material-icons small light-green-text text-accent-4">description</i></a>
+                                        <a class="tooltipped" data-tooltip="Edit User" href="{% url 'accounting_transaction:view_statement' student.get_full_name student.id %}"><i class="material-icons small light-green-text text-accent-4">credit_card</i></a>
+                                        <a class="tooltipped" data-tooltip="Delete User" href="{% url 'administrator:delete_user' student.id %}" onclick="return confirm('Are you sure you want to DELETE {{ student.get_full_name}}?')"><i class="material-icons small red-text">close</i></a>
+                                    </div>
+                                </div> 
+                            </div>
+                        </div>
+                        {% empty %}
+                        Empty Result.
+                        {% endfor %}
+                        <div class="pagination right col s12">
+                                <span class="step-links">
+                                    {% if students.has_previous %}
+                                        <a href="?student_page=1&student_query={{ request.GET.student_query }}">&laquo; first</a>
+                                        <a href="?student_page={{ student.previous_page_number }}&student_query={{ request.GET.student_query }}">previous</a>
+                                    {% endif %}
+                                        
+                                    {% if students %}
+                                        <span class="current">
+                                            Page {{ students.number }} of {{ students.paginator.num_pages }}.
+                                        </span>
+                                    {% endif %}
+                            
+                                    {% if students.has_next %}
+                                        <a href="?student_page={{ students.next_page_number }}&student_query={{ request.GET.student_query }}">next</a>
+                                        <a href="?student_page={{ students.paginator.num_pages }}&student_query={{ request.GET.student_query }}">last &raquo;</a>
+                                    {% endif %}
+                                </span>
+                            </div>
+                    </div>
+        </div>
     </div>
-    
-    
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="card z-depth-4">
+            <br>
+                <form class="row" action="" method="GET">
+                    <div class="col s6"><h5><i class="material-icons left">assignment_ind</i> <b>Faculty</b></h5></div>
+                    <input class="col s5" type="text" placeholder="Search Faculty" name="faculty_query" value="{{ request.GET.faculty_query }}"/>
+                    <button class="btn-floating btn-large waves-effect waves-light orange accent-3" type="submit" value="Search"><i class="material-icons">search</i></button>
+                </form>
+                    <div class="row">
+                        {% for teacher in faculty %}
+                        <div class="col s6 m3 l2">
+                            <div>
+                                <div class="card">
+                                    <div class="card-image" style="height:200px; overflow:hidden;">
+                                        {% if teacher.profile.photo.url is not None %}
+                                        <img src="{{ teacher.profile.photo.url }}" style="height:100%; object-fit: cover;">
+                                        {% elif teacher.gender == "female" %}
+                                        <img src="{% static "img/girl.svg" %}" style="object-fit: cover;">
+                                        {% elif teacher.gender == "male" %}
+                                        <img src="{% static "img/boy.svg" %}" style="object-fit: cover;">
+                                        {% endif %}
+                                    </div>
+                                    <div class="card-content">
+                                        <center><h6><b>{{ teacher.get_full_name }} </b></h6></center>
+                                        <center><h6>{{ teacher.email }} </h6></center>
+                                        <center><h6>{{ teacher.faculty_profile.designated_year_level }} </h6></center>
+                                    </div>
+                                    <div class="card-action center">
+                                            <a class="tooltipped" data-tooltip="Edit User" href="{% url 'administrator:edit_user' teacher.id %}"><i class="material-icons small light-green-text text-accent-4">edit</i></a>
+                                            <a class="tooltipped" data-tooltip="Delete User" href="{% url 'administrator:delete_user' teacher.id %}" onclick="return confirm('Are you sure you want to DELETE {{ student.get_full_name}}?')">
+                                                <i class="material-icons small red-text">close</i>
+                                            </a>
+                                    </div>
+                                </div> 
+                            </div>
+                        </div>
+                        {% empty %}
+                        Empty Result.
+                        {% endfor %}
+                        <div class="pagination right col s12">
+                                <span class="step-links">
+                                    {% if faculty.has_previous %}
+                                        <a href="?faculty_page=1&faculty_query={{ request.GET.faculty_query }}">&laquo; first</a>
+                                        <a href="?faculty_page={{ faculty.previous_page_number }}&faculty_query={{ request.GET.faculty_query }}">previous</a>
+                                    {% endif %}
+                                    
+                                    {% if faculty %}
+                                    <span class="current">
+                                        Page {{ faculty.number }} of {{ faculty.paginator.num_pages }}.
+                                    </span>
+                                    {% endif %}
+                        
+                                    {% if faculty.has_next %}
+                                        <a href="?faculty_page={{ faculty.next_page_number }}&faculty_query={{ request.GET.faculty_query }}">next</a>
+                                        <a href="?faculty_page={{ faculty.paginator.num_pages }}&faculty_query={{ request.GET.faculty_query }}">last &raquo;</a>
+                                    {% endif %}
+                                    </span>
+                            </div>
+                    </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+{% comment %} 
     <div class="container">
         <form action="" method="GET">
             <input type="text" placeholder="Search Faculty" name="faculty_query" value="{{ request.GET.faculty_query }}" />
@@ -140,12 +239,127 @@
                     {% endif %}
                     </span>
             </div>
-    </div>
+    </div> {% endcomment %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="card z-depth-4">
+            <br>
+                <form class="row" action="" method="GET">
+                    <div class="col s6"><h5><i class="material-icons left">assignment_ind</i> <b>Staffs</b></h5></div>
+                    <input class="col s5" type="text" placeholder="Search Staff" name="staff_query" value="{{ request.GET.staff_query }}"/>
+                    <button class="btn-floating btn-large waves-effect waves-light orange accent-3" type="submit" value="Search"><i class="material-icons">search</i></button>
+                </form>
+                    <div class="row">
+                            {% for staff in staffs %}
+                        <div class="col s6 m3 l2">
+                            <div>
+                                <div class="card">
+                                    <div class="card-image" style="height:200px; overflow:hidden;">
+                                        {% if staff.profile.photo.url is not None %}
+                                        <img src="{{ staff.profile.photo.url }}" style="height:100%; object-fit: cover;">
+                                        {% elif staff.gender == "female" %}
+                                        <img src="{% static "img/girl.svg" %}" style="object-fit: cover;">
+                                        {% elif staff.gender == "male" %}
+                                        <img src="{% static "img/boy.svg" %}" style="object-fit: cover;">
+                                        {% endif %}
+                                    </div>
+                                    <div class="card-content">
+                                        <center><h6><b>{{ staff.get_full_name }}</b></h6></center>
+                                        <center><h6>{{ staff.profile.phone_number }}</h6></center>
+                                        <center><h6>{{ staff.staff_profile.position }}</h6></center>
+                                    </div>
+                                    <div class="card-action center">
+                                            <a class="tooltipped" data-tooltip="Edit User" href="{% url 'administrator:edit_user' staff.id %}"><i class="material-icons small light-green-text text-accent-4">edit</i></a>
+                    <a class="tooltipped" data-tooltip="Delete User" href="{% url 'administrator:delete_user' staff.id %}" onclick="return confirm('Are you sure you want to DELETE {{ staff.get_full_name}}?')">
+                        <i class="material-icons small red-text">close</i></a>
+                                    </div>
+                                </div> 
+                            </div>
+                        </div>
+                        {% empty %}
+                        Empty Result.
+                        {% endfor %}
+                        <div class="pagination right col s12">
+                                <span class="step-links">
+                                    {% if staffs.has_previous %}
+                                        <a href="?staff_page=1&staff_query={{ request.GET.staff_query }}">&laquo; first</a>
+                                        <a href="?staff_page={{ staff.previous_page_number }}&staff_query={{ request.GET.staff_query }}">previous</a>
+                                    {% endif %}
+                                            
+                                    {% if staffs %}
+                                        <span class="current">
+                                            Page {{ staffs.number }} of {{ staffs.paginator.num_pages }}.
+                                        </span>
+                                    {% endif %}
+                                
+                                    {% if staffs.has_next %}
+                                        <a href="?staff_page={{ staffs.next_page_number }}&staff_query={{ request.GET.staff_query }}">next</a>
+                                        <a href="?staff_page={{ staffs.paginator.num_pages }}&staff_query={{ request.GET.staff_query }}">last &raquo;</a>
+                                    {% endif %}
+                                </span>
+                            </div>
+                    </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     
 
 
-    <div class="container">
+    {% comment %} <div class="container">
         <form action="" method="GET">
             <input type="text" placeholder="Search Staff" name="staff_query" value="{{ request.GET.staff_query }}" />
             <input type="submit" value="Search" />
@@ -201,7 +415,7 @@
                     {% endif %}
                 </span>
             </div>
-    </div>
+    </div> {% endcomment %}
     <br><br><br>
 </div>
 {% endblock content %}

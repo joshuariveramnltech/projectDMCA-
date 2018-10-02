@@ -2,54 +2,78 @@
 {% load staticfiles %}
 {% block title %}{{ request.user.get_short_name }}|{{ request.user.staff_profile.position }}{% endblock title %}
 {% block content %}
-<div>
-    <table border="1">
-        <th>Level</th>
-        <th>Section</th>
-        <th>Adviser</th>
-        <th>Date added</th>
-        <th>Updated</th>
-        <th>Students</th>
-        <th>Action</th>
-
-        {% for each in level_section %}
-            <tr>
-                <td>{{ each.level|title }}</td>
-                <td>{{ each.section }}</td>
-                <td>{{ each.adviser.user.get_full_name }}</td>
-                <td>{{ each.date_created }}</td>
-                <td>{{ each.updated }}</td>
-                <td> {{ each.students.count }} </td>
-                <td>
-                    <a href="{% url 'administrator:edit_level_section' level_section_id=each.id %}"><button>Edit</button></a> 
-                    <a href="{% url 'administrator:delete_level_section' level_section_id=each.id %}" role="button"><button>Delete</button></a>
-                </td>
-            </tr>
-         {% endfor %}
-    </table>
-    <br/>
-    <div class="pagination">
-        <span class="step-links">
-            {% if level_section.has_previous %}
-                <a href="?page=1">&laquo; first</a>
-                <a href="?page={{ level_section.previous_page_number }}">previous</a>
-            {% endif %}
-        
-            <span class="current">
-                Page {{ level_section.number }} of {{ level_section.paginator.num_pages }}.
-            </span>
-        
-            {% if level_section.has_next %}
-                <a href="?page={{ level_section.next_page_number }}">next</a>
-                <a href="?page={{ level_section.paginator.num_pages }}">last &raquo;</a>
-            {% endif %}
-        </span>
+<div class="white">
+    <br>
+    <div class="row">
+        <div class="col s3">
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title"><h4 class="center"><b>Create Level and Section</b></h4></span>
+                    <form method="POST" action=".">
+                        {% csrf_token %}
+                            {{ level_section_create_form.as_p }}
+                        <button type="submit">Submit</button> <button type="reset">Reset</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col s9">
+            <div class="card">
+                    <div class="card-content">
+                            <span class="card-title"><h4 class="center"><b>Level and Section</b></h4></span>
+                            <table border="1">
+                                    <th>Level</th>
+                                    <th>Section</th>
+                                    <th>Adviser</th>
+                                    <th>Date added</th>
+                                    <th>Updated</th>
+                                    <th>Students</th>
+                                    <th>Action</th>
+                            
+                                    {% for each in level_section %}
+                                        <tr>
+                                            <td>{{ each.level|title }}</td>
+                                            <td>{{ each.section }}</td>
+                                            <td>{{ each.adviser.user.get_full_name }}</td>
+                                            <td>{{ each.date_created }}</td>
+                                            <td>{{ each.updated }}</td>
+                                            <td> {{ each.students.count }} </td>
+                                            <td>
+                                                <a href="{% url 'administrator:edit_level_section' level_section_id=each.id %}"><button>Edit</button></a> 
+                                                <a href="{% url 'administrator:delete_level_section' level_section_id=each.id %}" role="button"><button>Delete</button></a>
+                                            </td>
+                                        </tr>
+                                     {% endfor %}
+                                </table>
+                                <br/>
+                                <div class="pagination">
+                                    <span class="step-links">
+                                        {% if level_section.has_previous %}
+                                            <a href="?page=1">&laquo; first</a>
+                                            <a href="?page={{ level_section.previous_page_number }}">previous</a>
+                                        {% endif %}
+                                    
+                                        <span class="current">
+                                            Page {{ level_section.number }} of {{ level_section.paginator.num_pages }}.
+                                        </span>
+                                    
+                                        {% if level_section.has_next %}
+                                            <a href="?page={{ level_section.next_page_number }}">next</a>
+                                            <a href="?page={{ level_section.paginator.num_pages }}">last &raquo;</a>
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            
+                        </div>
+            </div>
+            
+        </div>
     </div>
-    <h3>Create Level and Section</h3>    
-    <form method="POST" action=".">
-        {% csrf_token %}
-         {{ level_section_create_form.as_p }}
-        <button type="submit">Submit</button> <button type="reset">Reset</button>
-    </form>
+    
+    
+
+
+<br><br>   
+    
 </div>
 {% endblock content %}
