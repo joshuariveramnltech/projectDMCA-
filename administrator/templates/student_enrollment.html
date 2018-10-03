@@ -1,118 +1,116 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{{ student_user.get_short_name }}|{{ student_user.student_profile.level_and_section }}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <script src="main.js"></script>
-</head>
-<body>
-    <div>
-        <a href="{% url 'administrator:create_subject' student_user.id %}" role="button">Add Subject</a>
-        <a href="{% url 'administrator:view_users' %}" role="button">Manage Users</a>
-    </div>
-    <ul style="list-style-type:none">
-        <li>Name: {{ student_user.get_full_name }}</li>
-        <li>Current Year and Section: {{ student_user.student_profile.level_and_section }}</li>
-        <li>Adviser: {{ student_user.student_profile.level_and_section.adviser.user.get_full_name }}</li>
-    </ul>
-    <h3>Final Grades</h3>  <span><a href="{% url 'administrator:create_student_finalLevelGradeAdmin' %}">Create</a></span>
-    {% if finalGrades %}
-    <table border="1">
-        <th>Level</th>
-        <th>School Year</th>
-        <th>Grade</th>
-        <th>Option</th>
-        {% for finalGrade in finalGrades %}
-        <tr>
-            <td>{{ finalGrade.level }}</td>
-            <td>{{ finalGrade.school_year }}</td>
-            <td>{{ finalGrade.grade }}</td>
-            <td>
-                <a href="{% url 'administrator:edit_student_finalLevelGradeAdmin' finalGrade.id student_user.get_full_name %}">Update</a>
-                <a href="{% url 'administrator:delete_student_finalLevelGradeAdmin' finalGrade.id student_user.get_full_name %}"
-                onclick="return confirm('Are you sure you want to DELETE Final Grade of {{ student_user.get_full_name }}|({{ finalGrade.level }})?')">
-                    Delete
-                </a>
-            </td>
-        </tr>
-        {% endfor %}
-        {% else %}
-             No Final Grade Yet..
-        {% endif %}
-    </table>
-    <h3>Enrolled Subjects</h3>
-    {{ enrolled_subjects.subjects }}
-    {% if enrolled_subjects %}
-    <table border="1">
-        <th>Subject</th>
-        <th>Instructor</th>
-        <th>Year and Section</th>
-        <th>School Year</th>
-        <th>Option</th>
-        {% for each_subject in enrolled_subjects %}
-            <tr>
-                <td>{{ each_subject.subject.subject_name }}</td>
-                <td>{{ each_subject.instructor }}</td>
-                <td>{{ each_subject.subject.level_and_section }}</td>
-                <td>{{ each_subject.school_year }}</td>
-                <td>
-                    <a href="{% url 'administrator:edit_subjectGrade_admin' student_user.id student_user.get_full_name each_subject.id %}">Update</a>
-                    <a href="{% url 'administrator:delete_subject_grade' each_subject.student.user.id each_subject.student.user.get_full_name each_subject.id %}"
-                    onclick="return confirm('Are you sure you want to DELETE {{each_subject.subject.subject_name}} for {{each_subject.student}}?')">
-                    Delete</a>
-                </td>
-            </tr>
-        {% endfor %}
-    </table>
-    {% else %}
-        No Enrolled Subjects Yet..
-    {% endif %}
-    <br/>
-
-    <h3>Available Subjects</h3>
-    {% if available_subjects %}
-    <strong>Select all the subjects you want for the user to be enrolled in</strong>
-    <table border="1">
-        <th>&#9749;</th>
-        <th>Subject</th>
-        <th>Year and Section</th>
-        <th>Instructor</th>
-        <th>Option</th>
-        <form method="POST" action=".">
-            {% csrf_token %}
-            {% for each_subject in available_subjects %}
-                <tr>
-                    {% if each_subject in for_filtering_subjects %}
-                        <td>&#9899;</td>                    
-                    {% else %}
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}{{ student_user.get_short_name }}|{{ student_user.student_profile.level_and_section }}{% endblock title %}
+{% block content %}
+<div class="white">
+    <br>
+    <div class="container">
+            <div>
+                    <a href="{% url 'administrator:create_subject' student_user.id %}" role="button">Add Subject</a>
+                    <a href="{% url 'administrator:view_users' %}" role="button">Manage Users</a>
+                </div>
+                <ul class="center" style="list-style-type:none">
+                    <li><span> Name: <h5><b>{{ student_user.get_full_name }}</b></h5></span></li>
+                    <li>Current Year and Section: {{ student_user.student_profile.level_and_section }}</li>
+                    <li>Adviser: {{ student_user.student_profile.level_and_section.adviser.user.get_full_name }}</li>
+                </ul>
+                <h3>Final Grades</h3>  <span><a href="{% url 'administrator:create_student_finalLevelGradeAdmin' %}">Create</a></span>
+                {% if finalGrades %}
+                <table border="1">
+                    <th>Level</th>
+                    <th>School Year</th>
+                    <th>Grade</th>
+                    <th>Option</th>
+                    {% for finalGrade in finalGrades %}
+                    <tr>
+                        <td>{{ finalGrade.level }}</td>
+                        <td>{{ finalGrade.school_year }}</td>
+                        <td>{{ finalGrade.grade }}</td>
                         <td>
-                            <input type='checkbox' name='subjectList' value='{{ each_subject.id }}' id='{{ each_subject.id }}' />
+                            <a href="{% url 'administrator:edit_student_finalLevelGradeAdmin' finalGrade.id student_user.get_full_name %}">Update</a>
+                            <a href="{% url 'administrator:delete_student_finalLevelGradeAdmin' finalGrade.id student_user.get_full_name %}"
+                            onclick="return confirm('Are you sure you want to DELETE Final Grade of {{ student_user.get_full_name }}|({{ finalGrade.level }})?')">
+                                Delete
+                            </a>
                         </td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                         No Final Grade Yet..
                     {% endif %}
-                    <td>{{ each_subject.subject_name }}</td>
-                    <td>{{ each_subject.level_and_section }}</td>
-                    <td>{{ each_subject.designated_instructor.user.get_full_name }}</td>
-                    <td>
-                        <a href="{% url 'administrator:edit_subject' each_subject.slug student_user.id %}">Edit</a> 
-                        <a href="{% url 'administrator:delete_subject' each_subject.slug student_user.id%}" 
-                            onclick="return confirm('Are you sure you want to DELETE {{each_subject.subject_name}} for {{each_subject.level_and_section}}?')">
-                            Delete</a>
-                    </td>
-                </tr>
-            {% endfor %}
-            <input type="submit" id="submit-form" style="display:none"/>
-        </form>
-    </table>
-    {% else %}
-        No Result..
-    {% endif %}
-    <br/>
-    <div>
-        <button><label for="submit-form" tabindex="0">Submit</label></button>
+                </table>
+                <h3>Enrolled Subjects</h3>
+                {{ enrolled_subjects.subjects }}
+                {% if enrolled_subjects %}
+                <table border="1">
+                    <th>Subject</th>
+                    <th>Instructor</th>
+                    <th>Year and Section</th>
+                    <th>School Year</th>
+                    <th>Option</th>
+                    {% for each_subject in enrolled_subjects %}
+                        <tr>
+                            <td>{{ each_subject.subject.subject_name }}</td>
+                            <td>{{ each_subject.instructor }}</td>
+                            <td>{{ each_subject.subject.level_and_section }}</td>
+                            <td>{{ each_subject.school_year }}</td>
+                            <td>
+                                <a href="{% url 'administrator:edit_subjectGrade_admin' student_user.id student_user.get_full_name each_subject.id %}">Update</a>
+                                <a href="{% url 'administrator:delete_subject_grade' each_subject.student.user.id each_subject.student.user.get_full_name each_subject.id %}"
+                                onclick="return confirm('Are you sure you want to DELETE {{each_subject.subject.subject_name}} for {{each_subject.student}}?')">
+                                Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+                {% else %}
+                    No Enrolled Subjects Yet..
+                {% endif %}
+                <br/>
+            
+                <h3>Available Subjects</h3>
+                {% if available_subjects %}
+                <strong>Select all the subjects you want for the user to be enrolled in</strong>
+                <table border="1">
+                    <th>&#9749;</th>
+                    <th>Subject</th>
+                    <th>Year and Section</th>
+                    <th>Instructor</th>
+                    <th>Option</th>
+                    <form method="POST" action=".">
+                        {% csrf_token %}
+                        {% for each_subject in available_subjects %}
+                            <tr>
+                                {% if each_subject in for_filtering_subjects %}
+                                    <td>&#9899;</td>                    
+                                {% else %}
+                                    <td>
+                                        <input type='checkbox' name='subjectList' value='{{ each_subject.id }}' id='{{ each_subject.id }}' />
+                                    </td>
+                                {% endif %}
+                                <td>{{ each_subject.subject_name }}</td>
+                                <td>{{ each_subject.level_and_section }}</td>
+                                <td>{{ each_subject.designated_instructor.user.get_full_name }}</td>
+                                <td>
+                                    <a href="{% url 'administrator:edit_subject' each_subject.slug student_user.id %}">Edit</a> 
+                                    <a href="{% url 'administrator:delete_subject' each_subject.slug student_user.id%}" 
+                                        onclick="return confirm('Are you sure you want to DELETE {{each_subject.subject_name}} for {{each_subject.level_and_section}}?')">
+                                        Delete</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        <input type="submit" id="submit-form" style="display:none"/>
+                    </form>
+                </table>
+                {% else %}
+                    No Result..
+                {% endif %}
+                <br/>
+                <div>
+                    <button><label for="submit-form" tabindex="0">Submit</label></button>
+                </div>
     </div>
+ <br><br>
 
-</body>
-</html>
+</div>
+{% endblock content %}

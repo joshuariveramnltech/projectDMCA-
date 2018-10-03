@@ -1,39 +1,34 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Page Title</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <script src="main.js"></script>
-</head>
-
-<body>
-    <a href="{% url 'announcement:view_announcement' %}">View Announcements</a>
-    <a href="{% url 'account:dashboard' %}">Dashboard</a>
-    <a href="{% url 'announcement:create_announcement' %}">Create Announcement</a>
-    <br/><br/>
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}{{ request.user.get_short_name }} | Drafts{% endblock title %}
+{% block content %}
+<div class="white">
+<br>
     <div>
-        {% for announcement in draft_announcement %}
-        <a href="{{ announcement.get_absolute_url }}">
-            {{ announcement.title }}
-        </a>by {{ announcement.author.get_full_name }} {% if request.user == announcement.author %}
-        <small>
-            <a href="{{ announcement.get_absolute_url_for_edit }}">Edit</a>
-            <a href="{{ announcement.get_absolute_url_for_delete }}" onclick="return confirm('Are you sure you want to DELETE {{ announcement.title }}')">Delete</a>
-        </small>
-        {% endif %}
-        <br/>
-
-        <span>
+        <a href="{% url 'announcement:view_announcement' %}">View Announcements</a>
+        <a href="{% url 'account:dashboard' %}">Dashboard</a>
+        <a href="{% url 'announcement:create_announcement' %}">Create Announcement</a>
+        <br/><br/>
+        <div>
+            {% for announcement in draft_announcement %}
+            <a href="{{ announcement.get_absolute_url }}">
+                {{ announcement.title }}
+            </a>by {{ announcement.author.get_full_name }} {% if request.user == announcement.author %}
             <small>
-                Created on: {{ announcement.created}} Updated: {{ announcement.updated }}
+                <a href="{{ announcement.get_absolute_url_for_edit }}">Edit</a>
+                <a href="{{ announcement.get_absolute_url_for_delete }}" onclick="return confirm('Are you sure you want to DELETE {{ announcement.title }}')">Delete</a>
             </small>
-        </span>
-        <hr/> {% empty %} Draft inbox is currently empty.. {% endfor %}
-    </div>
-</body>
+            {% endif %}
+            <br/>
 
-</html>
+            <span>
+                <small>
+                    Created on: {{ announcement.created}} Updated: {{ announcement.updated }}
+                </small>
+            </span>
+            <hr/> {% empty %} <center><center><img src="{% static "img/blank.svg" %}" style="object-fit: fill; height: 300px"> <br><h5><b>Oooops!! Your Drafts Box seems to be empty..</b></h5></center>   {% endfor %}
+        </div>
+    </div>
+<br><br>
+</div>
+{% endblock content %}
