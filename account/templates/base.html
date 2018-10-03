@@ -128,7 +128,7 @@
             <li> <a href="{% url 'grading_system:view_all_grades' %}" class="nav-link center black-text"><i class="material-icons black-text left">assignment</i>
               Grades</a></li>
             {% endif %}
-            {% if request.user.is_staff and not request.user.is_superuser%}
+            {% if request.user.is_staff and request.user.staff_profile.position == "Registrar" %}
             <li> <a href="{% url 'accounting_transaction:view_user_list' %}" class="nav-link center black-text"><i class="material-icons black-text left">assignment</i>
               Account Statements </a></li>
             {% endif %}

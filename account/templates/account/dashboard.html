@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}{{ request.user.get_full_name }} | Dashboard{% endblock title %}
 {% block content %}
+{% load announcement_tags %}
 {% load staticfiles %}
 <!-- FLOATING ACTION BUTTON -->
 
@@ -64,8 +65,7 @@
   </div>
 <!--END OF MAIN-->
   <div>
-    <br>
-    <br>
+    {% get_latest_school_announcements 5 %}
   </div>
 </div>
 {% endblock content %}
