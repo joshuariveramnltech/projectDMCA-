@@ -7,19 +7,24 @@ from .models import AppointmentRequest
 from .forms import AppointmentRequestForm
 from django.core.mail import EmailMessage
 from io import BytesIO
+from django.contrib.sites.models import Site
 # Create your views here.
 
 
 def home(request):
     context = {'request': request}
+    print("Hello", request.get_host)
     return render(request, 'home.html', context)
 
 
 def appointment_request_pdf(request, appointment_request_id, appointment_request_slug):
     appointment_request = AppointmentRequest.objects.get(
         id=appointment_request_id)
+    protocol = request.build_absolute_uri().split(':')[0]
+    context = {'appointment_request': appointment_request,
+               'request': request, 'protocol': protocol}
     html = render_to_string(
-        'pdf.html', {'appointment_request': appointment_request})
+        'pdf.html', context)
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'filename=\"appoinment_request_{}.pdf"'.format(
         appointment_request.id)
@@ -55,7 +60,7 @@ def appointment_request(request):
             # send to the provided email
             subject = 'Appointment Request - request no. {} ref. code {}'.format(
                 new_appointment.id, new_appointment.slug)
-            message = 'Please, see the attached PDF for your recent Appointment Request.'
+            message = 'Please see the attached PDF File for your recent Appointment Request.'
             email = EmailMessage(
                 subject, message, ' https://dmca-edu-ph.herokuapp.com/', [new_appointment.email])
             # generate PDF

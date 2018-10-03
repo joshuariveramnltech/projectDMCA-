@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-
+{% load staticfiles %}
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
     <script src="main.js"></script>
 </head>
+
 
 <body>
     <h3>REF. Code: {{ appointment_request.slug }}</h3>
@@ -20,6 +21,7 @@
     <h2>Age: {{ appointment_request.age }}</h2>
     <h2>Gender: {{ appointment_request.gender }}</h2>
     <h2>Guardian: {{ appointment_request.guardian|title }}</h2>
+    <h2>Relationship: {{ appointment_request.relationship|title }}</h2>
     <h2>Contact Number: {{ appointment_request.contact_number }}</h2>
     <h3>Date and Time of Appointment: {{ appointment_request.schedule }}</h3>
 </body>

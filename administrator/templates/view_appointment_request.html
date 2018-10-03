@@ -12,6 +12,10 @@
 
 <body>
 
+    <form method="GET">
+        <input type="text" placeholder="Search Request" value="{{ reques.GET.appointment_query }}" name="appointment_query"/>
+        <input type="submit" value="Submit" />
+    </form>
 
     <div>
         {% if appointment_requests %}
@@ -53,8 +57,8 @@
     <div class="pagination right col s12">
         <span class="step-links">
             {% if appointment_requests.has_previous %}
-            <a href="?appointment_request_page=1">&laquo; first</a>
-            <a href="?appointment_request_page={{ appointment_requests.previous_page_number }}">previous</a>
+            <a href="?appointment_request_page=1&appointment_query={{ request.GET.appointment_query }}">&laquo; first</a>
+            <a href="?appointment_request_page={{ appointment_requests.previous_page_number }}&appointment_query={{ request.GET.appointment_query }}">previous</a>
             {% endif %}
 
             {% if appointment_requests %}
@@ -64,8 +68,8 @@
             {% endif %}
 
             {% if appointment_requests.has_next %}
-            <a href="?appointment_request_page={{ appointment_requests.next_page_number }}">next</a>
-            <a href="?appointment_request_page={{ appointment_requests.paginator.num_pages }}">last &raquo;</a>
+            <a href="?appointment_request_page={{ appointment_requests.next_page_number }}&appointment_query={{ request.GET.appointment_query }}">next</a>
+            <a href="?appointment_request_page={{ appointment_requests.paginator.num_pages }}&appointment_query={{ request.GET.appointment_query }}">last &raquo;</a>
             {% endif %}
         </span>
     </div>
