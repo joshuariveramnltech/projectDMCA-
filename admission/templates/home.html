@@ -1,18 +1,111 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
 
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Home Page</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <script src="main.js"></script>
-</head>
+        <head>
+                <meta charset="utf-8" />
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                <link rel="shortcut icon" href="{% static "img/DMCA logo.png" %}">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                <!--Import Google Icon Font-->
+                <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+                <!-- Compiled and minified CSS -->
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+                <!--OVERWRITE DEFAULT CSS PROPERTIES-->
+                <style>
+                  #landing {
+                    height: 100vh;
+                    background-image: url('{% static "img/bg.png" %}');
+                    background-position: center;
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                    background-attachment: fixed;
+                    z-index: -1;
+                  }
+                </style>
+                <title>DMCA | Home</title>
+              </head>
+
 <body>
-    <h1>Home Page</h1>
-    <a href="{% url 'admission:appointment_request' %}" target="_blank">Appointment Request</a>
-    <a href="{% url 'login' %}">Login</a>
+    <div>
+        <div class="container">
+            <div class="row">
+                <div class="col s2">
+                    <img src="{% static "img/DMCA logo.png" %}" alt="" class="left" style="max-width:100%">
+                </div>
+                <div class="col s4">
+                    <br>
+                    <h5> Divine Miracle <br> Christian Academy</h5>
+                </div>
+                <div class="col s6">
+                    <br><br>
+                    <a href="{% url 'admission:appointment_request' %}"class="btn-flat waves-effect"><h6>Admission</h6></a>
+                    <a class="btn-flat waves-effect"><h6>About Us</h6></a>
+                    <a href="{% url 'login' %}" class="btn-flat waves-effect"><h6>Log In</h6></a>
+                    
+                </div>
+            </div>
+            
+            
+        </div>
+        <hr class="grey lighten-3">
+    </div>
+        <div class="carousel carousel-slider">
+            <a class="carousel-item" href="#one!"><img src="{% static 'img/fruits.jpg' %}"></a>
+            <a class="carousel-item" href=""><img src="{% static 'img/fruits.jpg' %}"></a>
+            <a class="carousel-item" href="#two!"><img src="{% static 'img/girl.svg' %}"></a>
+            <a class="carousel-item" href="#three!"><img src="{% static 'img/girl.svg' %}"></a>
+            <a class="carousel-item" href="#four!"><img src="{% static 'img/girl.svg' %}"></a>
+            <a class="carousel-item" href="#five!"><img src="{% static 'img/girl.svg' %}"></a>
+        </div>
+    <h1 class="hide-on-med-and-down">DESKTOP HOME</h1>
+    <h1 class="show-on-medium">TABLET HOME</h1>
+    <h1 class="hide-on-med-and-up" >PHONE HOME</h1>
+    <footer class="page-footer blue-grey darken-4">
+        <div class="container">
+            <div class="row">
+            <div class="col l6 s12">
+                <h5 class="white-text">Divine Miracle Christian Academy of Hermosa (Bataan) Inc.</h5>
+                <p class="grey-text text-lighten-4">
+                Train up a child in the way he should go: and when he is old, he will not depart from it. -Proverbs 22:6
+                </p>
+            </div>
+            <div class="col l4 offset-l2 s12">
+                <h5 class="white-text">Offerings</h5>
+                <ul>
+                <li><a class="grey-text text-lighten-3" href="#!">Nursery</a></li>
+                <li><a class="grey-text text-lighten-3" href="#!">Kindergarten</a></li>
+                <li><a class="grey-text text-lighten-3" href="#!">Grade 1</a></li>
+                <li><a class="grey-text text-lighten-3" href="#!">Grade 2</a></li>
+                <li><a class="grey-text text-lighten-3" href="#!">Grade 3</a></li>
+                <li><a class="grey-text text-lighten-3" href="#!">Grade 4</a></li>
+                <li><a class="grey-text text-lighten-3" href="#!">Grade 5</a></li>
+                </ul>
+            </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">
+            DMCA of Hermosa Inc.© 2018-2019
+            <a class="grey-text text-lighten-4 right" href="#!">Government Recognition No. E-092 s.2007</a>
+            </div>
+        </div>
+    </footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('.carousel');
+            var instances = M.Carousel.init(elems, {
+
+            });
+          });
+          var instance = M.Carousel.init({
+            fullWidth: true
+          });
+</script>
+
 </body>
 
 </html>

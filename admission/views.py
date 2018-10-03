@@ -66,9 +66,9 @@ def appointment_request(request):
             html = render_to_string(
                 'pdf.html', {'appointment_request': new_appointment})
             out = BytesIO()
-            stylesheets = [weasyprint.CSS(settings.STATIC_ROOT + '/main.css')]
-            weasyprint.HTML(string=html).write_pdf(
-                out, stylesheets=stylesheets)
+            stylesheets = [weasyprint.CSS(settings.STATIC_ROOT + '/main.css')],
+            weasyprint.HTML(string=html, base_url=request.build_absolute_uri()).write_pdf(
+                out, stylesheets=stylesheets, presentational_hints=True)
             # attach PDF file
             email.attach('appointment_request_{}.pdf'.format(
                 new_appointment.id), out.getvalue(), 'application/pdf')
@@ -80,3 +80,11 @@ def appointment_request(request):
             )
     context['appointment_request_form'] = appointment_request_form
     return render(request, 'appointment_request_form.html', context)
+
+
+def appointment_request_html(request, appointment_request_id, appointment_request_slug):
+    context = {'request': request}
+    appointment_request = AppointmentRequest.objects.get(
+        id=appointment_request_id)
+    context['appointment_request'] = appointment_request
+    return render(request, 'pdf.html', context)

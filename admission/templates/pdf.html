@@ -1,3 +1,4 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
 {% load staticfiles %}
@@ -6,24 +7,114 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>app_req_{{ appointment_request.id }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <script src="main.js"></script>
+    <!--Import Google Icon Font-->
+    
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <style>
+        #landing {
+            height: 100vh;
+            background-image: url('{{ protocol }}://{{ request.get_host }}{% static 'img/bg.png' %}');
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            z-index: -1;
+            }
+            @page {
+                margin: .3cm -1cm;
+            }
+           #wordings{
+               text-align: justify;
+           }
+            h1 { bookmark-level: none }
+            h4 { bookmark-level: none }
+            h5 { bookmark-level: none }
+            h6 { bookmark-level: none }
+             }
+    </style>
 </head>
 
+<body class="container">
+    <div class="grey lighten-5">
+        <div class="row z-depth-3">
+            <div id="landing" class="col s3">
+                <br><br><br><br><br>
+                <center><img src="{{ protocol }}://{{ request.get_host }}{% static 'img/schedule.svg' %}" alt="" style="width:150px;"></center>
+                <br><br><br><br><br>
+            </div>
+            <div class="col s9">
+                <img class="responsive-image right" src="{{ protocol }}://{{ request.get_host }}{% static 'img/DMCA logo.png' %}" alt="" style="width:150px;">
+                <h5 class="center"><b>Enrollment Appointment Slip</b></h5>
+                <div class="col s8">
+                    <span style="font-size:15px"> <span style="font-size:13px"> Reference Code:</span> <u><b> {{ appointment_request.slug }}</b></u></span>
+                    <br>
+                </div>
+                <div class="col s8">
+                    <span style="font-size:15px"><span style="font-size:13px"> Scheduled Appointment:</span> <u><b> {{ appointment_request.schedule }}</b></u></span>
+                </div>
+            </div>
+            
+            <div class="col s9">
+                <hr>
+                <div class="col s12">
+                    <span style="font-size:15px"><span style="font-size:13px"> Applicant&#39;s Name:</span> <u><b> {{ appointment_request.get_complete_name }}</b></u></span>
+                </div>
+                <div class="col s12">
+                    <span style="font-size:15px"><span style="font-size:13px"> Email Address:</span> <u><b> {{ appointment_request.email }}</b></u></span>
+                </div>
+                <div class="col s12">
+                    <span style="font-size:15px"><span style="font-size:13px"> Address:</span> <u><b> {{ appointment_request.address }}</b></u></span>
+                </div>
+                <div class="col s3">
+                    <span style="font-size:15px"><span style="font-size:13px"> Age:</span> <u><b> {{ appointment_request.age }}</b></u></span>
+                </div>
+                <div class="col s3">
+                    <span style="font-size:15px"><span style="font-size:13px"> Gender:</span> <u><b> {{ appointment_request.gender }}</b></u></span>
+                </div>
+                <div class="col s12">
+                    <span style="font-size:15px"><span style="font-size:13px"> Guardian&#39;s Name: </span><u><b> {{ appointment_request.guardian|title }}</b></u></span>
+                </div>
+                <div class="col s7">
+                        <span style="font-size:15px"><span style="font-size:13px"> Relationship: </span> <u><b> {{ appointment_request.relationship|title }}</b></u></span>
+                    </div>
+                <div class="col s5">
+                    <span style="font-size:15px"><span style="font-size:13px"> Contact Number: </span><u><b> {{ appointment_request.contact_number }}</b></u></span>
+                </div>
+                <div class="col s12">
+                    <small class="right" style="font-size: 9px">Date Generated: {{ appointment_request.date_created }}</small>
+                </div>
+            </div>
+        </div>
+    </div> 
+    <b>------------------------------------------------------------------------------------------------------------------------</b>
+    <div id="wordings">
+        <h6 class="center"><b>THIS SERVES AS A PROOF OF YOUR APPOINTMENT.</b> <br>
+            PLEASE PRINT THIS DOCUMENT ON A LETTER SIZED PAPER (8.5 x 11inches) <br>
+             IMPORTANT: BRING YOUR SLIP ON YOUR SCHEDULED APPOINTMENT. <br>
+        </h6>
+    
+            <h6 class="center"><b>IMPORTANT REMINDERS</b></h6>
+            <h6>THIS DOCUMENT DOES NOT SERVE AS A GURANTEE THAT THERE WILL BE A RESERVED SLOT FOR YOU ON THE DAY OF YOUR SCHEDULED APPOINTMENT</h6>
+            <h6>PLEASE COME AT LEAST 15MIN BEFORE THE ACTUAL SCHEDULE TIME</h6>
+     
+        <br><hr>
+        <center><h6><b>Divine Miracle Christian Academy of Hermosa Inc.</b> </h6></center>
+        <h6>DMCA is a non-stock, non-profit, non-secretarian learning institution for children, where every child is accepted and
+            given the oppurtunity to quality educatio regardless of race, naionality, religion and socio-economic status.  <br>
+            DMCA is a Methodist Church-related school, a mission arm of nature. It aims to develop the child&#39;s potentials to the
+            maximum through an integrated and coordinated plan of work and play activities suited to te child&#39;s age, interests,
+            talents and abilities.
+            <br>
+            DMCA offers conducive classrooms, educational devices and materials especially prepared for the intellectual, emotional,
+            physical, social and spiritual development of the children.
+            <br>
+            DMCA is recognized by the government through the Department of Education.
+        </h6>
+            
 
-<body>
-    <h3>REF. Code: {{ appointment_request.slug }}</h3>
-    <h3>Date: {{ appointment_request.date_created }}</h3>
-    <h2> First Name: {{ appointment_request.get_complete_name }}</h2>
-    <h2> Email: {{ appointment_request.email }}</h2>
-    <h2> Address: {{ appointment_request.address }}</h2>
-    <h2>Birthday: {{ appointment_request.birthday }}</h2>
-    <h2>Age: {{ appointment_request.age }}</h2>
-    <h2>Gender: {{ appointment_request.gender }}</h2>
-    <h2>Guardian: {{ appointment_request.guardian|title }}</h2>
-    <h2>Relationship: {{ appointment_request.relationship|title }}</h2>
-    <h2>Contact Number: {{ appointment_request.contact_number }}</h2>
-    <h3>Date and Time of Appointment: {{ appointment_request.schedule }}</h3>
+        
+    </div>
 </body>
 
 </html>
