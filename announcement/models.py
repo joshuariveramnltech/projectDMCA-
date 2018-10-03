@@ -23,7 +23,7 @@ class Announcement(models.Model):
     file = models.FileField(
         upload_to='file/announcement/%Y/%m/%d/', blank=True, null=True)
     publish_date = models.DateField(auto_now_add=False, auto_now=False)
-    created = models.DateTimeField(auto_now_add=True, auto_now=False)
+    date_created = models.DateTimeField(auto_now_add=True, auto_now=False)
     updated = models.DateTimeField(auto_now_add=False, auto_now=True)
     status = models.CharField(
         max_length=10, choices=STATUS_CHOICES, default='published')
@@ -73,12 +73,12 @@ class Comment(models.Model):
     announcement = models.ForeignKey(
         Announcement, on_delete=models.CASCADE, related_name='comments')
     body = models.TextField()
-    created = models.DateTimeField(auto_now_add=True, auto_now=False)
+    date_created = models.DateTimeField(auto_now_add=True, auto_now=False)
     updated = models.DateTimeField(auto_now_add=False, auto_now=True)
     active = models.BooleanField(default=True)
 
     class Meta:
-        ordering = ('-created', )
+        ordering = ('-date_created', )
 
     def __str__(self):
         return 'Comment By {} on {}'.format(self.author.get_full_name, self.announcement)

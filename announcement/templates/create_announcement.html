@@ -5,20 +5,24 @@
 <div class="white">
     <br>
     <div class="container">
-        <form action="." method="POST", enctype="multipart/form-data">
-        {% csrf_token %}
+        <form action="." method="POST" enctype="multipart/form-data">{% csrf_token %}
             <div class="row">
                 <div class="col s4">
                     <br><br>
+                    {% if request.user.profile.photo.url is not None %}
                     <center><img class="circle" src="{{ request.user.profile.photo.url }}" style="height: 200px; width:200px; object-fit: cover; " /></center>
-                    
+                    {% elif request.user.gender == "female" %}
+                    <center><img class="circle" src="{% static "img/girl.svg" %}" style="height: 200px; width:200px; object-fit: cover; " /></center>
+                    {% elif request.user.gender == "male" %}
+                    <center><img class="circle" src="{% static "img/boy.svg" %}" style="height: 200px; width:200px; object-fit: cover; " /></center>
+                    {% endif %}
+
                     <h6 class="center"><u><b>{{ request.user.get_full_name }}</b></u></h6>
                     <center><h6>Author</h6></center>
                 </div>
                 <div class="col s8">
                     <div class="card">
                         <div class="card-content row">
-                            <input type="hidden" name="csrfmiddlewaretoken" value="6ZZD96YMN0eTF0T9aqY2Z8jdfDd7cEkCFUNidOLmqhEAfNx8spAQua9JcwruEBT9">
                             <div class="col s12">
                                 <div class="input-field">
                                     <i class="material-icons prefix">title</i>
@@ -56,10 +60,13 @@
                                 <label for="id_publish_date">Publish date:</label> <input class="datepicker" type="text" name="publish_date" value="10/03/2018" placeholder="mm/dd/yyyy" id="id_publish_date">
                             </div>
                             <div class="col s8">
-                                <label for="id_send_to_group">Send to group:</label> 
+                                <label for="id_send_to_group">Send to what Year and Section:</label> 
                                 <select name="send_to_group" id="id_send_to_group">
-                                    <option value="" selected>---------</option>
+                                {% for value in create_announcement_form.send_to_group %}
+                                    {{ value }}
+                                {% endfor %}
                                 </select>
+                            
                             </div>
                             <div class="col s6">
                                 <select name="status" id="id_status">

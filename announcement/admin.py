@@ -5,8 +5,8 @@ from announcement import models
 
 @admin.register(models.Announcement)
 class AnnouncementAdmin(admin.ModelAdmin):
-    list_display = ['title', 'author', 'status', 'created']
-    list_filter = ['title', 'author', 'status', 'created']
+    list_display = ['title', 'author', 'status', 'date_created']
+    list_filter = ['title', 'author', 'status', 'date_created']
     search_fields = ['title', 'author__email', 'status']
     prepopulated_fields = {'slug': ('title', )}
 

@@ -23,7 +23,7 @@
 
             <span>
                 <small>
-                    Created on: {{ announcement.created}} Updated: {{ announcement.updated }}
+                    Created on: {{ announcement.date_created}} Updated: {{ announcement.updated }}
                 </small>
             </span>
             <hr/> {% empty %} <center><center><img src="{% static "img/blank.svg" %}" style="object-fit: fill; height: 300px"> <br><h5><b>Oooops!! Your Drafts Box seems to be empty..</b></h5></center>   {% endfor %}
