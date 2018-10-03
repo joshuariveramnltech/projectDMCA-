@@ -192,7 +192,9 @@ def view_students_finalgrade(request):
         raise PermissionDenied
     student_list = User.objects.filter(
         student_profile__level_and_section__adviser=request.user.faculty_profile,
+        student_profile__finalGrade__level__level=request.user.faculty_profile.designated_year_level.level
     ).order_by('-date_created')
+
     student_query = request.GET.get('student_query')
     if student_query:
         student_list = student_list.filter(

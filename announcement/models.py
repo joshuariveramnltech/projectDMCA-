@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.contrib.auth import get_user_model
 from account.models import LevelAndSection
 from django.utils.text import slugify
+from datetime import datetime
 # Create your models here.
 User = get_user_model()
 
@@ -23,7 +24,7 @@ class Announcement(models.Model):
     body = models.TextField()
     file = models.FileField(
         upload_to='file/announcement/%Y/%m/%d/', blank=True, null=True)
-    publish_date = models.DateTimeField(auto_now_add=False, auto_now=False)
+    publish_date = models.DateTimeField(auto_now_add=False, auto_now=False, null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True, auto_now=False)
     updated = models.DateTimeField(auto_now_add=False, auto_now=True)
     status = models.CharField(
@@ -34,6 +35,14 @@ class Announcement(models.Model):
         blank=True, verbose_name="Send to what Year and Section"
     )
     send_to_all = models.BooleanField(default=False)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        if self.status == 'published' and self.publish_date is None:
+            self.publish_date = datetime.now()
+        print('SELF', self.status, datetime.now())
+        super(Announcement, self).save(*args, **kwargs)
 
     @property
     def get_absolute_url(self):
@@ -55,11 +64,6 @@ class Announcement(models.Model):
             "announcement:delete_announcement",
             args=[self.id, self.slug]
         )
-
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.title)
-        super(Announcement, self).save(*args, **kwargs)
 
     class Meta:
         ordering = ('-publish_date', )

@@ -35,7 +35,6 @@ def view_announcement(request):
     elif request.user.is_teacher:
         level_and_section = LevelAndSection.objects.filter(
             adviser__user__email=request.user.email)
-    group_announcement = None
     if request.user.is_student:
         group_announcement_list = Announcement.objects.filter(
             send_to_group=request.user.student_profile.level_and_section,
@@ -136,13 +135,45 @@ def edit_announcement(request, a_id, a_slug):
 
 
 @login_required
-def draft_announcement(request):
+def draft_published_announcement(request):
     if request.user.is_student:
         raise PermissionDenied
-    draft_announcement = Announcement.objects.filter(
-        status='draft', author=request.user)
-    context = {'draft_announcement': draft_announcement}
-    return render(request, 'draft_announcement.html', context)
+    draft_announcement_list = Announcement.objects.filter(
+        status='draft', author=request.user).order_by('-publish_date')
+    draft_announcement_paginator = Paginator(draft_announcement_list, 10)
+    draft_page = request.GET.get('draft_page')
+    try:
+        draft_announcement = draft_announcement_paginator.page(draft_page)
+    except PageNotAnInteger:
+        draft_announcement = draft_announcement_paginator.page(1)
+    except EmptyPage:
+        draft_announcement = draft_announcement_paginator.page(
+            draft_announcement_paginator.num_pages)
+    published_announcement_list = Announcement.objects.filter(
+        status='published', author=request.user).order_by('-publish_date')
+    published_announcement_paginator = Paginator(
+        published_announcement_list, 10)
+    published_page = request.GET.get('published_page')
+    try:
+        published_announcement = published_announcement_paginator.page(
+            published_page)
+    except PageNotAnInteger:
+        published_announcement = published_announcement_paginator.page(1)
+    except EmptyPage:
+        published_announcement = published_announcement_paginator.page(
+            published_announcement_paginator.num_pages)
+    context = {'draft_announcement': draft_announcement, 'request': request,
+               'published_announcement': published_announcement}
+    return render(request, 'draft_published_announcement.html', context)
+
+
+def created_announcement(request):
+    if request.user.is_student:
+        raise PermissionDenied
+    created_announcements = Announcement.objects.filter(author=request.user)
+    context = {'created_announcements': created_announcements,
+               'request': request}
+    return render(request, 'created_announcement.html', context)
 
 
 @login_required
