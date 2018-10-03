@@ -13,4 +13,6 @@ urlpatterns = [
          views.appointment_request_success, name='appointment_request_success'),
     path('admission/cancel/<int:appointment_request_id>/appointment-request/',
          views.cancel_appointment_request, name='cancel_appointment_request'),
+    path('admission/appointment-request/<int:appointment_request_id>/<slug:appointment_request_slug>/html/',
+         views.appointment_request_html, name='appointment_request_html'),
 ]
