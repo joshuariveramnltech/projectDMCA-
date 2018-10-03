@@ -76,7 +76,7 @@ def view_users(request):
         student_list = student_list.filter(
             Q(first_name__icontains=student_query) |
             Q(last_name__icontains=student_query) |
-            Q(middle_name__icontains=student_query) |
+            Q(middle_name__icontains=student_query)  |
             Q(email__icontains=student_query) |
             Q(student_profile__level_and_section__level__level__icontains=student_query) |
             Q(student_profile__learner_reference_number__icontains=student_query)).distinct()
@@ -541,7 +541,16 @@ def view_appointment_request(request):
     if not request.user.is_superuser:
         raise PermissionDenied
     appointment_requests_list = AppointmentRequest.objects.all().order_by('-date_created')
-    appointment_request_paginator = Paginator(appointment_requests_list, 10)
+    appointment_query = request.GET.get('appointment_query')
+    if appointment_query:
+        appointment_requests_list = appointment_requests_list.filter(
+            Q(first_name__icontains=appointment_query) |
+            Q(last_name__icontains=appointment_query) |
+            Q(middle_name__icontains=appointment_query) |
+            Q(slug__icontains=appointment_query) |
+            Q(email__icontains=appointment_query)
+        ).distinct()
+    appointment_request_paginator = Paginator(appointment_requests_list, 1)
     appointment_request_page = request.GET.get('appointment_request_page')
     try:
         appointment_requests = appointment_request_paginator.page(

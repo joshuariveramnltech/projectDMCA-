@@ -9,10 +9,9 @@ from account.models import (Profile, StudentProfile, LevelAndSection,
                             FacultyProfile, StaffProfile)
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
-
+# Create your views here.
 
 User = get_user_model()
-# Create your views here.
 
 
 @login_required

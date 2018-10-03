@@ -21,7 +21,7 @@ class AppointmentRequestForm(forms.ModelForm):
     schedule = forms.DateTimeField(
         widget=forms.DateTimeInput(
             attrs={'class': 'datepicker', 'placeholder': 'mm/dd/yyyy hour:min'},
-            format='%m/%d/%Y %H:%M:%S'
+            format='%m/%d/%Y %H:%M'
         ),
         input_formats=('%m/%d/%Y %H:%M', )
     )

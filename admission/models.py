@@ -28,6 +28,7 @@ class AppointmentRequest(models.Model):
     )
     address = models.CharField(max_length=255)
     guardian = models.CharField(max_length=50, default="")
+    relationship = models.CharField(max_length=50)
     contact_number = models.CharField(
         validators=[phone_regex, ],
         max_length=15,

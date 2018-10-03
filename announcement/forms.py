@@ -26,13 +26,13 @@ class AnnouncementForm(forms.ModelForm):
         widgets = {
             'body': Textarea(attrs={'cols': 80, 'rows': 20}),
         }
-    publish_date = forms.DateField(
-        initial=datetime.now().date(), required=False,
-        widget=forms.DateInput(
-            format='%m/%d/%Y',
-            attrs={'placeholder': 'mm/dd/yyyy'}
+    publish_date = forms.DateTimeField(
+        initial=datetime.now(), required=False,
+        widget=forms.DateTimeInput(
+            format='%m/%d/%Y %H:%M',
+            attrs={'placeholder': 'mm/dd/yyyy hour:min'}
         ),
-        input_formats=('%m/%d/%Y', )
+        input_formats=('%m/%d/%Y %H:%M', )
     )
 
 

@@ -23,7 +23,7 @@ class Announcement(models.Model):
     body = models.TextField()
     file = models.FileField(
         upload_to='file/announcement/%Y/%m/%d/', blank=True, null=True)
-    publish_date = models.DateField(auto_now_add=False, auto_now=False)
+    publish_date = models.DateTimeField(auto_now_add=False, auto_now=False)
     date_created = models.DateTimeField(auto_now_add=True, auto_now=False)
     updated = models.DateTimeField(auto_now_add=False, auto_now=True)
     status = models.CharField(

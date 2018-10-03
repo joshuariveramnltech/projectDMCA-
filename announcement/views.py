@@ -8,6 +8,7 @@ from django.contrib import messages
 from .models import Announcement, Comment
 from account.models import LevelAndSection
 from django.utils import timezone
+from datetime import datetime
 from django.contrib import messages
 from django.core.paginator import (PageNotAnInteger, EmptyPage, Paginator)
 from django.db.models import Q
@@ -19,7 +20,7 @@ User = get_user_model()
 @login_required
 def view_announcement(request):
     school_announcement_list = Announcement.objects.filter(
-        send_to_all=True, status='published', publish_date__lte=timezone.now()).order_by('-publish_date')
+        send_to_all=True, status='published', publish_date__lte=datetime.now()).order_by('-publish_date')
     school_paginator = Paginator(school_announcement_list, 10)
     school_page = request.GET.get('school_page')
     try:
