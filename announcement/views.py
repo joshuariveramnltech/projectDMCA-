@@ -32,46 +32,40 @@ def view_announcement(request):
     if request.user.is_staff:
         return render(request, 'view_announcement.html', context)
     elif request.user.is_teacher:
+        level_and_section = LevelAndSection.objects.filter(
+            adviser__user__email=request.user.email)
+    group_announcement = None
+    if request.user.is_student:
+        group_announcement_list = Announcement.objects.filter(
+            send_to_group=request.user.student_profile.level_and_section,
+            status='published',
+            publish_date__lte=timezone.now()).order_by('-publish_date')
+        group_paginator = Paginator(group_announcement_list, 10)
+        group_page = request.GET.get('group_page')
         try:
-            level_and_section = LevelAndSection.objects.get(
-                adviser__user__email=request.user.email)
-        except LevelAndSection.DoesNotExist:
-            level_and_section = None
-            print('No Level and Section Assigned for this Faculty')
-    try:
-        if request.user.is_student:
-            group_announcement_list = Announcement.objects.filter(
-                send_to_group=request.user.student_profile.level_and_section,
-                status='published',
-                publish_date__lte=timezone.now()).order_by('-publish_date')
-            group_paginator = Paginator(group_announcement_list, 10)
-            group_page = request.GET.get('group_page')
-            try:
-                group_announcement = group_paginator.page(group_page)
-            except PageNotAnInteger:
-                group_announcement = group_paginator.page(1)
-            except EmptyPage:
-                group_announcement = group_paginator.page(
-                    group_paginator.num_pages)
-            context['group_announcement'] = group_announcement
-        elif request.user.is_teacher and level_and_section:
-            group_announcement_list = Announcement.objects.filter(
-                send_to_group=level_and_section,
-                status='published',
-                publish_date__lte=timezone.now()).order_by('-publish_date')
-            group_paginator = Paginator(group_announcement_list, 10)
-            group_page = request.GET.get('group_page')
-            try:
-                group_announcement = group_paginator.page(group_page)
-            except PageNotAnInteger:
-                group_announcement = group_paginator.page(1)
-            except EmptyPage:
-                group_announcement = group_paginator.page(
-                    group_paginator.num_pages)
-            context.update({'group_announcement': group_announcement,
-                            'level_and_section': level_and_section})
-    except Announcement.DoesNotExist:
-        pass
+            group_announcement = group_paginator.page(group_page)
+        except PageNotAnInteger:
+            group_announcement = group_paginator.page(1)
+        except EmptyPage:
+            group_announcement = group_paginator.page(
+                group_paginator.num_pages)
+        context['group_announcement'] = group_announcement
+    elif request.user.is_teacher and level_and_section.count() != 0:
+        group_announcement_list = Announcement.objects.filter(
+            send_to_group__adviser__user=request.user,
+            status='published',
+            publish_date__lte=timezone.now()).order_by('-publish_date')
+        group_paginator = Paginator(group_announcement_list, 10)
+        group_page = request.GET.get('group_page')
+        try:
+            group_announcement = group_paginator.page(group_page)
+        except PageNotAnInteger:
+            group_announcement = group_paginator.page(1)
+        except EmptyPage:
+            group_announcement = group_paginator.page(
+                group_paginator.num_pages)
+        context.update({'group_announcement': group_announcement,
+                        'level_and_section': level_and_section})
     return render(request, 'view_announcement.html', context)
 
 
