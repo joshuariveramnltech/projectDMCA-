@@ -42,4 +42,12 @@ urlpatterns = [
          views.view_statement_admin, name='view_statement_admin'),
     path('dmca/delete/statement/<int:statement_id>/<student_full_name>/<int:student_id>/',
          views.delete_statement_admin, name='delete_statement_admin'),
+    path('dmca/view/create/year-level/',
+         views.view_create_year_level, name='view_create_year_level'),
+    path('dmca/view/appointment-requests/',
+         views.view_appointment_request, name='view_appointment_request'),
+    path('dmca/delete/view/appointment-request/<int:appointment_request_id>/',
+         views.delete_appointment_request, name='delete_appointment_request'),
+    path('dmca/update/appointment-request/<int:appointment_request_id>/<slug:appointment_request_slug>/',
+         views.update_appointment_request, name='update_appointment_request'),
 ]

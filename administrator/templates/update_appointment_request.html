@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{{ appointment_request_instance.slug }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+</head>
+
+<body>
+    <ul>
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    <form method="POST" action="{% url 'administrator:update_appointment_request' appointment_request_instance.id appointment_request_instance.slug %}">
+        {% csrf_token %}
+        {{ update_appointment_request_form.as_p }}
+        <input type="submit" value="Submit" />
+    </form>
+    <a href="{% url 'administrator:view_appointment_request' %}">Back</a>
+</body>
+
+</html>

@@ -151,7 +151,7 @@ class Level(models.Model):
     updated = models.DateTimeField(auto_now_add=False, auto_now=True)
 
     class Meta:
-        ordering = ('-level', )
+        ordering = ('level', )
 
     def __str__(self):
         return self.level
@@ -187,7 +187,7 @@ class FacultyProfile(models.Model):
 
 
 class LevelAndSection(models.Model):
-    level = models.ForeignKey(Level, on_delete=models.CASCADE)
+    level = models.ForeignKey(Level, on_delete=models.CASCADE, related_name='sections')
     section = models.CharField(max_length=50)
     adviser = models.ForeignKey(
         FacultyProfile, on_delete=models.SET_NULL, null=True, blank=True,

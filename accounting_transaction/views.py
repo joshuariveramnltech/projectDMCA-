@@ -119,3 +119,21 @@ def delete_statement(request, statement_id, student_full_name, student_id):
             args=[student_full_name, student_id]
         )
     )
+
+
+# for student account only
+@login_required
+def student_view_statement(request):
+    if not request.user.is_student:
+        raise PermissionDenied
+    student_statements = Statement.objects.filter(student__user=request.user)
+    statement_paginator = Paginator(student_statements, 10)
+    statement_page = request.GET.get('statement_page')
+    try:
+        statements = statement_paginator.page(statement_page)
+    except PageNotAnInteger:
+        statements = statement_paginator.page(1)
+    except EmptyPage:
+        statements = statement_paginator.page(statement_paginator.num_pages)
+    context = {'request': request, 'statements': statements}
+    return render(request, 'student_view_statement.html', context)

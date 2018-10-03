@@ -3,8 +3,10 @@ from django import forms
 from django.forms import DateField, Textarea, FileInput
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from .models import (Profile, LevelAndSection,
-                     StudentProfile, StaffProfile, FacultyProfile)
+from .models import (
+    Profile, LevelAndSection, Level,
+    StudentProfile, StaffProfile, FacultyProfile
+)
 User = get_user_model()
 
 
@@ -289,3 +291,9 @@ class LevelAndSectionForm(forms.ModelForm):
     class Meta:
         model = LevelAndSection
         fields = ['level', 'section', 'adviser']
+
+
+class LevelForm(forms.ModelForm):
+    class Meta:
+        model = Level
+        exclude = ['date_created', 'updated']
