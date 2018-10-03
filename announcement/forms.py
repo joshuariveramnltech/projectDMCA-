@@ -11,29 +11,17 @@ class AnnouncementForm(forms.ModelForm):
         model = Announcement
         fields = [
             'title',
-            'body', 'file', 'publish_date',
+            'body', 'file',
             'send_to_group', 'status',
             'send_to_all',
         ]
 
         labels = {
-            'publish_date': 'Publish Date',
             'send_to_all': 'Send to all?',
             'body': 'Content',
             'file': 'Attach File/s'
         }
 
-        widgets = {
-            'body': Textarea(attrs={'cols': 80, 'rows': 20}),
-        }
-    publish_date = forms.DateTimeField(
-        initial=datetime.now(), required=False,
-        widget=forms.DateTimeInput(
-            format='%m/%d/%Y %H:%M',
-            attrs={'placeholder': 'mm/dd/yyyy hour:min'}
-        ),
-        input_formats=('%m/%d/%Y %H:%M', )
-    )
 
 
 class CommentForm(forms.ModelForm):

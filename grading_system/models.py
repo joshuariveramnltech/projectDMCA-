@@ -95,7 +95,7 @@ class FinalGrade(models.Model):
     student = models.ForeignKey(
         StudentProfile, on_delete=models.CASCADE, related_name='finalGrade')
     level = models.ForeignKey(
-        Level, on_delete=models.SET_NULL, related_name='subject', null=True, blank=True)
+        Level, on_delete=models.SET_NULL, related_name='final', null=True, blank=True)
     school_year = models.CharField(
         max_length=25, choices=SY,
         default=str(datetime.now().year) + "-" + str(datetime.now().year+1))
@@ -126,7 +126,6 @@ def create_dynamic_subject_slug(sender, **kwargs):
 
 @receiver(post_save, sender=FinalGrade)
 def sync_subject_school_year(sender, **kwargs):
-    pass
     subjects = SubjectGrade.objects.filter(
         subject__level_and_section__level=kwargs['instance'].level)
     sample = subjects.first()
