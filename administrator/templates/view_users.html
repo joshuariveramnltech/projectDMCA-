@@ -42,7 +42,7 @@
                                     </div>
                                     <div class="card-action center">
                                         <a class="tooltipped" data-tooltip="Edit User" href="{% url 'administrator:edit_user' student.id %}"><i class="material-icons small light-green-text text-accent-4">edit</i></a>
-                                        <a class="tooltipped" data-tooltip="View Student Info" href="{% url 'administrator:enrollment_admission' student.id student.get_full_name %}"><i class="material-icons small light-green-text text-accent-4">description</i></a>
+                                        <a class="tooltipped" data-tooltip="View Enrolled Subject" href="{% url 'administrator:enrollment_admission' student.id student.get_full_name %}"><i class="material-icons small light-green-text text-accent-4">description</i></a>
                                         <a class="tooltipped" data-tooltip="Edit User" href="{% url 'accounting_transaction:view_statement' student.get_full_name student.id %}"><i class="material-icons small light-green-text text-accent-4">credit_card</i></a>
                                         <a class="tooltipped" data-tooltip="Delete User" href="{% url 'administrator:delete_user' student.id %}" onclick="return confirm('Are you sure you want to DELETE {{ student.get_full_name}}?')"><i class="material-icons small red-text">close</i></a>
                                     </div>

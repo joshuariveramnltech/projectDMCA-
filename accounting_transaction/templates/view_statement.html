@@ -1,76 +1,73 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>View Statement|{{ student_user.get_full_name }}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <script src="main.js"></script>
-</head>
-
-<body>
-    <ul>
-        {% for message in messages %}
-            <li>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% if account_statements %}
-    <table border="1">
-        <th>School Year</th>
-        <th>Assessment</th>
-        <th>Balance</th>
-        <th>Date</th>
-        <th>Updated</th>
-        <th>Option</th>
-        {% for statement in account_statements %}
-        <tr>
-            <td>{{ statement.school_year }}</td>
-            <td>{{ statement.assessment }}</td>
-            <td>{{ statement.balance }}</td>
-            <td>{{ statement.date_created }}</td>
-            <td>{{ statement.updated }}</td>
-            {% if request.user.is_superuser %}
-            <td>
-                <a href="{% url 'administrator:update_statement_admin' statement.id student_user.get_full_name student_user.id %}">Update</a>
-                <a href="{% url 'administrator:delete_statement_admin' statement.id student_user.get_full_name student_user.id %}"
-                onclick="return confirm('Are you sure you want to DELETE this Statement for {{ student_user.get_full_name }} ?')">Delete</a></td>
-            {% elif request.user.is_staff %}
-            <td><a href="{% url 'accounting_transaction:update_statement' statement.id student_user.get_full_name student_user.id %}">Update</a>
-                <a href="{% url 'accounting_transaction:delete_statement' statement.id student_user.get_full_name student_user.id %}"
-                    onclick="return confirm('Are you sure you want to DELETE this Statement for {{ student_user.get_full_name }} ?')">Delete</a>
-            </td>
-            {% endif %}
-
-        </tr>
-        {% endfor %}
-    </table>
-    {% else %}
-    <h3>No Account Statement/s for this Account yet..</h3>
-    {% endif %}
-
-    <div>
-        <h2>Add Statement for {{ student_user.get_full_name }}</h2>
-        {% if request.user.is_superuser %}
-        <form method="POST" action="{% url 'administrator:view_statement_admin' student_user.get_full_name student_user.id %}">
-            {% csrf_token %}
-            {{ add_statement_form.as_p }}
-            <input type="submit" value="Submit" />
-        </form>
-        <a href="{% url 'administrator:view_users' %}"><button>Back</button></a>
-        {% elif request.user.is_staff %}
-        <form method="POST" action="{% url 'accounting_transaction:view_statement' student_user.get_full_name student_user.id %}">
-            {% csrf_token %}
-            {{ add_statement_form.as_p }}
-            <input type="submit" value="Submit" />
-        </form>
-        <a href="{% url 'accounting_transaction:view_user_list' %}"><button>Back</button></a>
-        {% endif %}
-
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}View Statement|{{ student_user.get_full_name }}{% endblock title %}
+{% block content %}
+<div class="white">
+    <br><br>
+    <div class="container">
+            <ul>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% if account_statements %}
+                <table border="1">
+                    <th>School Year</th>
+                    <th>Assessment</th>
+                    <th>Balance</th>
+                    <th>Date</th>
+                    <th>Updated</th>
+                    <th>Option</th>
+                    {% for statement in account_statements %}
+                    <tr>
+                        <td>{{ statement.school_year }}</td>
+                        <td>{{ statement.assessment }}</td>
+                        <td>{{ statement.balance }}</td>
+                        <td>{{ statement.date_created }}</td>
+                        <td>{{ statement.updated }}</td>
+                        {% if request.user.is_superuser %}
+                        <td>
+                            <a href="{% url 'administrator:update_statement_admin' statement.id student_user.get_full_name student_user.id %}">Update</a>
+                            <a href="{% url 'administrator:delete_statement_admin' statement.id student_user.get_full_name student_user.id %}"
+                            onclick="return confirm('Are you sure you want to DELETE this Statement for {{ student_user.get_full_name }} ?')">Delete</a></td>
+                        {% elif request.user.is_staff %}
+                        <td><a href="{% url 'accounting_transaction:update_statement' statement.id student_user.get_full_name student_user.id %}">Update</a>
+                            <a href="{% url 'accounting_transaction:delete_statement' statement.id student_user.get_full_name student_user.id %}"
+                                onclick="return confirm('Are you sure you want to DELETE this Statement for {{ student_user.get_full_name }} ?')">Delete</a>
+                        </td>
+                        {% endif %}
+            
+                    </tr>
+                    {% endfor %}
+                </table>
+                {% else %}
+                <center><img src="{% static "img/project.svg" %}" style="object-fit: fill; height: 300px"> <br> <h5><b>No existing Record for this Account.</b></h5> </center>
+                {% endif %}
+            
+                <div>
+                    <h6>Add Statement for {{ student_user.get_full_name }}</h6>
+                    {% if request.user.is_superuser %}
+                    <form method="POST" action="{% url 'administrator:view_statement_admin' student_user.get_full_name student_user.id %}">
+                        {% csrf_token %}
+                        {{ add_statement_form.as_p }}
+                        <input type="submit" value="Submit" />
+                    </form>
+                    <a href="{% url 'administrator:view_users' %}"><button>Back</button></a>
+                    {% elif request.user.is_staff %}
+                    <form method="POST" action="{% url 'accounting_transaction:view_statement' student_user.get_full_name student_user.id %}">
+                        {% csrf_token %}
+                        {{ add_statement_form.as_p }}
+                        <input type="submit" value="Submit" />
+                    </form>
+                    <a href="{% url 'accounting_transaction:view_user_list' %}"><button>Back</button></a>
+                    {% endif %}
+            
+                </div>
+                <br>
     </div>
+    
 
+<br><br>br
+</div>
 
-</body>
-
-</html>
+{% endblock content %}

@@ -193,8 +193,8 @@
       <i class="large material-icons">add</i>
     </a>
     <ul>
-      <li><a href="{% url 'announcement:draft_announcement' %}" class="btn-floating yellow darken-1"><i class="material-icons">drafts</i></a></li>
-      <li><a href="{% url 'announcement:create_announcement' %}" class="btn-floating green"><i class="material-icons">create</i></a></li>
+      <li><a href="{% url 'announcement:draft_announcement' %}" class="btn-floating yellow darken-1 tooltipped" data-position="left" data-tooltip="Drafts"><i class="material-icons">drafts</i></a></li>
+      <li><a href="{% url 'announcement:create_announcement' %}" class="btn-floating green tooltipped" data-position="left" data-tooltip="Create Announcement"><i class="material-icons">create</i></a></li>
     </ul>
   </div>
   {% endif %}

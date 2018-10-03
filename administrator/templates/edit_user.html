@@ -1,18 +1,20 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Profile|{{ target_user.get_short_name }}</title>
-    </head>
-<div>
-    <form method="POST" action="." enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ user_form.as_p }}
-        {{ profile_form.as_p }}
-        {{ dynamic_profile_form.as_p }}
-        <button type="submit">Save Changes</button>
-    </form>
-        <a href="{% url 'administrator:view_users' %}">View Users</a>
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}{{ target_user.get_short_name }} | Edit User{% endblock title %}
+{% block content %}
+<div class="white">
+    <br>
+    <a class="left" href="{% url 'administrator:view_users' %}"><i class="material-icons">chevron_left</i></a>
+    <div class="container">
+        <form method="POST" action="." enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ user_form.as_p }}
+            {{ profile_form.as_p }}
+            {{ dynamic_profile_form.as_p }}
+            <button type="submit">Save Changes</button>
+        </form>
+            
+    </div>
+    <br><br>
 </div>
-<html>
-
-</html>
+{% endblock content %}

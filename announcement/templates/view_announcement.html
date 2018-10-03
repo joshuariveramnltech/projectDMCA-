@@ -128,7 +128,6 @@
                     {% empty %}  <center><img src="{% static "img/astronaut.svg" %}" style="object-fit: fill; height: 300px"> <br> <h5><b>No Announcements So Far...</b></h5> </center> {% endfor %}
                 </ul>
             </div>
-            <hr>
             <div class="school-pagination">
                 <span class="step-links">
                     {% if school_announcement.has_previous %}
@@ -137,8 +136,8 @@
                     {% endif %}
 
                     {% if school_announcement %}
-                    <span class="current">
-                        <em>School Announcement </em> Page {{ school_announcement.number }} of {{ school_announcement.paginator.num_pages }}.
+                    <span class="current right">
+                        School Announcement(s) - Page {{ school_announcement.number }} of {{ school_announcement.paginator.num_pages }}.
                     </span>
                     {% endif %}
                 
@@ -149,6 +148,7 @@
                 </span>
             </div>
             <br/>
+            <hr>
             <div id="swipe-2">
                 <ul class="collection collapsible popout" data-collapsible="accordion">
                     {% for announcement in group_announcement %}
