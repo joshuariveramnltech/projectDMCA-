@@ -8,8 +8,11 @@ from account import forms
 from account.models import (
     Profile, LevelAndSection,
     StudentProfile, StaffProfile,
-    FacultyProfile
+    FacultyProfile, Level
 )
+from admission.models import AppointmentRequest
+from admission.forms import AppointmentRequestForm
+from administrator.forms import AppointmentRequestFormAdmin
 from accounting_transaction.forms import StatementAddForm, StatementCreateForm
 from accounting_transaction.forms import StatementCreateForm
 from accounting_transaction.models import Statement
@@ -24,6 +27,7 @@ from datetime import datetime
 # Create your views here.
 
 User = get_user_model()
+
 
 @login_required
 def create_user_done(request):
@@ -467,7 +471,6 @@ def update_statement_admin(request, statement_id, student_full_name, student_id)
     return render(request, 'update_statement.html', context)
 
 
-# for admin account use
 @login_required
 def delete_statement_admin(request, statement_id, student_full_name, student_id):
     if not request.user.is_superuser:
@@ -482,7 +485,6 @@ def delete_statement_admin(request, statement_id, student_full_name, student_id)
     )
 
 
-# administrator account only
 @login_required
 def view_statement_admin(request, user_full_name,  user_id):
     if not request.user.is_superuser:
@@ -514,3 +516,82 @@ def view_statement_admin(request, user_full_name,  user_id):
             )
     context['add_statement_form'] = add_statement_form
     return render(request, 'view_statement.html', context)
+
+
+@login_required
+def view_create_year_level(request):
+    if not request.user.is_superuser:
+        raise PermissionDenied
+    year_levels = Level.objects.all()
+    context = {'request': request, 'year_levels': year_levels}
+    if request.method == 'GET':
+        year_level_create_form = forms.LevelForm()
+    elif request.method == 'POST':
+        year_level_create_form = forms.LevelForm(data=request.POST)
+        if year_level_create_form.is_valid():
+            year_level_create_form.save()
+            messages.success(request, 'New year Level is Added')
+            return HttpResponseRedirect(reverse('administrator:view_create_year_level'))
+    context['year_level_create_form'] = year_level_create_form
+    return render(request, 'view_create_year_level.html', context)
+
+
+@login_required
+def view_appointment_request(request):
+    if not request.user.is_superuser:
+        raise PermissionDenied
+    appointment_requests_list = AppointmentRequest.objects.all().order_by('-date_created')
+    appointment_request_paginator = Paginator(appointment_requests_list, 10)
+    appointment_request_page = request.GET.get('appointment_request_page')
+    try:
+        appointment_requests = appointment_request_paginator.page(
+            appointment_request_page)
+    except PageNotAnInteger:
+        appointment_requests = appointment_request_paginator.page(1)
+    except EmptyPage:
+        appointment_requests = appointment_request_paginator.page(
+            appointment_request_paginator.num_pages)
+    context = {'request': request,
+               'appointment_requests': appointment_requests}
+    return render(request, 'view_appointment_request.html', context)
+
+
+@login_required
+def update_appointment_request(request, appointment_request_id, appointment_request_slug):
+    if not request.user.is_superuser:
+        raise PermissionDenied
+    appointment_request_instance = AppointmentRequest.objects.get(
+        id=appointment_request_id)
+    context = {
+        'request': request,
+        'appointment_request_instance': appointment_request_instance
+    }
+    if request.method == 'GET':
+        update_appointment_request_form = AppointmentRequestFormAdmin(
+            instance=appointment_request_instance)
+    elif request.method == 'POST':
+        update_appointment_request_form = AppointmentRequestFormAdmin(
+            data=request.POST, instance=appointment_request_instance)
+        if update_appointment_request_form.is_valid():
+            update_appointment_request_form.save()
+            messages.success(
+                request, 'Appointment Request Updated Successfully'
+            )
+            return HttpResponseRedirect(
+                reverse(
+                    'administrator:update_appointment_request',
+                    args=[appointment_request_id, appointment_request_slug]
+                )
+            )
+    context['update_appointment_request_form'] = update_appointment_request_form
+    return render(request, 'update_appointment_request.html', context)
+
+
+@login_required
+def delete_appointment_request(request, appointment_request_id):
+    if not request.user.is_superuser:
+        raise PermissionDenied
+    appointment_request_instance = AppointmentRequest.objects.get(
+        id=appointment_request_id)
+    appointment_request_instance.delete()
+    return HttpResponseRedirect(reverse('administrator:view_appointment_request'))

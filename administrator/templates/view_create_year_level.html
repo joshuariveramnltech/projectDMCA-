@@ -1,0 +1,46 @@
+{% load administrator_tags %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Create Year Level</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+</head>
+
+<body>
+    {% for message in messages %}
+    <p>{{ message }}</p>
+    {% endfor %}
+    {% if year_levels %}
+    <table border="1">
+        <th>Year Level</th>
+        <th>Ref. Code</th>
+        <th>Date Created</th>
+        <th>No. of Students</th>
+        {% for year_level in year_levels %}
+        <tr>
+            <td>{{ year_level.level }}</td>
+            <td>{{ year_level.slug }}</td>
+            <td>{{ year_level.date_created }}</td>
+            <td>{% total_students_per_year year_level.id %}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No year level created so far.</p>
+    {% endif %}
+
+    <form method="POST" action=".">
+        {% csrf_token %}
+        {{ year_level_create_form.as_p }}
+        <input type="submit" value="Create" />
+    </form>
+
+</body>
+
+</html>

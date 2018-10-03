@@ -56,7 +56,7 @@
                                 <span class="step-links">
                                     {% if students.has_previous %}
                                         <a href="?student_page=1&student_query={{ request.GET.student_query }}">&laquo; first</a>
-                                        <a href="?student_page={{ student.previous_page_number }}&student_query={{ request.GET.student_query }}">previous</a>
+                                        <a href="?student_page={{ students.previous_page_number }}&student_query={{ request.GET.student_query }}">previous</a>
                                     {% endif %}
                                         
                                     {% if students %}
@@ -117,7 +117,7 @@
                                         {% if teacher.faculty_profile.designated_year_level is not None %}
                                         <center><h6>{{ teacher.faculty_profile.designated_year_level }} </h6></center>
                                         {% else %}
-                                        <center><h6>No Year and Section </h6></center>
+                                        <center><h6>No Year Level Designation </h6></center>
                                         {% endif %}
                                     </div>
                                     <div class="card-action center">
@@ -320,7 +320,7 @@
                                 <span class="step-links">
                                     {% if staffs.has_previous %}
                                         <a href="?staff_page=1&staff_query={{ request.GET.staff_query }}">&laquo; first</a>
-                                        <a href="?staff_page={{ staff.previous_page_number }}&staff_query={{ request.GET.staff_query }}">previous</a>
+                                        <a href="?staff_page={{ staffs.previous_page_number }}&staff_query={{ request.GET.staff_query }}">previous</a>
                                     {% endif %}
                                             
                                     {% if staffs %}

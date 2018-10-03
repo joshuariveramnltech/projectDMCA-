@@ -55,15 +55,19 @@ def appointment_request(request):
             # send to the provided email
             subject = 'Appointment Request - request no. {} ref. code {}'.format(
                 new_appointment.id, new_appointment.slug)
-            message = 'Please, see the attached the PDF for your recent Appointment Request.'
-            email = EmailMessage(subject, message, 'admin@myshop.com', [new_appointment.email])
+            message = 'Please, see the attached PDF for your recent Appointment Request.'
+            email = EmailMessage(
+                subject, message, ' https://dmca-edu-ph.herokuapp.com/', [new_appointment.email])
             # generate PDF
-            html = render_to_string('pdf.html', {'appointment_request': new_appointment})
+            html = render_to_string(
+                'pdf.html', {'appointment_request': new_appointment})
             out = BytesIO()
             stylesheets = [weasyprint.CSS(settings.STATIC_ROOT + '/main.css')]
-            weasyprint.HTML(string=html).write_pdf(out, stylesheets=stylesheets)
+            weasyprint.HTML(string=html).write_pdf(
+                out, stylesheets=stylesheets)
             # attach PDF file
-            email.attach('appointment_request_{}.pdf'.format(new_appointment.id), out.getvalue(), 'application/pdf')
+            email.attach('appointment_request_{}.pdf'.format(
+                new_appointment.id), out.getvalue(), 'application/pdf')
             # send e-mail
             email.send()
             return HttpResponseRedirect(
