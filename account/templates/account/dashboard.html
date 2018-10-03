@@ -33,10 +33,12 @@
             <p><h6>Adviser: &nbsp; <b>{{ request.user.student_profile.level_and_section.adviser.user.get_full_name }}</b> </h6></p>
             <p><h6>Parent/Guardian: &nbsp; <b>{{ request.user.student_profile.guardian }}</b></h6></p>
           {% elif request.user.is_teacher %}
-            {% if level_and_section %}
-              <p><h6>Designation: &nbsp; <b>Adviser/Instructor</b></h6></p>
-              <p><h6>Level: &nbsp; <b>{{ level_and_section.level }}</b> </h6></p>
-              <p><h6>Section: &nbsp; <b>{{ level_and_section.section }}</b> </h6>
+          <p><h6>Designation: &nbsp; <b>Adviser/Instructor</b></h6></p>
+            {% if levels_and_sections %}
+            <h6>Year and Section:</h6>
+            {% for level_and_section in levels_and_sections %}
+            &nbsp; <b>{{ level_and_section }}</b> &nbsp;
+            {% endfor %}
             {% else %}
               <p><h6>Designation: &nbsp; <b>Instructor</b></h6></p>
               <p><h6>Year level: &nbsp; <b>{{ request.user.faculty_profile.designated_year_level.level }}</b> </h6></p>

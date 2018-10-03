@@ -14,6 +14,7 @@ class Announcement(models.Model):
         ('draft', 'Draft'),
         ('published', 'Published'),
     )
+    
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='created_announcements')
     # tags = TaggableManager()
@@ -30,7 +31,7 @@ class Announcement(models.Model):
     send_to_group = models.ForeignKey(
         LevelAndSection, on_delete=models.CASCADE,
         related_name='group_announcements', null=True,
-        blank=True
+        blank=True, verbose_name="Send to what Year and Section"
     )
     send_to_all = models.BooleanField(default=False)
 

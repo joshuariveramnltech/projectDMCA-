@@ -164,8 +164,8 @@ LOGIN_REDIRECT_URL = 'account:dashboard'
 LOGOUT_REDIRECT_URL = 'login'
 
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'divinemiraclechristianacademy@gmail.com'
-EMAIL_HOST_PASSWORD = 'littlecherubimskiddieschool'
+EMAIL_HOST_USER = 'web.dmca.noreply@gmail.com'
+EMAIL_HOST_PASSWORD = 'dmcawebte@m'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 

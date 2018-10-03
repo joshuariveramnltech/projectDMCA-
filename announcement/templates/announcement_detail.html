@@ -12,7 +12,7 @@
 
 <body>
     <h2>{{ announcement.title }}</h2>
-    By {{ announcement.author.get_full_name }} {% if request.user == announcement.author %}
+    By {{ announcement.author.get_full_name }} to  {{ announcement.send_to_group }} {% if request.user == announcement.author %}
     <span>
         <small>
             <a href="{{ announcement.get_absolute_url_for_edit }}">Edit</a>
@@ -49,7 +49,7 @@
                             {{ comment.author.get_full_name }}
                     </a>
                     {% endif %} 
-                <strong>{{ comment.created|timesince }}</strong> ago.
+                <strong>{{ comment.date_created|timesince }}</strong> ago.
                 {% if comment.author == request.user %}
                 <a href="{% url 'announcement:edit_comment' announcement.id announcement.slug comment.id %}">Edit</a>
                     <a href="{% url 'announcement:delete_comment' announcement.id announcement.slug comment.id %}" 
