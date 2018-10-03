@@ -7,7 +7,6 @@ from .models import AppointmentRequest
 from .forms import AppointmentRequestForm
 from django.core.mail import EmailMessage
 from io import BytesIO
-from django.contrib.sites.models import Site
 # Create your views here.
 
 
