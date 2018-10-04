@@ -27,5 +27,5 @@ def get_announcements_with_similar_tags(announcement_id):
             status='published',
             tags__in=announcement_tags_id,
             send_to_group=announcement.send_to_group
-        )
+        ).exclude(id=announcement_id)
     return {'similar_announcements': similar_announcements}
