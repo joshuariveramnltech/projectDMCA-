@@ -53,22 +53,23 @@ def appointment_request(request):
         appointment_request_form = AppointmentRequestForm()
     elif request.method == 'POST':
         appointment_request_form = AppointmentRequestForm(data=request.POST)
+        print(appointment_request_form)
         if appointment_request_form.is_valid():
             new_appointment = appointment_request_form.save(commit=False)
+            new_appointment.is_active = True
             new_appointment.save()
             # send to the provided email
             subject = 'Appointment Request - request no. {} ref. code {}'.format(
                 new_appointment.id, new_appointment.slug)
             message = 'Please see the attached PDF File for your recent Appointment Request.'
             email = EmailMessage(
-                subject, message, ' https://dmca-edu-ph.herokuapp.com/', [new_appointment.email])
+                subject, message, ' https://dmca-edu-ph.herokuapp.com/', [new_appointment.email, ])
             # generate PDF
             html = render_to_string(
                 'pdf.html', {'appointment_request': new_appointment})
             out = BytesIO()
-            stylesheets = [weasyprint.CSS(settings.STATIC_ROOT + '/main.css')],
-            weasyprint.HTML(string=html, base_url=request.build_absolute_uri()).write_pdf(
-                out, stylesheets=stylesheets, presentational_hints=True)
+            weasyprint.HTML(string=html).write_pdf(
+                out, stylesheets=[weasyprint.CSS(settings.STATIC_ROOT + '/main.css'), ])
             # attach PDF file
             email.attach('appointment_request_{}.pdf'.format(
                 new_appointment.id), out.getvalue(), 'application/pdf')

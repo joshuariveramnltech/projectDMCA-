@@ -6,7 +6,11 @@
 <div class="grade6">
     <p>Level: {{ grade6_final_grade.level }}</p>
     <p>School Year: {{ grade6_final_grade.school_year }}</p>
+    {% if grade6_final_grade.grade %}
     <p>Final Grade: {{ grade6_final_grade.grade }}</p>
+    {% else %}
+    <p>Final Grade: </p>
+    {% endif %}
     <table border="1">
         <th>Subject</th>
         <th>Instructor</th>
@@ -60,7 +64,11 @@
 <div class="grade5">
     <p>Level: {{ grade5_final_grade.level }}</p>
     <p>School Year: {{ grade5_final_grade.school_year }}</p>
+    {% if grade5_final_grade.grade %}
     <p>Final Grade: {{ grade5_final_grade.grade }}</p>
+    {% else %}
+    <p>Final Grade: </p>
+    {% endif %}
     <table border="1">
         <th>Subject</th>
         <th>Instructor</th>
@@ -114,7 +122,11 @@
 <div class="grade4">
     <p>Level: {{ grade4_final_grade.level }}</p>
     <p>School Year: {{ grade4_final_grade.school_year }}</p>
+    {% if grade4_final_grade.grade %}
     <p>Final Grade: {{ grade4_final_grade.grade }}</p>
+    {% else %}
+    <p>Final Grade: </p>
+    {% endif %}
     <table border="1">
         <th>Subject</th>
         <th>Instructor</th>
@@ -168,7 +180,11 @@
 <div class="grade3">
     <p>Level: {{ grade3_final_grade.level }}</p>
     <p>School Year: {{ grade3_final_grade.school_year }}</p>
+    {% if grade3_final_grade.grade %}
     <p>Final Grade: {{ grade3_final_grade.grade }}</p>
+    {% else %}
+    <p>Final Grade: </p>
+    {% endif %}
     <table border="1">
         <th>Subject</th>
         <th>Instructor</th>
@@ -222,7 +238,11 @@
 <div class="grade2">
     <p>Level: {{ grade2_final_grade.level }}</p>
     <p>School Year: {{ grade2_final_grade.school_year }}</p>
+    {% if grade2_final_grade.grade %}
     <p>Final Grade: {{ grade2_final_grade.grade }}</p>
+    {% else %}
+    <p>Final Grade: </p>
+    {% endif %}
     <table border="1">
         <th>Subject</th>
         <th>Instructor</th>
@@ -276,7 +296,11 @@
 <div class="grade1">
     <p>Level: {{ grade1_final_grade.level }}</p>
     <p>School Year: {{ grade1_final_grade.school_year }}</p>
+    {% if grade1_final_grade.grade %}
     <p>Final Grade: {{ grade1_final_grade.grade }}</p>
+    {% else %}
+    <p>Final Grade: </p>
+    {% endif %}
     <table border="1">
         <th>Subject</th>
         <th>Instructor</th>
@@ -331,7 +355,11 @@
 <div class="kinder">
     <p>Level: {{ kinder_final_grade.level }}</p>
     <p>School Year: {{ kinder_final_grade.school_year }}</p>
+    {% if kinder_final_grade.grade %}
     <p>Final Grade: {{ kinder_final_grade.grade }}</p>
+    {% else %}
+    <p>Final Grade: </p>
+    {% endif %}
     <table border="1">
         <th>Subject</th>
         <th>Instructor</th>
@@ -385,7 +413,11 @@
 <div class="nursery">
     <p>Level: {{ nursery_final_grade.level }}</p>
     <p>School Year: {{ nursery_final_grade.school_year }}</p>
+    {% if nursery_final_grade.grade %}
     <p>Final Grade: {{ nursery_final_grade.grade }}</p>
+    {% else %}
+    <p>Final Grade: </p>
+    {% endif %}
     <table border="1">
         <th>Subject</th>
         <th>Instructor</th>
