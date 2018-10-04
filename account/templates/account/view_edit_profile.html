@@ -46,7 +46,7 @@
     <div id="modal1" class="modal">
         <div class="modal-content">
             {% for message in messages %}
-            <h4>{{ message }}</h4>
+            <center><img src="{% static 'img/checked.svg' %}" style="object-fit: fill; max-height: 100px"> <br><h5><b>{{ message }}</b></h5></center>
             {% endfor %} 
         </div>
         <div class="modal-footer">

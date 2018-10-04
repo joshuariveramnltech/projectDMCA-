@@ -6,7 +6,7 @@
 {% block content %}
 <div class="white">
     <br>
-    <div class="center"><i class="material-icons indigo-text" style="font-size: 6rem;">group_work</i></div>
+    <center><img src="{% static 'img/management.svg' %}" style="object-fit: fill; max-height: 100px"></center>
     <h4 class="center"><b>Accounts and Users</b></h4>
     <br>
     <div>
@@ -22,9 +22,9 @@
                         <div class="col s6 m3 l2">
                             <div>
                                 <div class="card">
-                                    <div class="card-image" style="height:200px; overflow:hidden;">
+                                    <div class="card-image" style="max-height:200px; overflow:hidden;">
                                         {% if student.profile.photo.url is not None %}
-                                        <img src="{{ student.profile.photo.url }}" style="height:100%; object-fit: cover;">
+                                        <img class="responsive-image" src="{{ student.profile.photo.url }}" style="height:100%; object-fit: cover;">
                                         {% elif student.gender == "female" %}
                                         <img src="{% static "img/girl.svg" %}" style="object-fit: cover;">
                                         {% elif student.gender == "male" %}
@@ -50,8 +50,12 @@
                             </div>
                         </div>
                         {% empty %}
-                        Empty Result.
+                        <div class="col s12">
+                            <center><img src="{% static 'img/girl_sad.svg' %}" style="object-fit: fill; height: 200px"> <br><h5><b>Oooops!! I cant find any students..</b></h5></center>
+                        </div>
+                    </div>
                         {% endfor %}
+                        
                         <div class="pagination right col s12">
                                 <span class="step-links">
                                     {% if students.has_previous %}
@@ -71,7 +75,7 @@
                                     {% endif %}
                                 </span>
                             </div>
-                    </div>
+                    
         </div>
     </div>
 
@@ -130,7 +134,9 @@
                             </div>
                         </div>
                         {% empty %}
-                        Empty Result.
+                        <div class="col s12">
+                            <center><img src="{% static 'img/paper.svg' %}" style="object-fit: fill; height: 200px"> <br><h5><b>Oooops!! I cant find any Faculty Member.</b></h5></center>
+                        </div>
                         {% endfor %}
                         <div class="pagination right col s12">
                                 <span class="step-links">
