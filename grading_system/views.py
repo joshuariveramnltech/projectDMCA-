@@ -146,7 +146,7 @@ def edit_student_finalgrade(request, user_id, level_id):
     current_school_year = str(datetime.now().year) + "-" + str(datetime.now().year+1)
     student_user = User.objects.get(id=user_id)
     level_and_section = LevelAndSection.objects.get(
-        id=student_user.student_profile.level_and_section.level.id)
+        id=student_user.student_profile.level_and_section.id)
     if not request.user.is_teacher and level_and_section.adviser.user != request.user:
         raise PermissionDenied
     final_LevelGrade = FinalGrade.objects.get(
