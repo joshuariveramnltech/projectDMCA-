@@ -8,12 +8,95 @@
     <div class="container">
         <form method="POST" action="." enctype="multipart/form-data">
             {% csrf_token %}
-            {{ user_form.as_p }}
+            <p><label for="id_email">Email:</label> <input type="email" name="email" value="{{ user_form.email.value }}"
+                    maxlength="255" required id="id_email"></p>
+            <p><label for="id_first_name">First name:</label> <input type="text" name="first_name" value="{{ user_form.first_name.value }}"
+                    maxlength="255" required id="id_first_name"></p>
+            <p><label for="id_last_name">Last name:</label> <input type="text" name="last_name" value="{{ user_form.last_name.value }}" maxlength="255"
+                    required id="id_last_name"></p>
+            <p><label for="id_middle_name">Middle name:</label> <input type="text" name="middle_name" value="{{ user_form.middle_name.value }}"
+                    maxlength="255" id="id_middle_name"></p>
+            <p><label for="id_date_of_birth">Date of birth:</label> <input type="text" name="date_of_birth" value='{{ user_form.date_of_birth.value|date:"SHORT_DATE_FORMAT" }}'
+                    class="datepicker" placeholder="mm/dd/yyyy" required id="id_date_of_birth"></p>
+            <p><label for="id_gender">Gender:</label> <select name="gender" id="id_gender">
+                    {% if user_form.gender.value is None %}
+                    <option value="" selected>---------</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    {% elif user_form.gender.value == "male" %}
+                    <option value="">---------</option>
+                    <option value="male" selected>Male</option>
+                    <option value="female">Female</option>
+                    {% elif user_form.gender.value == "female" %}
+                    <option value="">---------</option>
+                    <option value="male">Male</option>
+                    <option value="female"selected>Female</option>
+                    {% endif %}
+                </select></p>
+            
+
+            <p><label for="id_address">Address:</label> <input type="text" name="address" value="{{ user_form.address.value }}"
+                    maxlength="255" id="id_address"></p>
+            {% if user_form.is_active.value %}
+            <label for="id_is_active">
+                <input type="checkbox" name="is_active" id="id_is_active" checked>
+                <span>Active</span>
+            </label>
+            {% else %}
+            <label for="id_is_active">
+                <input type="checkbox" name="is_active" id="id_is_active" >
+                <span>Active</span>
+            </label>
+            {% endif %}
+            {% if user_form.is_student.value %}
+            <label for="id_is_student">
+                <input type="checkbox" name="is_student" id="id_is_student" checked>
+                <span>Student</span>
+            </label>
+            {% else %}
+            <label for="id_is_student">
+                    <input type="checkbox" name="is_student" id="id_is_student" >
+                    <span>Student</span>
+            </label>
+            {% endif %}
+            {% if user_form.is_teacher.value %}
+            <label for="id_is_teacher">
+                <input type="checkbox" name="is_teacher" id="id_is_teacher" checked>
+                <span>Teacher</span>
+            </label>
+            {% else %}
+            <label for="id_is_teacher">
+                <input type="checkbox" name="is_teacher" id="id_is_teacher" >
+                <span>Teacher</span>
+            </label>
+            {% endif %}
+            {% if user_form.is_staff.value %}
+            <label for="id_is_staff">
+                <input type="checkbox" name="is_staff" id="id_is_staff" checked>
+                <span>Staff</span>
+            </label>
+            {% else %}
+            <label for="id_is_staff">
+                <input type="checkbox" name="is_staff" id="id_is_staff">
+                <span>Staff</span>
+            </label>
+            {% endif %}
+            {% if user_form.is_superuser.value %}
+            <label>
+                    <input type="checkbox" name="is_superuser" id="id_is_superuser" checked>
+                    <span>Superuser</span>
+            </label>
+            {% else %}
+            <label>
+                    <input type="checkbox" name="is_superuser" id="id_is_superuser">
+                    <span>Superuser</span>
+            </label>
+            {% endif %}
             {{ profile_form.as_p }}
             {{ dynamic_profile_form.as_p }}
             <button type="submit">Save Changes</button>
         </form>
-            
+
     </div>
     <br><br>
 </div>
