@@ -1,21 +1,202 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
 
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Admission Form</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <script src="main.js"></script>
-</head>
+        <head>
+            <meta charset="utf-8" />
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <link rel="shortcut icon" href="{% static "img/DMCA logo.png" %}">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <!--Import Google Icon Font-->
+            <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+            <!-- Compiled and minified CSS -->
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+            <!--OVERWRITE DEFAULT CSS PROPERTIES-->
+            <style>
+                #landing {
+                height: 100vh;
+                background-image: url('{% static "img/education.jpg" %}');
+                background-position: center;
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+                z-index: -1;
+                }
+            </style>
+            <title>DMCA | Home</title>
+        </head>
 
 <body>
-    <form method="POST" action=".">
-        {% csrf_token %}
-        {{ appointment_request_form.as_p }}
-        <input type="submit" value="Submit" />
-    </form>
+        <nav>
+            <div class="navbar-fixed ">
+                <nav>
+                <div class="nav-wrapper white">
+                    &nbsp; &nbsp; &nbsp;
+                    <a style="font-size:24px" href="#!" class="brand-logo"><img src="{% static "img/DMCA logo.png" %}" alt="" class="left" style="max-width:100px"><span
+                        class="black-text hide-on-med-and-down">&nbsp; Divine Miracle Christian Academy</span> </a>
+                    <ul class="right hide-on-med-and-down">
+                        <li><a href="{% url 'admission:appointment_request' %}"class="btn-flat waves-effect"><h6>Admission</h6></a></li>
+                        <li><a href="#about" class="btn-flat waves-effect"><h6>About Us</h6></a></li>
+                        <li><a href="{% url 'login' %}" class="btn-flat waves-effect"><h6>Log In</h6></a></li>
+                    <li>&nbsp &nbsp;&nbsp;</li>
+                    </ul>
+                </div>
+                </nav>
+            </div>
+            </nav>
+            <div class="container">
+                <div class="row">
+                    <div class="col s4">
+                        <br><br><br><br><br>
+                        <center><img class="responsive-image center" src="{% static 'img/forms.svg' %}" style="max-width: 100%"></center>
+                    </div>
+                    <div class="col s8">
+                        <div class="card">
+                            <div class="card-content">
+                                <form method="POST" action=".">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col l4">
+                                            <div class="input-field">
+                                                <i class="material-icons prefix">person</i>
+                                                <input type="text" name="first_name" maxlength="50" required id="id_first_name">
+                                                <label for="id_first_name">First Name</label>
+                                            </div>
+                                        </div>
+                                        <div class="col l4">
+                                            <div class="input-field">
+                                                <input type="text" name="middle_name" maxlength="50" id="id_middle_name">
+                                                <label for="id_middle_name">Middle Name</label>
+                                            </div>
+                                        </div>
+                                        <div class="col l4">
+                                            <div class="input-field">
+                                                <input type="text" name="last_name" maxlength="50" required id="id_last_name">
+                                                <label for="id_last_name">Last Name</label>
+                                            </div>
+                                        </div>
+                                        <div class="col l12">
+                                            <div class="input-field">
+                                                <i class="material-icons prefix">mail</i>
+                                                <input type="email" name="email" maxlength="255" required id="id_email">
+                                                <label for="id_email">Email</label>
+                                            </div>
+                                        </div>
+                                        <div class="col s3">
+                                            <div class="input-field">
+                                                <i class="material-icons prefix">contacts</i>
+                                                <input type="email" name="email" maxlength="255" required id="id_email">
+                                                <label for="id_email">Age</label>
+                                            </div>
+                                        </div>
+                                        <div class="col s9">
+                                            <div class="input-field">
+                                                <i class="material-icons prefix">perm_contact_calendar</i>
+                                                <input type="text" name="birthday" class="datepicker" placeholder="mm/dd/yyyy" required id="id_birthday">
+                                                <label for="id_email">Age</label>
+                                            </div>
+                                        </div>
+                                        <div class="col s12">
+                                            <label for="id_gender">Gender:</label> 
+                                            <select name="gender" id="id_gender">
+                                                <option value=""selected>---------</option>
+                                                <option value="male">Male</option>
+                                                <option value="female">Female</option>
+                                            </select>
+                                        </div>
+                                        <div class="col s12">
+                                            <div class="input-field">
+                                                <i class="material-icons prefix">location_on</i>
+                                                <input type="text" name="address" maxlength="255" required id="id_address">
+                                                <label for="id_addres">Address</label>
+                                            </div>
+                                        </div>
+                                        <div class="col s12">
+                                            <div class="input-field ">
+                                                <i class="material-icons prefix">picture_in_picture</i>
+                                                <input type="text" name="guardian" maxlength="50" required id="id_guardian">
+                                                <label for="id_guardian">Guradian</label>
+                                            </div>
+                                        </div>
+                                        <div class="col s6">
+                                            <div class="input-field ">
+                                                <i class="material-icons prefix">picture_in_picture</i>
+                                                <input type="text" name="relationship" maxlength="50" required id="id_relationship">
+                                                <label for="id_relationship">Relationship</label>
+                                            </div>
+                                        </div>
+                                        <div class="col s6">
+                                            <div class="input-field ">
+                                                <i class="material-icons prefix">smartphone</i>
+                                                <input type="text" name="contact_number" maxlength="15" id="id_contact_number">
+                                                <span class="helptext">Please use the format: 0999-999-9999</span>
+                                                <label for="id_contact_number">Contact No.</label>
+                                            </div>
+                                        </div>
+                                        <div class="col s7">
+                                            <div class="input-field ">
+                                                <i class="material-icons prefix">smartphone</i>
+                                                <input type="text" name="schedule" class="datepicker" placeholder="mm/dd/yyyy hour:min" required id="id_schedule">
+                                                <label for="id_schedule">Contact No.</label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    
+                                    <input type="submit" value="Submit" />
+                                </form>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+    
+
+    <footer class="page-footer blue-grey darken-4">
+            <div class="container">
+                <div class="row">
+                <div class="col l6 s12">
+                    <h5 class="white-text">Divine Miracle Christian Academy of Hermosa (Bataan) Inc.</h5>
+                    <p class="grey-text text-lighten-4">
+                    Train up a child in the way he should go: and when he is old, he will not depart from it. -Proverbs 22:6
+                    </p>
+                </div>
+                <div class="col l4 offset-l2 s12">
+                    <h5 class="white-text">Offerings</h5>
+                    <ul>
+                    <li><a class="grey-text text-lighten-3" href="#!">Nursery</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Kindergarten</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Grade 1</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Grade 2</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Grade 3</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Grade 4</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Grade 5</a></li>
+                    </ul>
+                </div>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <div class="container">
+                DMCA of Hermosa Inc.© 2018-2019
+                <a class="grey-text text-lighten-4 right" href="#!">Government Recognition No. E-092 s.2007</a>
+                </div>
+            </div>
+        </footer>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+        <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    var elems = document.querySelectorAll('.datepicker');
+                    var instances = M.Datepicker.init(elems, {
+                      format: 'm/d/yyyy',
+                      yearRange: [ 2018]
+                    });
+                  });
+                  document.addEventListener('DOMContentLoaded', function () {
+                    var elems = document.querySelectorAll('select');
+                    var instances = M.FormSelect.init(elems, {});
+                  });
+        </script>
 </body>
 
 </html>
