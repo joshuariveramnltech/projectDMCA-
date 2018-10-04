@@ -90,11 +90,6 @@ class UserChangeForm(forms.ModelForm):
                                attrs={'class': 'datepicker', 'placeholder': 'mm/dd/yyyy'}),
         input_formats=('%m/%d/%Y', )
     )
-    is_active= forms.BooleanField(
-        widget=forms.CheckboxInput(
-            attrs={'class':'checkbox'}
-        )
-    )
 
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.

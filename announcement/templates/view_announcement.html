@@ -33,10 +33,10 @@
                         </p>
                         {% elif request.user.is_teacher %}
                         <p>
-                            <h6>Level: &nbsp; <b>{{ level_and_section.level }}</b> </h6>
-                        </p>
-                        <p>
-                            <h6>Section: &nbsp; <b>{{ level_and_section.section }}</b> </h6>
+                            <h6><b>Year and Section:</b></h6>
+                            {% for each in level_and_section %}
+                            {{ each }} &nbsp;
+                            {% endfor %}
                         </p>
                         {% elif request.user.is_staff %}
                         <p>
@@ -172,7 +172,7 @@
 
                         <span>
                             <small>
-                                Date Posted: {{ announcement.publish_date}} Updated: {{ announcement.updated }}
+                                Date Posted: {{ announcement.publish_date}} Updated: {{ announcement.updated }} ({{ announcement.send_to_group }})
                             </small>
                             <br/>
                         </span>
