@@ -10,9 +10,8 @@ class AnnouncementForm(forms.ModelForm):
     class Meta:
         model = Announcement
         fields = [
-            'title',
-            'body', 'file',
-            'send_to_group', 'status',
+            'title', 'tags',
+            'body', 'send_to_group',
             'send_to_all',
         ]
 
@@ -21,7 +20,6 @@ class AnnouncementForm(forms.ModelForm):
             'body': 'Content',
             'file': 'Attach File/s'
         }
-
 
 
 class CommentForm(forms.ModelForm):

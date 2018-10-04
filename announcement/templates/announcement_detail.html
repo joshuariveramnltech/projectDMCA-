@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-
+{% load announcement_tags %}
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,7 +12,8 @@
 
 <body>
     <h2>{{ announcement.title }}</h2>
-    By {{ announcement.author.get_full_name }} to  {{ announcement.send_to_group }} {% if request.user == announcement.author %}
+    By {{ announcement.author.get_full_name }} {% if announcement.send_to_group %}to &nbsp; {{ announcement.send_to_group }}{% endif %}
+    {% if request.user == announcement.author %}
     <span>
         <small>
             <a href="{{ announcement.get_absolute_url_for_edit }}">Edit</a>
@@ -21,13 +22,13 @@
     </span>
     {% endif %}
     <br/>
+    <h3>Tag/s: {{ announcement.tags.all|join:", " }}</h3>
     <div>
         {{ announcement.body|linebreaks }}
     </div>
     {% if announcement.file.url is not None %}
     <div>Attached File/s: <a href="{{ announcement.file.url }}" target="blank">{{ announcement.file.name }}</a><div>        
     {% endif %}
-    <br/>
     <form method="POST", action="{% url 'announcement:view_announcement_detail' a_id=announcement.id a_slug=announcement.slug %}" 
         enctype="multipart/form-data">
         {% csrf_token %}
@@ -80,10 +81,9 @@
     </div>
     <br/>
 
-    <a href="{% url 'announcement:view_announcement' %}">View Announcements</a>
-    <a href="{% url 'account:dashboard' %}">Dashboard</a>
-    <script>
-    </script>
+        <div>
+            See Also {% get_announcements_with_similar_tags announcement.id %}
+        </div>
 </body>
 
 </html>

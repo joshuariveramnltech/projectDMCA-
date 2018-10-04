@@ -1,0 +1,8 @@
+{% load staticfiles %}
+{% if similar_announcements %}
+{% for announcement in similar_announcements %}
+<a href="{% url 'announcement:view_announcement_detail' announcement.id announcement.slug %}">
+    {{ announcement.title }}
+</a> &nbsp;
+{% endfor %}
+{% endif %}

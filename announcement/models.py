@@ -18,7 +18,7 @@ class Announcement(models.Model):
     
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='created_announcements')
-    tags = TaggableManager()
+    tags = TaggableManager(blank=True)
     title = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250, unique_for_date='publish_date')
     body = models.TextField()

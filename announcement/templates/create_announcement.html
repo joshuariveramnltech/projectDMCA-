@@ -32,6 +32,14 @@
                             </div>
                             <div class="col s12">
                                 <div class="input-field">
+                                    <i class="material-icons prefix">title</i>
+                                    <input type="text" name="tags" required id="id_tags" maxlength="250" class="validate">
+                                    <label for="id_tags">Tags</label> 
+                                    <span class="helptext">A comma-separated list of tags.</span>
+                                </div>
+                            </div>
+                            <div class="col s12">
+                                <div class="input-field">
                                     <i class="material-icons prefix">message</i>
                                     <textarea class="materialize-textarea" name="body" cols="80" rows="20" required id="id_body"></textarea>
                                     <label for="id_body">Type your Message Here....</label>
@@ -66,10 +74,10 @@
                             
                             </div>
                             <div class="col s6">
+                                <label for="id_status">Status</label>
                                 <select name="status" id="id_status">
-                                    <option value="" disabled selected>Status</option>
                                     <option value="draft">Draft</option>
-                                    <option value="published">Published</option>
+                                    <option value="published" selected >Published</option>
                                 </select>
                             </div>
                             <div class="col s3">
