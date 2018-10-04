@@ -35,8 +35,9 @@ class AppointmentRequest(models.Model):
         blank=True, default='',
         help_text="Please use the format: 0999-999-9999"
     )
-    is_active = models.BooleanField(default=True, verbose_name='Active?')
-    schedule = models.DateTimeField(verbose_name="Date and Time of Appoinment")
+    is_active = models.BooleanField(default=True, verbose_name='Active Request?')
+    schedule = models.DateField()
+    time = models.TimeField()
     slug = models.SlugField(max_length=50, blank=True,
                             null=True, editable=False)
     date_created = models.DateTimeField(auto_now=False, auto_now_add=True)
