@@ -12,16 +12,14 @@ class AppointmentRequestForm(forms.ModelForm):
 
     birthday = forms.DateField(
         widget=forms.DateInput(
-            format='%m/%d/%Y',
-            attrs={'class': 'datepicker', 'placeholder': 'mm/dd/yyyy'}
-        ),
-        input_formats=('%m/%d/%Y', )
+            attrs={'class': 'datepicker', }), )
+
+    schedule = forms.DateField(
+        widget=forms.DateInput(
+            attrs={'class': 'datepicker', })
     )
 
-    schedule = forms.DateTimeField(
-        widget=forms.DateTimeInput(
-            attrs={'class': 'datepicker', 'placeholder': 'mm/dd/yyyy hour:min'},
-            format='%m/%d/%Y %H:%M'
-        ),
-        input_formats=('%m/%d/%Y %H:%M', )
+    time = forms.TimeField(
+        widget=forms.TimeInput(
+            attrs={'class': '', 'placeholder': 'hour:min:sec'})
     )

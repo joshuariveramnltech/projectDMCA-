@@ -109,6 +109,7 @@ def create_announcement(request):
             new_announcement = create_announcement_form.save(commit=False)
             new_announcement.author = request.user
             new_announcement.save()
+            create_announcement_form.save_m2m()
             return HttpResponseRedirect(reverse('announcement:view_announcement'))
     context = {'create_announcement_form': create_announcement_form,
                'request': request}
