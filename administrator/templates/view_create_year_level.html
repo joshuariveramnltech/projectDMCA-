@@ -1,46 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}Manage Year Level{% endblock title %}
+{% block content%}
 {% load administrator_tags %}
 {% load staticfiles %}
-<!DOCTYPE html>
-<html>
+<div class="white">
+    <br><br>
+    
 
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Create Year Level</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <script src="main.js"></script>
-</head>
+    <div class="container">
 
-<body>
-    {% for message in messages %}
-    <p>{{ message }}</p>
-    {% endfor %}
-    {% if year_levels %}
-    <table border="1">
-        <th>Year Level</th>
-        <th>Ref. Code</th>
-        <th>Date Created</th>
-        <th>No. of Students</th>
-        {% for year_level in year_levels %}
-        <tr>
-            <td>{{ year_level.level }}</td>
-            <td>{{ year_level.slug }}</td>
-            <td>{{ year_level.date_created }}</td>
-            <td>{% total_students_per_year year_level.id %}</td>
-        </tr>
-        {% endfor %}
-    </table>
-    {% else %}
-    <p>No year level created so far.</p>
-    {% endif %}
-
-    <form method="POST" action=".">
-        {% csrf_token %}
-        {{ year_level_create_form.as_p }}
-        <input type="submit" value="Create" />
-    </form>
-
-</body>
-
-</html>
+        <div class="row">
+            <div class="col s4">
+                <div class="card">
+                    <div class="card-content">
+                        <center><img src="{% static 'img/board.svg' %}" style="object-fit: fill; max-width: 100%"></center>
+                        <form method="POST" action=".">
+                            {% csrf_token %}
+                            <center>{{ year_level_create_form.as_p }}</center>
+                            <input class="btn" style="width: 100%" type="submit" value="Create" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col s8">
+                <div class="card">
+                    <div class="card-content">
+                        {% for message in messages %}
+                        <p>{{ message }}</p>
+                        {% endfor %}
+                        {% if year_levels %}
+                        <table border="1">
+                            <th>Year Level</th>
+                            <th>Date Created</th>
+                            <th>No. of Students</th>
+                            {% for year_level in year_levels %}
+                            <tr>
+                                <td>{{ year_level.level }}</td>
+                                <td>{{ year_level.date_created }}</td>
+                                <td>{% total_students_per_year year_level.id %}</td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                        {% else %}
+                        <p>No year level created so far.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div> 
+    </div>
+    <br>
+</div>
+{% endblock content %}

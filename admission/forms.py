@@ -21,5 +21,5 @@ class AppointmentRequestForm(forms.ModelForm):
 
     time = forms.TimeField(
         widget=forms.TimeInput(
-            attrs={'class': '', 'placeholder': 'hour:min:sec'})
+            attrs={'class': 'timepicker', 'placeholder': 'hour:min'})
     )

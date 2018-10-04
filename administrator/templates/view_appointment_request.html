@@ -1,79 +1,75 @@
-<!DOCTYPE html>
-<html>
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}Admission Requests{% endblock title %}
+{% block content %}
+<div class="white">
+    <br>
+    <div class="container">
 
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Appointment Requests</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <script src="main.js"></script>
-</head>
+        <form method="GET">
+            <input type="text" placeholder="Search Request" value="{{ reques.GET.appointment_query }}" name="appointment_query"/>
+            <input type="submit" value="Submit" />
+        </form>
 
-<body>
-
-    <form method="GET">
-        <input type="text" placeholder="Search Request" value="{{ reques.GET.appointment_query }}" name="appointment_query"/>
-        <input type="submit" value="Submit" />
-    </form>
-
-    <div>
-        {% if appointment_requests %}
-        <table border="1">
-            <th>Name</th>
-            <th>Email</th>
-            <th>Address</th>
-            <th>Ref Code</th>
-            <th>Schedule</th>
-            <th>Status</th>
-            <th>Date Created</th>
-            <th>Options</th>
-            {% for appointment in appointment_requests %}
-            <tr>
-                <td>{{ appointment.get_complete_name }}</td>
-                <td>{{ appointment.email }}</td>
-                <td>{{ appointment.address }}</td>
-                <td>{{ appointment.slug }}</td>
-                <td>{{ appointment.schedule }}</td>
-                {% if appointment.is_active %}
-                    <td>Pending</td>
-                {% else %}
-                    <td>Closed</td>
-                {% endif %}
-                <td>{{ appointment.date_created }}</td>
-                <td><a  href="{% url 'administrator:update_appointment_request' appointment.id appointment.slug %}">Update</a> 
-                  <a href="{% url 'administrator:delete_appointment_request' appointment.id %}"
-                  onclick="return confirm('Are you sure you want to DELETE {{ appointment.get_complete_name }}\' s request')"
-                  >Delete</a> 
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
-        {% else %}
-        No Appointment Request so far..
-        {% endif %}
-    </div>
-
-    <div class="pagination right col s12">
-        <span class="step-links">
-            {% if appointment_requests.has_previous %}
-            <a href="?appointment_request_page=1&appointment_query={{ request.GET.appointment_query }}">&laquo; first</a>
-            <a href="?appointment_request_page={{ appointment_requests.previous_page_number }}&appointment_query={{ request.GET.appointment_query }}">previous</a>
-            {% endif %}
-
+        <div>
             {% if appointment_requests %}
-            <span class="current">
-                Page {{ appointment_requests.number }} of {{ appointment_requests.paginator.num_pages }}.
+            <table border="1">
+                <th>Name</th>
+                <th>Email</th>
+                <th>Address</th>
+                <th>Ref Code</th>
+                <th>Schedule</th>
+                <th>Status</th>
+                <th>Date Created</th>
+                <th>Options</th>
+                {% for appointment in appointment_requests %}
+                <tr>
+                    <td>{{ appointment.get_complete_name }}</td>
+                    <td>{{ appointment.email }}</td>
+                    <td>{{ appointment.address }}</td>
+                    <td>{{ appointment.slug }}</td>
+                    <td>{{ appointment.schedule }}</td>
+                    {% if appointment.is_active %}
+                        <td>Pending</td>
+                    {% else %}
+                        <td>Closed</td>
+                    {% endif %}
+                    <td>{{ appointment.date_created }}</td>
+                    <td><a  href="{% url 'administrator:update_appointment_request' appointment.id appointment.slug %}">Update</a> 
+                    <a href="{% url 'administrator:delete_appointment_request' appointment.id %}"
+                    onclick="return confirm('Are you sure you want to DELETE {{ appointment.get_complete_name }}\' s request')"
+                    >Delete</a> 
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% else %}
+            No Appointment Request so far..
+            {% endif %}
+        </div>
+
+        <div class="pagination right col s12">
+            <span class="step-links">
+                {% if appointment_requests.has_previous %}
+                <a href="?appointment_request_page=1&appointment_query={{ request.GET.appointment_query }}">&laquo; first</a>
+                <a href="?appointment_request_page={{ appointment_requests.previous_page_number }}&appointment_query={{ request.GET.appointment_query }}">previous</a>
+                {% endif %}
+
+                {% if appointment_requests %}
+                <span class="current">
+                    Page {{ appointment_requests.number }} of {{ appointment_requests.paginator.num_pages }}.
+                </span>
+                {% endif %}
+
+                {% if appointment_requests.has_next %}
+                <a href="?appointment_request_page={{ appointment_requests.next_page_number }}&appointment_query={{ request.GET.appointment_query }}">next</a>
+                <a href="?appointment_request_page={{ appointment_requests.paginator.num_pages }}&appointment_query={{ request.GET.appointment_query }}">last &raquo;</a>
+                {% endif %}
             </span>
-            {% endif %}
+        </div>
 
-            {% if appointment_requests.has_next %}
-            <a href="?appointment_request_page={{ appointment_requests.next_page_number }}&appointment_query={{ request.GET.appointment_query }}">next</a>
-            <a href="?appointment_request_page={{ appointment_requests.paginator.num_pages }}&appointment_query={{ request.GET.appointment_query }}">last &raquo;</a>
-            {% endif %}
-        </span>
     </div>
+    <br><br>
 
-</body>
-
-</html>
+</div>
+{% endblock content %}

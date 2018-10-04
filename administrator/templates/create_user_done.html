@@ -2,11 +2,34 @@
 {% load staticfiles %}
 {% block title %}Divine Miracle Christian Academy|Create User Done{% endblock title %}
 {% block content %}
-    <div>
-        <h3>New User is Added!</h3>
-        <div>
-            <a href="{% url 'administrator:create_user' %}"><h4 style="color:black">Create Another?</h4></a><br/>
-            <a href="{% url 'administrator:view_users' %}"><h4 style="color:black">Manage Users</h4></a>
+    <div class="white">
+        <br><br>
+        <div class="container">
+                <center><img src="{% static 'img/checked.svg' %}" style="object-fit: fill; max-height: 250px"></center>
+                <center><h4>Hooray! A New User is Added!</h4></center> 
+                <div class="row">
+                    <div class="col s6">
+                        <div class="card">
+                            <div class="card-content">
+                                <center><img src="{% static 'img/user.svg' %}" style="object-fit: fill; max-height: 150px"></center>
+                                <center><a href="{% url 'administrator:create_user' %}"><h5 style="color:black">Create Another?</h5></a></center>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col s6">
+                        <div class="card">
+                            <div class="card-content">
+                                    <center><img src="{% static 'img/management.svg' %}" style="object-fit: fill; max-height: 150px"></center>
+                                    <center><a href="{% url 'administrator:view_users' %}"><h5 style="color:black">Manage Users</h5></a></center>
+                            </div>
+                        </div>
+                    </div>
+                    
+                   
+                </div>
+
         </div>
+        
+        <br><br>
     </div>
 {% endblock content %}

@@ -93,7 +93,7 @@ def view_users(request):
             Q(middle_name__icontains=staff_query) |
             Q(email__icontains=staff_query)).distinct()
     # Student Pagination
-    student_paginator = Paginator(student_list, 10)
+    student_paginator = Paginator(student_list, 6)
     student_page = request.GET.get('student_page')
     try:
         students = student_paginator.page(student_page)
@@ -102,7 +102,7 @@ def view_users(request):
     except EmptyPage:
         students = student_paginator.page(student_paginator.num_pages)
     # Faculty Pagination
-    faculty_paginator = Paginator(faculty_list, 10)
+    faculty_paginator = Paginator(faculty_list, 6)
     faculty_page = request.GET.get('faculty_page')
     try:
         faculty = faculty_paginator.page(faculty_page)
@@ -111,7 +111,7 @@ def view_users(request):
     except EmptyPage:
         faculty = faculty_paginator.page(faculty_paginator.num_pages)
     # Staff Pagination
-    staff_paginator = Paginator(staff_list, 10)
+    staff_paginator = Paginator(staff_list, 6)
     staff_page = request.GET.get('staff_page')
     try:
         staffs = staff_paginator.page(staff_page)
@@ -550,7 +550,7 @@ def view_appointment_request(request):
             Q(slug__icontains=appointment_query) |
             Q(email__icontains=appointment_query)
         ).distinct()
-    appointment_request_paginator = Paginator(appointment_requests_list, 1)
+    appointment_request_paginator = Paginator(appointment_requests_list, 6)
     appointment_request_page = request.GET.get('appointment_request_page')
     try:
         appointment_requests = appointment_request_paginator.page(
