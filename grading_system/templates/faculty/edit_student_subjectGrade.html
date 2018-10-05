@@ -1,29 +1,52 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
-{% block title %}{{ subjectGrade.subject.subject_name }}|{{student_user.get_short_name}}|{{ student_user.student_profile.level_and_section }}{% endblock title %}
+{% block title %}{{ subjectGrade.subject.subject_name }}|{{student_user.get_short_name}}|{{
+student_user.student_profile.level_and_section }}{% endblock title %}
 {% block content %}
 <div class="white">
-<br><br>
-<div class="container">
-        <a href="{% url 'grading_system:view_students_per_subject' level_and_section.id subjectGrade.subject.id  %}" >Students Enrolled in {{ subjectGrade.subject.subject_name }} {{ student_user.student_profile.level_and_section }}</a>
-    <ul>
-        {% for message in messages %}
+    <br><br>
+    <div class="container">
+        <a href="{% url 'grading_system:view_students_per_subject' level_and_section.id subjectGrade.subject.id  %}">Students
+            Enrolled in {{ subjectGrade.subject.subject_name }} {{ student_user.student_profile.level_and_section }}</a>
+        <ul>
+            {% for message in messages %}
             <li>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    <ul style="list-style-type:none;">
-        <li>Student: {{ student_user.get_full_name }}</li>
-        <li>Subject: {{ subjectGrade.subject.subject_name }}</li>
-        <li>Year and Section: {{ student_user.student_profile.level_and_section }}</li>
-    </ul>
+            {% endfor %}
+        </ul>
+        <ul style="list-style-type:none;">
+            <li>Student: {{ student_user.get_full_name }}</li>
+            <li>Subject: {{ subjectGrade.subject.subject_name }}</li>
+            <li>Year and Section: {{ student_user.student_profile.level_and_section }}</li>
+        </ul>
 
-    <form method="POST" action="{% url 'grading_system:edit_student_subjectGrade' student_user.id student_user.get_full_name subjectGrade.id %}">
-        {% csrf_token %} 
-        {{ subjectGrade_edit_form.as_p }}
-        <input type="submit" value="Submit"/>
-    </form>
-    <a href="{% url 'grading_system:view_assigned_subject' %}" class="col s12">Subjects</a>
-</div>
-<br><br>
+        <form method="POST" action="{% url 'grading_system:edit_student_subjectGrade' student_user.id student_user.get_full_name subjectGrade.id %}">
+            {% csrf_token %}
+            <p><label for="id_first_quarter">First quarter:</label> <input type="number" name="first_quarter" step="0.0001"
+                    id="id_first_quarter" value="{{ subjectGrade_edit_form.first_quarter.value }}"></p>
+            <p><label for="id_second_quarter">Second quarter:</label> <input type="number" name="second_quarter" step="0.0001"
+                    id="id_second_quarter" value="{{ subjectGrade_edit_form.second_quarter.value }}"></p>
+            <p><label for="id_third_quarter">Third quarter:</label> <input type="number" name="third_quarter" step="0.0001"
+                    id="id_third_quarter" value="{{ subjectGrade_edit_form.third_quarter.value }}"></p>
+            <p><label for="id_fourth_quarter">Fourth quarter:</label> <input type="number" name="fourth_quarter" step="0.0001"
+                    id="id_fourth_quarter" value="{{ subjectGrade_edit_form.fourth_quarter.value }}"></p>
+            <p><label for="id_final_subject_grade">Final subject grade:</label> <input type="number" name="final_subject_grade"
+                    step="0.0001" id="id_final_subject_grade" value="{{ subjectGrade_edit_form.final_subject_grade.value }}"></p>
+
+            <p><label for="id_is_finalized">
+                    {% if subjectGrade_edit_form.is_finalized.value %}
+                    <input type="checkbox" name="is_finalized" id="id_is_finalized" checked>
+                    {% else %}
+                    <input type="checkbox" name="is_finalized" id="id_is_finalized">
+                    {% endif %}
+                    <span>Finalized?</span>
+                </label>
+
+                <span class="helptext">Once finalized, you can no longer make any more changes.</span>
+            </p>
+            <input type="submit" value="Submit" />
+        </form>
+        <a href="{% url 'grading_system:view_assigned_subject' %}" class="col s12">Subjects</a>
+    </div>
+    <br><br>
 </div>
 {% endblock content %}
