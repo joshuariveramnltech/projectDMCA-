@@ -71,7 +71,26 @@
     </ul>
     <form method="POST" action="{% url 'grading_system:edit_student_finalgrade' student_user.id level_and_section.level.id %}">
         {% csrf_token %}
-        {{ finalGrade_form.as_p }}
+        <p><label for="id_grade">Final Grade:</label> <input type="number" name="grade" step="0.0001" id="id_grade"
+            value="{{ finalGrade_form.grade.value }}"></p>
+    <p><label for="id_comment">Comment:</label> <textarea name="comment" cols="40" rows="10" id="id_comment">{{ finalGrade_form.comment.value }}
+</textarea></p>
+    {% if finalGrade_form.is_finalized.value %}
+    <p>
+        <label for="id_is_finalized">
+            <input type="checkbox" name="is_finalized" id="id_is_finalized" checked>
+            <span>Finalized?</span>
+        </label>
+        <span class="helptext">Once finalized, you can no longer make any more changes.</span>
+    </p>
+    {% else %}
+    <p><label for="id_is_finalized">
+            <input type="checkbox" name="is_finalized" id="id_is_finalized">
+            <span>Finalized?</span>
+        </label>
+        <span class="helptext">Once finalized, you can no longer make any more changes.</span>
+    </p>
+    {% endif %}
         <input type="submit" value="Submit" />
     </form>
     <a href="{% url 'grading_system:view_assigned_subject' %}" >Subjects</a>

@@ -3,22 +3,52 @@
 {% block title %}{{ target_user.get_short_name }}|{{ subjectGrade.subject.subject_name }}{% endblock title %}
 {% block content %}
 <div class="white">
-<br><br>
-<div class="container">
-    <div>
-        {% if messages %}
+    <br><br>
+    <div class="container">
+        <div>
+            {% if messages %}
             {% for message in messages %}
-                {{ message }}
+            {{ message }}
             {% endfor %}
-        {% endif %}
-        <form method="POST" action="{% url 'administrator:edit_subjectGrade_admin' target_user.id target_user.get_full_name subjectGrade.id %}">
-            {% csrf_token %}
-            {{ subjectGrade_edit_form.as_p }}
-            <input type="submit" value="Submit" />
-        </form>
-        <a href="{{ target_user.student_profile.enrollment_admission_link }}">Back</a>
+            {% endif %}
+            <form method="POST" action="{% url 'administrator:edit_subjectGrade_admin' target_user.id target_user.get_full_name subjectGrade.id %}">
+                {% csrf_token %}
+                <p><label for="id_school_year">School year:</label> <select name="school_year" id="id_school_year">
+                        {% for option in subjectGrade_edit_form.school_year %}
+                        {{ option }}
+                        {% endfor %}
+                    </select></p>
+                <p><label for="id_first_quarter">First quarter:</label> <input type="number" name="first_quarter" step="0.0001"
+                        id="id_first_quarter" value="{{ subjectGrade_edit_form.first_quarter.value }}"></p>
+                <p><label for="id_second_quarter">Second quarter:</label> <input type="number" name="second_quarter"
+                        step="0.0001" id="id_second_quarter" value="{{ subjectGrade_edit_form.second_quarter.value }}"></p>
+                <p><label for="id_third_quarter">Third quarter:</label> <input type="number" name="third_quarter" step="0.0001"
+                        id="id_third_quarter" value="{{ subjectGrade_edit_form.third_quarter.value }}"></p>
+                <p><label for="id_fourth_quarter">Fourth quarter:</label> <input type="number" name="fourth_quarter"
+                        step="0.0001" id="id_fourth_quarter" value="{{ subjectGrade_edit_form.fourth_quarter.value }}"></p>
+                <p><label for="id_final_subject_grade">Final subject grade:</label> <input type="number" name="final_subject_grade"
+                        step="0.0001" id="id_final_subject_grade" value="{{ subjectGrade_edit_form.final_subject_grade.value }}"></p>
+                {% if subjectGrade_edit_form.is_finalized.value %}
+                <p><label for="id_is_finalized">
+                        <input type="checkbox" name="is_finalized" id="id_is_finalized" checked>
+                        <span>Finalized?</span>
+                    </label>
+                    <span class="helptext">Once finalized, you can no longer make any more changes.</span>
+                </p>
+                {% else %}
+                <p><label for="id_is_finalized">
+                        <input type="checkbox" name="is_finalized" id="id_is_finalized">
+                        <span>Finalized?</span>
+                    </label>
+                    <span class="helptext">Once finalized, you can no longer make any more changes.</span>
+                </p>
+                {% endif %}
+
+                <input type="submit" value="Submit" />
+            </form>
+            <a href="{{ target_user.student_profile.enrollment_admission_link }}">Back</a>
+        </div>
     </div>
-</div>
-<br><br>
+    <br><br>
 </div>
 {% endblock content %}
