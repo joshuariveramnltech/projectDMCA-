@@ -4,24 +4,48 @@
 {% load announcement_tags %}
 {% load staticfiles %}
 <div class="white">
-<br><br>
-<div class="container">
-    <div class="card">
-        <div class="card-content">
-            <form method="POST" action="{% url 'administrator:edit_student_finalLevelGradeAdmin' finalGrade.id student_user.get_full_name %}">
-                {% csrf_token %}
-                {{ finalGrade_form.as_p }}
-                <input type="submit" value="Submit"/>
-            </form>
+    <br><br>
+    <div class="container">
+        <div class="card">
+            <div class="card-content">
+                <form method="POST" action="{% url 'administrator:edit_student_finalLevelGradeAdmin' finalGrade.id student_user.get_full_name %}">
+                    {% csrf_token %}
+                    <p><label for="id_school_year">School year:</label> <select name="school_year" id="id_school_year">
+                            {% for option in finalGrade_form.school_year %}
+                            {{ option }}
+                            {% endfor %}
+                        </select></p>
+                    <p><label for="id_grade">Final Grade:</label> <input type="number" name="grade" step="0.0001" id="id_grade"
+                            value="{{ finalGrade_form.grade.value }}"></p>
+                    <p><label for="id_comment">Comment:</label> <textarea name="comment" cols="40" rows="10" id="id_comment">{{ finalGrade_form.comment.value }}
+          </textarea></p>
+                    {% if finalGrade_form.is_finalized.value %}
+                    <p>
+                        <label for="id_is_finalized">
+                            <input type="checkbox" name="is_finalized" id="id_is_finalized" checked>
+                            <span>Finalized?</span>
+                        </label>
+                        <span class="helptext">Once finalized, you can no longer make any more changes.</span>
+                    </p>
+                    {% else %}
+                    <p><label for="id_is_finalized">
+                            <input type="checkbox" name="is_finalized" id="id_is_finalized">
+                            <span>Finalized?</span>
+                        </label>
+                        <span class="helptext">Once finalized, you can no longer make any more changes.</span>
+                    </p>
+                    {% endif %}
+                    <input type="submit" value="Submit" />
+                </form>
+            </div>
         </div>
+        {% for message in messages %}
+        <p>
+            {{ message }}
+        </p>
+        {% endfor %}
+
+        <a href="{% url 'administrator:enrollment_admission' student_user.id student_user.get_full_name %}">Back</a>
     </div>
-    {% for message in messages %}
-    <p>
-        {{ message }}
-    </p>    
-    {% endfor %}
-    
-    <a href="{% url 'administrator:enrollment_admission' student_user.id student_user.get_full_name %}" >Back</a>
-</div>
 </div>
 {% endblock content %}

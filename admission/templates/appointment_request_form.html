@@ -249,6 +249,18 @@
 =======
 >>>>>>> master
         </script>
+        <script>
+            function confirmation() {
+                var send = document.getElementById("send");
+                if (send.classList.contains('disabled')){
+                    alert("Please come 10-15mins before your scheduled appointment");
+                    send.classList.remove("disabled");
+                }
+                else{
+                    send.classList.add("disabled");
+                }
+            }
+        </script>
 </body>
 
 </html>

@@ -3,10 +3,10 @@
 {% block title %}{{ subject.subject_name }}|{{ year_section }}{% endblock title %}
 {% block content %}
     <div class="white">
-        <br><br><br>
+        <br><br>
         <div class="container">
                 <div>
-                        <h4>Students of {{ year_section }}</h4>
+                        <h5>Students of {{ year_section }}</h5>
                         <form action="" method="GET">
                             <input type="text" placeholder="Search Students" name="yearSection_query" value="{{ request.GET.yearSection_query }}"/>
                             <input type="submit" value="Search"/>
@@ -15,7 +15,7 @@
                             {% for student in yearSectionStudents %}
                             <p> 
                                 {{ student.user.get_full_name }} 
-                                <a style="color: #FFFFFF" href="{% url 'grading_system:view_student_profile' student.user.id student.user.get_short_name %}">
+                                <a  href="{% url 'grading_system:view_student_profile' student.user.id student.user.get_short_name %}">
                                     View Profile
                                 </a>
                             </p>    
@@ -44,9 +44,10 @@
                             {% endif %}
                         </span>
                         </div>
+                        <center><b><h6><hr class="grey"></h6></b></center>
             
                     <div>
-                        <h4>Students Enrolled in {{ subject.subject_name }} </h4>
+                        <h5>Students Enrolled in {{ subject.subject_name }} </h5>
                         <form action="" method="GET">
                             <input type="text" placeholder="Search Students" name="enrolledStudent_query" value="{{ request.GET.enrolledStudent_query }}"/>
                             <input type="submit" value="Search"/>
@@ -55,7 +56,7 @@
                             {% for instance in enrolledStudentsPerSubject %}
                                 <p>
                                     {{ instance.student.user.get_full_name }}
-                                    <a style="color:white" href="{% url 'grading_system:edit_student_subjectGrade' instance.student.user.id instance.student.user.get_full_name instance.id %}">
+                                    <a href="{% url 'grading_system:edit_student_subjectGrade' instance.student.user.id instance.student.user.get_full_name instance.id %}">
                                         Update Grade
                                     </a>
                                 </p>
@@ -81,8 +82,9 @@
                             {% endif %}
                             </span>
                     </div>
-                <a style="color:#FFFFFF" href="{% url 'grading_system:view_assigned_subject' %}" class="col s12">Subjects</a>
+                    <center><b><h6><hr class="grey"></h6></b></center>
+                <a  href="{% url 'grading_system:view_assigned_subject' %}" class="col s12">Back</a>
         </div>
-        
+        <br><br>
     </div>
 {% endblock content %}
