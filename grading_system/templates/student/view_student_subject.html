@@ -1,25 +1,31 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 {% block title %}{{ request.user.get_short_name }} | Subjects{% endblock title %}
-
 {% block content %}
-    <table border="2">
-        <th>Subject</th>
-        <th>Designated Instructor</th>
-        <th>Schedule</th>
-        <th>Start Time</th>
-        <th>End Time</th>
-        {% for subject in subjects %}
-        <tr>
-            <td>{{ subject.subject_name }}</td>
-            <td><a style="color: #FFFFFF" href="{% url 'grading_system:view_faculty_profile' subject.designated_instructor.user.id subject.designated_instructor.user.get_short_name %}">{{ subject.designated_instructor.user.get_full_name }}</a></td>
-            <td>{{ subject.schedule }}</td>
-            <td>{{ subject.start_time }}</td>
-            <td>{{ subject.end_time }}</td>
-        </tr>
-        {% empty %}
+<div class="white">
+    <br><br>
+    <div class="container">
+        <table border="2">
+            <th>Subject</th>
+            <th>Designated Instructor</th>
+            <th>Schedule</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            {% for subject in subjects %}
+            <tr>
+                <td>{{ subject.subject_name }}</td>
+                <td>
+                    <a href="{% url 'grading_system:view_faculty_profile' subject.designated_instructor.user.id subject.designated_instructor.user.get_short_name %}">{{ subject.designated_instructor.user.get_full_name }}</a></td>
+                <td>{{ subject.schedule }}</td>
+                <td>{{ subject.start_time }}</td>
+                <td>{{ subject.end_time }}</td>
+            </tr>
+            {% empty %}
             No Subjects for this Section Yet....
-        {% endfor %}
-    </table>
-    <a href="{% url 'grading_system:student_level_section_subject' request.user.student_profile.level_and_section.level.level request.user.student_profile.level_and_section.section %}">Subjects</a>
+            {% endfor %}
+        </table>
+        <a href="{% url 'grading_system:student_level_section_subject' request.user.student_profile.level_and_section.level.level request.user.student_profile.level_and_section.section %}">Subjects</a>
+
+    </div>
+</div>
 {% endblock content %}
