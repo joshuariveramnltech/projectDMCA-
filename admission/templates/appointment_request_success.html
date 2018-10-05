@@ -1,26 +1,90 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Success</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <script src="main.js"></script>
+    <link rel="shortcut icon" href="{% static "img/DMCA logo.png" %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+    <!--OVERWRITE DEFAULT CSS PROPERTIES-->
+    <title>Form Success</title>
 </head>
 
 <body>
-    <h2>Mr/Ms {{ appointment_request_instance.get_complete_name }}, your Application for Appointment is Successful. 
-    For the finalization of your request,</h2>
-    <h2>Click this <a href="{% url 'admission:appointment_request_pdf' appointment_request_instance.id appointment_request_instance.slug %}"
-            target="_blank">
-            Link</a> to view your Appointment Request Voucher
-    </h2>
-    <h1>Do not forget to bring the hard copy of your voucher on the day of your appointment.</h1>
-    <h1>The Copy of This Voucher is also sent to the email provided on your application..</h1>
-    <a href="{% url 'admission:cancel_appointment_request' appointment_request_instance.id %}" onclick="return confirm('Cancel Appointment Request and go Back to Home Page?')">Cancel
-        Request?</a>
+        <nav>
+                <div class="navbar-fixed ">
+                  <nav>
+                    <div class="nav-wrapper white">
+                      &nbsp; &nbsp; &nbsp;
+                      <a style="font-size:24px" href="#!" class="brand-logo"><img src="{% static "img/DMCA logo.png" %}" alt="" class="left" style="max-width:100px"><span
+                          class="black-text hide-on-med-and-down">&nbsp; Divine Miracle Christian Academy</span> </a>
+                      <ul class="right hide-on-med-and-down">
+                          <li><a href="{% url 'admission:appointment_request' %}"class="btn-flat waves-effect"><h6>Admission</h6></a></li>
+                          <li><a href="#about" class="btn-flat waves-effect"><h6>About Us</h6></a></li>
+                          <li><a href="{% url 'login' %}" class="btn-flat waves-effect"><h6>Log In</h6></a></li>
+                        <li>&nbsp &nbsp;&nbsp;</li>
+                      </ul>
+                    </div>
+                  </nav>
+                </div>
+              </nav>
+              <br><br>
+              <div class="container">
+                    <center><img src="{% static 'img/checked.svg' %}" style="object-fit: fill; max-height: 200px"></center>
+                    <h5 class="center">
+                        Dear Mr/Ms {{ appointment_request_instance.get_complete_name }}, your Application for Appointment is Successful. <br>
+                        For the finalization of your request,
+                        Click this <a href="{% url 'admission:appointment_request_pdf' appointment_request_instance.id appointment_request_instance.slug %}"
+                                target="_blank">
+                                link</a> to view your Appointment Request Voucher. <br><br>
+                        DO NOT FORGET TO BRING THE HARD COPY OF YOUR VOUCHER ON THE DAY OF YOUR APPOINTMENT. <br><br>
+                        The Copy of This Voucher is also sent to the email provided on your application..
+                        <br>
+                        <a href="{% url 'admission:cancel_appointment_request' appointment_request_instance.id %}" onclick="return confirm('Cancel Appointment Request and go Back to Home Page?')">Click here to Cancel
+                            Request?</a>
+                    </h5> 
+              </div>
+    
+
+<br><br>
+        <footer class="page-footer blue-grey darken-4">
+            <div class="container">
+                <div class="row">
+                <div class="col l6 s12">
+                    <h5 class="white-text">Divine Miracle Christian Academy of Hermosa (Bataan) Inc.</h5>
+                    <p class="grey-text text-lighten-4">
+                    Train up a child in the way he should go: and when he is old, he will not depart from it. -Proverbs 22:6
+                    </p>
+                </div>
+                <div class="col l4 offset-l2 s12">
+                    <h5 class="white-text">Offerings</h5>
+                    <ul>
+                    <li><a class="grey-text text-lighten-3" href="#!">Nursery</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Kindergarten</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Grade 1</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Grade 2</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Grade 3</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Grade 4</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Grade 5</a></li>
+                    </ul>
+                </div>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <div class="container">
+                DMCA of Hermosa Inc.© 2018-2019
+                <a class="grey-text text-lighten-4 right" href="#!">Government Recognition No. E-092 s.2007</a>
+                </div>
+            </div>
+        </footer>
+        <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+        crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
 </body>
 
 </html>

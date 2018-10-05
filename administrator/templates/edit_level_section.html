@@ -2,11 +2,18 @@
 {% load staticfiles %}
 {% block title %}DMCA|Edit Level Section{% endblock title %}
 {% block content %}
-    <div>
+<div class="white">
+    <br><br>
+    <div class="container">
+        <center><img src="{% static 'img/desk.svg' %}" style="object-fit: fill; height: 150px"> <br><h5><b> Edit Section</b></h5></center>
         <form method="POST" action="{% url 'administrator:edit_level_section' level_section.id %}">
             {% csrf_token %}
             {{ level_section_edit.as_p }}
-            <input type="submit" role="button" value="Submit Changes" />
+            <br>
+            <input class="btn" type="submit" role="button" value="Submit Changes" style="width:100%" />
         </form>
     </div>
+<br><br>
+</div>
+    
 {% endblock content %}

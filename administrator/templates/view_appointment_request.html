@@ -4,69 +4,82 @@
 {% block content %}
 <div class="white">
     <br>
-    <div class="container">
-
-        <form method="GET">
-            <input type="text" placeholder="Search Request" value="{{ reques.GET.appointment_query }}" name="appointment_query"/>
-            <input type="submit" value="Submit" />
-        </form>
-
-        <div>
-            {% if appointment_requests %}
-            <table border="1">
-                <th>Name</th>
-                <th>Email</th>
-                <th>Address</th>
-                <th>Ref Code</th>
-                <th>Schedule</th>
-                <th>Status</th>
-                <th>Date Created</th>
-                <th>Options</th>
-                {% for appointment in appointment_requests %}
-                <tr>
-                    <td>{{ appointment.get_complete_name }}</td>
-                    <td>{{ appointment.email }}</td>
-                    <td>{{ appointment.address }}</td>
-                    <td>{{ appointment.slug }}</td>
-                    <td>{{ appointment.schedule }}</td>
-                    {% if appointment.is_active %}
-                        <td>Pending</td>
-                    {% else %}
-                        <td>Closed</td>
-                    {% endif %}
-                    <td>{{ appointment.date_created }}</td>
-                    <td><a  href="{% url 'administrator:update_appointment_request' appointment.id appointment.slug %}">Update</a> 
-                    <a href="{% url 'administrator:delete_appointment_request' appointment.id %}"
-                    onclick="return confirm('Are you sure you want to DELETE {{ appointment.get_complete_name }}\' s request')"
-                    >Delete</a> 
-                    </td>
-                </tr>
-                {% endfor %}
-            </table>
-            {% else %}
-            No Appointment Request so far..
-            {% endif %}
+    <div>
+        <div class="card">
+            <div class="card-content">
+                    <div>
+                            <form method="GET">
+                                <div class="row">
+                                    <div class="col s6 offset-s5">
+                                        <input type="text" placeholder="Search Request" value="{{ reques.GET.appointment_query }}" name="appointment_query"/>
+                                    </div>
+                                    <div class="col s1">
+                                        <button class="btn btn-floating waves-effect waves-light orange accent-3" type="submit" value="Submit"><i class="material-icons">search</i></button>
+                                    </div>
+                                </div>
+                                
+                            </form>
+                            {% if appointment_requests %}
+                            <table class="centered highlight responsive-table" border="1">
+                                <th><center>Name</center> </th>
+                                <th><center>Email</center> </th>
+                                <th><center>Address</center> </th>
+                                <th><center>Ref Code</center> </th>
+                                <th><center>Schedule</center> </th>
+                                <th><center>Status</center> </th>
+                                <th><center>Date Created</center> </th>
+                                <th><center>Options</center> </th>
+                                {% for appointment in appointment_requests %}
+                                <tr>
+                                    <td>{{ appointment.get_complete_name }}</td>
+                                    <td>{{ appointment.email }}</td>
+                                    <td>{{ appointment.address }}</td>
+                                    <td>{{ appointment.slug }}</td>
+                                    <td>{{ appointment.schedule }}</td>
+                                    {% if appointment.is_active %}
+                                        <td>Pending</td>
+                                    {% else %}
+                                        <td>Closed</td>
+                                    {% endif %}
+                                    <td>{{ appointment.date_created }}</td>
+                                    <td><a class="bnt-flat tooltipped" data-tooltip="Manage"  href="{% url 'administrator:update_appointment_request' appointment.id appointment.slug %}"><i class="material-icons center">update</i></a> 
+                                    <a class="btn-flat tooltipped" data-tooltip="Delete" href="{% url 'administrator:delete_appointment_request' appointment.id %}"
+                                    onclick="return confirm('Are you sure you want to DELETE {{ appointment.get_complete_name }}\' s request')"
+                                    ><i class="material-icons center">delete</i></a> 
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                            {% else %}
+                            No Appointment Request so far..
+                            {% endif %}
+                        </div>
+                
+                        <ul class="pagination right col s12">
+                           
+                                {% if appointment_requests.has_previous %}
+                                <li class="waves-effect"><a href="?appointment_request_page=1&appointment_query={{ request.GET.appointment_query }}"><i class="material-icons">first_page</i></a></li>
+                                <li class="waves-effect"><a href="?appointment_request_page={{ appointment_requests.previous_page_number }}&appointment_query={{ request.GET.appointment_query }}"><i class="material-icons">chevron_left</i></a></li>
+                                {% endif %}
+                                <li>
+                                {% if appointment_requests %}
+                                <a class="current">
+                                    Page {{ appointment_requests.number }} of {{ appointment_requests.paginator.num_pages }}.
+                                </a>
+                                {% endif %}
+                                </li>
+                                {% if appointment_requests.has_next %}
+                                <li class="waves-effect"><a href="?appointment_request_page={{ appointment_requests.next_page_number }}&appointment_query={{ request.GET.appointment_query }}"><i class="material-icons">chevron_right</i></a></li>
+                                <li class="waves-effect"><a href="?appointment_request_page={{ appointment_requests.paginator.num_pages }}&appointment_query={{ request.GET.appointment_query }}"><i class="material-icons">last_page</i></a></li>
+                                {% endif %}
+                        </ul>
+            </div>
+            <br><br>
         </div>
 
-        <div class="pagination right col s12">
-            <span class="step-links">
-                {% if appointment_requests.has_previous %}
-                <a href="?appointment_request_page=1&appointment_query={{ request.GET.appointment_query }}">&laquo; first</a>
-                <a href="?appointment_request_page={{ appointment_requests.previous_page_number }}&appointment_query={{ request.GET.appointment_query }}">previous</a>
-                {% endif %}
+        
 
-                {% if appointment_requests %}
-                <span class="current">
-                    Page {{ appointment_requests.number }} of {{ appointment_requests.paginator.num_pages }}.
-                </span>
-                {% endif %}
-
-                {% if appointment_requests.has_next %}
-                <a href="?appointment_request_page={{ appointment_requests.next_page_number }}&appointment_query={{ request.GET.appointment_query }}">next</a>
-                <a href="?appointment_request_page={{ appointment_requests.paginator.num_pages }}&appointment_query={{ request.GET.appointment_query }}">last &raquo;</a>
-                {% endif %}
-            </span>
-        </div>
+        
 
     </div>
     <br><br>

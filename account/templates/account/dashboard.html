@@ -12,7 +12,27 @@
   <div class="row">
 
     <!--Student Card-->
-    <div class="col s9 m12 l9">&nbsp;</div>
+    <div class="col s9 m12 l9">
+      <div class="row">
+        <div class="col s12 m12 l12">
+          <div class="card">
+            <div class="card-content">
+              <div class="row">
+                <div class="col s3">
+                  <center><img src="{% static 'img/megaphone.svg' %}" style="object-fit: fill; max-width: 80%"></center>
+                  <center><h6><b>Latest Announcements</b></h6></center>
+                </div>
+                <div class="col s9">
+                  {% get_latest_school_announcements 5 %}
+                </div>
+              </div>
+              
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- comment -->
     <div class="col s12 m12 l3">
       <div class="card">
@@ -63,10 +83,9 @@
       </div>
     </div>
   </div>
+  <br><br>
 <!--END OF MAIN-->
-  <div>
-    {% get_latest_school_announcements 5 %}
-  </div>
+  
 </div>
 {% endblock content %}
 

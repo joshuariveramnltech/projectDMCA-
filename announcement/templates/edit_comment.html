@@ -1,26 +1,45 @@
-<!DOCTYPE html>
-<html>
+{% extends 'base.html' %}
+{% block title %}Edit Comment{% endblock title %}
+{% block content%}
+{% load staticfiles %}
+<div class="white">
+<br><br>
 
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Divine Miracle Christian Academy|View Announcement</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <script src="main.js"></script>
-</head>
+<div class="container">
+    <div class="row">
+        <div class="col s4">
+            <br><br>
+            {% if request.user.profile.photo.url is not None %}
+            <center><img class="circle" src="{{ request.user.profile.photo.url }}" style="height: 200px; width:200px; object-fit: cover; " /></center>
+            {% elif request.user.gender == "female" %}
+            <center><img class="circle" src="{% static "img/girl.png" %}" style="height: 200px; width:200px; object-fit: cover; " /></center>
+            {% elif request.user.gender == "male" %}
+            <center><img class="circle" src="{% static "img/boy.png" %}" style="height: 200px; width:200px; object-fit: cover; " /></center>
+            {% endif %}
 
-<body>
-    <h1>Edit Comment for {{ comment_instance.announcement.title }}</h1>
-    <form method="POST" 
-    action="{% url 'announcement:edit_comment' comment_instance.announcement.id comment_instance.announcement.slug comment_instance.id %}">
-        {% csrf_token %}
-        {{ edit_comment_form }}
-        <input type="submit" value="Submit" title="Edit Comment"/>
-        <a href="{% url 'announcement:view_announcement_detail' comment_instance.announcement.id comment_instance.announcement.slug %}">
-            <button>Cancel</button>
-        </a>
-    </form>
-</body>
+            <h6 class="center"><u><b>{{ request.user.get_full_name }}</b></u></h6>
+            <center><h6>Author</h6></center>
+        </div>
+        <div class="col s8">
+            <div class="card">
+                <div class="card-content">
+                    <h6 class="center"><b>Edit your Comment for {{ comment_instance.announcement.title }}</b></h6>
+                    <form method="POST" 
+                    action="{% url 'announcement:edit_comment' comment_instance.announcement.id comment_instance.announcement.slug comment_instance.id %}">
+                        {% csrf_token %}
+                        {{ edit_comment_form }}
+                        <input class="btn waves-effect" type="submit" value="Submit" title="Edit Comment"/>
+                        <a class="btn red waves-effect" href="{% url 'announcement:view_announcement_detail' comment_instance.announcement.id comment_instance.announcement.slug %}">
+                        Cancel
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
-</html>
+    
+</div>
+<br><br>
+</div>
+{% endblock content %}

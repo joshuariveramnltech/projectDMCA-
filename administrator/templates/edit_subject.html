@@ -1,13 +1,17 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
-{% block title %}{{ request.user.get_short_name }}|Create Subject{% endblock title %}
+{% block title %} Edit Subject{% endblock title %}
 {% block content %}
-<div>
-    <h3>Edit Subject</h3>
-    <form method="POST" action="{% url 'administrator:edit_subject' subject.slug user_id %}">
-        {% csrf_token %}
-        {{ edit_subject_form.as_p }}
-        <button type="submit">Submit</button>
-    </form>
+<div class="white">
+    <br><br>
+    <div class="container">
+        <center><img src="{% static 'img/language.svg' %}" style="object-fit: fill; height: 150px"> <br><h5><b> Edit Subject</b></h5></center>
+        <form method="POST" action="{% url 'administrator:edit_subject' subject.slug user_id %}">
+                {% csrf_token %}
+                {{ edit_subject_form.as_p }}
+                <button class="btn" style="width:100%;" type="submit">Submit</button>
+            </form>
+    </div>
+    <br><br>
 </div>
 {% endblock content %}

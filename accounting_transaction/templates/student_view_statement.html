@@ -1,51 +1,47 @@
-<!DOCTYPE html>
-<html>
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}View Statement{% endblock title %}
+{% block content %}
+<div class="white">
+<br><br>
 
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{{ request.user.get_full_name }}|Transaction Record</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <script src="main.js"></script>
-</head>
-
-<body>
-    <ul>
-        {% if statements %}
-        {% for statement in statements %}
-        <li>SY: {{ statement.school_year }}</li>
-        <li>Break Down/Details: {{ statement.break_down }}</li>
-        <li>Assessment: {{ statement.assessment }}</li>
-        <li>Payment: {{ statement.payment }}</li>
-        <li>Remaining Balance: {{ statement.balance }}</li>
-        <li>Updated: {{ statement.updated }}</li>
-        <br />
-        {% endfor %}
-        {% else %}
-        No Transaction Record for this Account Yet.
-        {% endif %}
-    </ul>
-    <div class="pagination right col s12">
-        <span class="step-links">
-            {% if statements.has_previous %}
-            <a href="?statement_page=1">&laquo; first</a>
-            <a href="?statement_page={{ statements.previous_page_number }}">previous</a>
-            {% endif %}
-
+    <div>
+        <ul>
             {% if statements %}
-            <span class="current">
-                Page {{ statements.number }} of {{ statements.paginator.num_pages }}.
+            {% for statement in statements %}
+            <li>SY: {{ statement.school_year }}</li>
+            <li>Break Down/Details: {{ statement.break_down }}</li>
+            <li>Assessment: {{ statement.assessment }}</li>
+            <li>Payment: {{ statement.payment }}</li>
+            <li>Remaining Balance: {{ statement.balance }}</li>
+            <li>Updated: {{ statement.updated }}</li>
+            <br />
+            {% endfor %}
+            {% else %}
+            <center><img src="{% static 'img/money.svg' %}" style="object-fit: fill; height: 250px"> <br><h5><b> No Transaction Record for this Account Yet.</b></h5></center>
+            {% endif %}
+        </ul>
+        <div class="pagination right col s12">
+            <span class="step-links">
+                {% if statements.has_previous %}
+                <a href="?statement_page=1">&laquo; first</a>
+                <a href="?statement_page={{ statements.previous_page_number }}">previous</a>
+                {% endif %}
+
+                {% if statements %}
+                <span class="current">
+                    Page {{ statements.number }} of {{ statements.paginator.num_pages }}.
+                </span>
+                {% endif %}
+
+                {% if statements.has_next %}
+                <a href="?statement_page={{ statements.next_page_number }}">next</a>
+                <a href="?statement_page={{ statements.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
             </span>
-            {% endif %}
+        </div>
 
-            {% if statements.has_next %}
-            <a href="?statement_page={{ statements.next_page_number }}">next</a>
-            <a href="?statement_page={{ statements.paginator.num_pages }}">last &raquo;</a>
-            {% endif %}
-        </span>
     </div>
-
-</body>
-
-</html>
+<br><br>
+</div>
+{% endblock content %}

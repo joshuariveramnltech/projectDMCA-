@@ -8,7 +8,7 @@
     <form method="POST" action="." enctype="multipart/form-data">
         {% csrf_token %}
 
-        <div class="center"><i class="material-icons indigo-text" style="font-size: 6rem;">person_add</i></div>
+        <center><img src="{% static 'img/user.svg' %}" style="object-fit: fill; max-height: 100px"></center>
         <h4 class="center"><b>Create New User</b></h4>
         <div class="container">
                 {{ profile_form.photo.errors }}

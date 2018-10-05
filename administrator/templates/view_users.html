@@ -43,7 +43,7 @@
                                     <div class="card-action center">
                                         <a class="tooltipped" data-tooltip="Edit User" href="{% url 'administrator:edit_user' student.id %}"><i class="material-icons small light-green-text text-accent-4">edit</i></a>
                                         <a class="tooltipped" data-tooltip="View Enrolled Subject" href="{% url 'administrator:enrollment_admission' student.id student.get_full_name %}"><i class="material-icons small light-green-text text-accent-4">description</i></a>
-                                        <a class="tooltipped" data-tooltip="Edit User" href="{% url 'accounting_transaction:view_statement' student.get_full_name student.id %}"><i class="material-icons small light-green-text text-accent-4">credit_card</i></a>
+                                        <a class="tooltipped" data-tooltip="Account" href="{% url 'accounting_transaction:view_statement' student.get_full_name student.id %}"><i class="material-icons small light-green-text text-accent-4">credit_card</i></a>
                                         <a class="tooltipped" data-tooltip="Delete User" href="{% url 'administrator:delete_user' student.id %}" onclick="return confirm('Are you sure you want to DELETE {{ student.get_full_name}}?')"><i class="material-icons small red-text">close</i></a>
                                     </div>
                                 </div> 
@@ -56,41 +56,30 @@
                     </div>
                         {% endfor %}
                         
-                        <div class="pagination right col s12">
+                        <ul class="pagination right col s12">
                                 <span class="step-links">
                                     {% if students.has_previous %}
-                                        <a href="?student_page=1&student_query={{ request.GET.student_query }}">&laquo; first</a>
-                                        <a href="?student_page={{ students.previous_page_number }}&student_query={{ request.GET.student_query }}">previous</a>
+                                    <li class="waves-effect"><a href="?student_page=1&student_query={{ request.GET.student_query }}"><i class="material-icons">first_page</i></a></li>
+                                    <li class="waves-effect"><a href="?student_page={{ students.previous_page_number }}&student_query={{ request.GET.student_query }}"><i class="material-icons">chevron_left</i></a></li>
                                     {% endif %}
                                         
                                     {% if students %}
-                                        <span class="current">
+                                    <li>
+                                        <a class="current">
                                             Page {{ students.number }} of {{ students.paginator.num_pages }}.
-                                        </span>
+                                        </a>
+                                    </li>
                                     {% endif %}
                             
                                     {% if students.has_next %}
-                                        <a href="?student_page={{ students.next_page_number }}&student_query={{ request.GET.student_query }}">next</a>
-                                        <a href="?student_page={{ students.paginator.num_pages }}&student_query={{ request.GET.student_query }}">last &raquo;</a>
+                                    <li class="waves-effect"><a href="?student_page={{ students.next_page_number }}&student_query={{ request.GET.student_query }}"><i class="material-icons">chevron_right</i></a></li>
+                                    <li class="waves-effect"><a href="?student_page={{ students.paginator.num_pages }}&student_query={{ request.GET.student_query }}"><i class="material-icons">last_page</i></a></li>
                                     {% endif %}
                                 </span>
-                            </div>
+                            </ul>
                     
         </div>
     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -138,143 +127,29 @@
                             <center><img src="{% static 'img/paper.svg' %}" style="object-fit: fill; height: 200px"> <br><h5><b>Oooops!! I cant find any Faculty Member.</b></h5></center>
                         </div>
                         {% endfor %}
-                        <div class="pagination right col s12">
-                                <span class="step-links">
-                                    {% if faculty.has_previous %}
-                                        <a href="?faculty_page=1&faculty_query={{ request.GET.faculty_query }}">&laquo; first</a>
-                                        <a href="?faculty_page={{ faculty.previous_page_number }}&faculty_query={{ request.GET.faculty_query }}">previous</a>
-                                    {% endif %}
-                                    
-                                    {% if faculty %}
-                                    <span class="current">
+                        <ul class="pagination right col s12">
+                            <span class="step-links">
+                                {% if faculty.has_previous %}
+                                <li class="waves-effect"><a href="?faculty_page=1&faculty_query={{ request.GET.faculty_query }}"><i class="material-icons">first_page</i></a></li>
+                                <li class="waves-effect"><a href="?faculty_page={{ faculty.previous_page_number }}&faculty_query={{ request.GET.faculty_query }}"><i class="material-icons">chevron_left</i></a></li>
+                                {% endif %}
+                                
+                                {% if faculty %}
+                                <li>
+                                    <a class="current">
                                         Page {{ faculty.number }} of {{ faculty.paginator.num_pages }}.
-                                    </span>
-                                    {% endif %}
-                        
-                                    {% if faculty.has_next %}
-                                        <a href="?faculty_page={{ faculty.next_page_number }}&faculty_query={{ request.GET.faculty_query }}">next</a>
-                                        <a href="?faculty_page={{ faculty.paginator.num_pages }}&faculty_query={{ request.GET.faculty_query }}">last &raquo;</a>
-                                    {% endif %}
-                                    </span>
-                            </div>
+                                    </a>
+                                </li>
+                                {% endif %}
+                    
+                                {% if faculty.has_next %}
+                                <li class="waves-effect"><a href="?faculty_page={{ faculty.next_page_number }}&faculty_query={{ request.GET.faculty_query }}"><i class="material-icons">chevron_right</i></a></li>
+                                <li class="waves-effect"><a href="?faculty_page={{ faculty.paginator.num_pages }}&faculty_query={{ request.GET.faculty_query }}"><i class="material-icons">last_page</i></a></li>
+                                {% endif %}
+                                </span>
+                            </ul>
                     </div>
         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    
-    
-{% comment %} 
-    <div class="container">
-        <form action="" method="GET">
-            <input type="text" placeholder="Search Faculty" name="faculty_query" value="{{ request.GET.faculty_query }}" />
-            <input type="submit" value="Search" />
-        </form>
-        <table class="responsive-table">
-            <th>Full Name</th>
-            <th>Email</th>
-            <th>Account Status</th>
-            <th>Birthday</th>
-            <th>Address</th>
-            <th>Contact Number</th>
-            <th>Designated Year Level</th>
-            <th>Options</th>
-            {% for teacher in faculty %}
-            <tr>
-                <td>{{ teacher.get_full_name }}</td>
-                <td>{{ teacher.email }}</td>
-                {% if teacher.is_active %}
-                <td>Active</td>
-                {% else %}
-                <td>Disabled</td>
-                {% endif %}
-                <td>{{ teacher.date_of_birth }}</td>
-                <td>{{ teacher.address }}</td>
-                <td>{{ teacher.profile.phone_number }}</td>
-                <td>{{ teacher.faculty_profile.designated_year_level }}</td>
-                <td>
-                    <a href="{% url 'administrator:edit_user' teacher.id %}">Edit</a>
-                    <a href="{% url 'administrator:delete_user' teacher.id %}" onclick="return confirm('Are you sure you want to DELETE {{ student.get_full_name}}?')">
-                        Delete
-                    </a>
-                </td>
-            </tr>
-            {% empty %}
-            Empty Result.
-            {% endfor %}
-        </table>  
-        <div class="pagination right">
-                <span class="step-links">
-                    {% if faculty.has_previous %}
-                        <a href="?faculty_page=1&faculty_query={{ request.GET.faculty_query }}">&laquo; first</a>
-                        <a href="?faculty_page={{ faculty.previous_page_number }}&faculty_query={{ request.GET.faculty_query }}">previous</a>
-                    {% endif %}
-                    
-                    {% if faculty %}
-                    <span class="current">
-                        Page {{ faculty.number }} of {{ faculty.paginator.num_pages }}.
-                    </span>
-                    {% endif %}
-        
-                    {% if faculty.has_next %}
-                        <a href="?faculty_page={{ faculty.next_page_number }}&faculty_query={{ request.GET.faculty_query }}">next</a>
-                        <a href="?faculty_page={{ faculty.paginator.num_pages }}&faculty_query={{ request.GET.faculty_query }}">last &raquo;</a>
-                    {% endif %}
-                    </span>
-            </div>
-    </div> {% endcomment %}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -322,25 +197,27 @@
                         {% empty %}
                         Empty Result.
                         {% endfor %}
-                        <div class="pagination right col s12">
+                        <ul class="pagination right col s12">
                                 <span class="step-links">
                                     {% if staffs.has_previous %}
-                                        <a href="?staff_page=1&staff_query={{ request.GET.staff_query }}">&laquo; first</a>
-                                        <a href="?staff_page={{ staffs.previous_page_number }}&staff_query={{ request.GET.staff_query }}">previous</a>
+                                    <li class="waves-effect"><a href="?staff_page=1&staff_query={{ request.GET.staff_query }}"><i class="material-icons">first_page</i></a></li>
+                                    <li class="waves-effect"><a href="?staff_page={{ staffs.previous_page_number }}&staff_query={{ request.GET.staff_query }}"><i class="material-icons">chevron_left</i></a></li>
                                     {% endif %}
                                             
                                     {% if staffs %}
-                                        <span class="current">
+                                    <li>
+                                        <a class="current">
                                             Page {{ staffs.number }} of {{ staffs.paginator.num_pages }}.
-                                        </span>
+                                        </a>
+                                    </li>
                                     {% endif %}
                                 
                                     {% if staffs.has_next %}
-                                        <a href="?staff_page={{ staffs.next_page_number }}&staff_query={{ request.GET.staff_query }}">next</a>
-                                        <a href="?staff_page={{ staffs.paginator.num_pages }}&staff_query={{ request.GET.staff_query }}">last &raquo;</a>
+                                    <li class="waves-effect"><a href="?staff_page={{ staffs.next_page_number }}&staff_query={{ request.GET.staff_query }}"><i class="material-icons">chevron_right</i></a></li>
+                                    <li class="waves-effect"><a href="?staff_page={{ staffs.paginator.num_pages }}&staff_query={{ request.GET.staff_query }}"><i class="material-icons">last_page</i></a></li>
                                     {% endif %}
                                 </span>
-                            </div>
+                            </ul>
                     </div>
         </div>
 
@@ -348,92 +225,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-
-    {% comment %} <div class="container">
-        <form action="" method="GET">
-            <input type="text" placeholder="Search Staff" name="staff_query" value="{{ request.GET.staff_query }}" />
-            <input type="submit" value="Search" />
-        </form>
-        <table class="responsive-table">
-            <th>Full Name</th>
-            <th>Email</th>
-            <th>Account Status</th>
-            <th>Birthday</th>
-            <th>Address</th>
-            <th>Contact Number</th>
-            <th>Position</th>
-            <th>Options</th>
-            {% for staff in staffs %}
-            <tr>
-                <td>{{ staff.get_full_name }}</td>
-                <td>{{ staff.email }}</td>
-                {% if staff.is_active %}
-                <td>Active</td>
-                {% else %}
-                <td>Disabled</td>
-                {% endif %}
-                <td>{{ staff.date_of_birth }}</td>
-                <td>{{ staff.address }}</td>
-                <td>{{ staff.profile.phone_number }}</td>
-                <td>{{ staff.staff_profile.position }}</td>
-                <td>
-                    <a href="{% url 'administrator:edit_user' staff.id %}">Edit</a>
-                    <a href="{% url 'administrator:delete_user' staff.id %}" onclick="return confirm('Are you sure you want to DELETE {{ staff.get_full_name}}?')">
-                        Delete
-                </td>
-            </tr>
-            {% empty %}
-            Empty Result.
-            {% endfor %}
-        </table>
-        <div class="pagination right">
-                <span class="step-links">
-                    {% if staffs.has_previous %}
-                        <a href="?staff_page=1&staff_query={{ request.GET.staff_query }}">&laquo; first</a>
-                        <a href="?staff_page={{ staff.previous_page_number }}&staff_query={{ request.GET.staff_query }}">previous</a>
-                    {% endif %}
-                            
-                    {% if staffs %}
-                        <span class="current">
-                            Page {{ staffs.number }} of {{ staffs.paginator.num_pages }}.
-                        </span>
-                    {% endif %}
-                
-                    {% if staffs.has_next %}
-                        <a href="?staff_page={{ staffs.next_page_number }}&staff_query={{ request.GET.staff_query }}">next</a>
-                        <a href="?staff_page={{ staffs.paginator.num_pages }}&staff_query={{ request.GET.staff_query }}">last &raquo;</a>
-                    {% endif %}
-                </span>
-            </div>
-    </div> {% endcomment %}
     <br><br><br>
 </div>
 {% endblock content %}
