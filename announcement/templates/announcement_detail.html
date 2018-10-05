@@ -40,7 +40,7 @@
                         <h3><b>{{ announcement.title }}</b></h3>
                         <h6>Tag/s: <em>{{ announcement.tags.all|join:", " }}</em></h6>
                         {% if request.user == announcement.author %}
-                        <h6 class="" style="font-size: 1rem;">By: You</h6>
+                        <h6 class="" style="font-size: 1rem;">By: <strong>You</strong></h6>
                         {% else %}
                         <h6 class="" style="font-size: 1rem;">By: <strong>{{ announcement.author.get_full_name }}</strong></h6>
                         {% endif %}
