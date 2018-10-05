@@ -5,7 +5,7 @@
 <div class="white">
     <br><br>
     <div class="container">
-            {% if grade1_subject_grades and  grade2_subject_grades and grade3_subject_grades and grade4_subject_grades and grade5_subject_grades and grade6_subject_grades and kinder_subject_grades and nursery_subject_grades %}
+            {% if grade1_subject_grades or  grade2_subject_grades or grade3_subject_grades or grade4_subject_grades or grade5_subject_grades or grade6_subject_grades or kinder_subject_grades or nursery_subject_grades %}
             {% if grade6_final_grade and grade6_subject_grades %}
             <div class="grade6">
                 <p>Level: {{ grade6_final_grade.level }}</p>
