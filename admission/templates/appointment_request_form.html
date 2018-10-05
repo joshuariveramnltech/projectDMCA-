@@ -53,11 +53,131 @@
                     <div class="col s8">
                         <div class="card">
                             <div class="card-content">
-                                <form method="POST" action=".">
-                                    {% csrf_token %}
-                                    {{ appointment_request_form.as_p }}
-                                    <input type="submit" value="Submit" />
-                                </form>
+                                    <form method="POST" action=".">
+                                            {% csrf_token %}
+                                            <div class="row">
+                                                <div class="col s12">
+                                                    <center><h5><b>Schedule an Appointment</b></h5></center>
+                                                    <center><h6>Fill this form to schedule an appointment to the school</h6></center>
+                                                    <br><hr class="grey">
+                                                </div>
+                                                <div class="col s7">
+                                                    <div class="input-field ">
+                                                        <i class="material-icons prefix">book</i>
+                                                        <input type="text" name="schedule" class="datepicker" required id="id_schedule">
+                                                        <label for="id_schedule">Date</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col s5">
+                                                    <div class="input-field ">
+                                                        <i class="material-icons prefix">access_time</i>
+                                                        <input type="text" class="timepicker" name="time" required id="id_time">
+                                                        <label for="id_time">Time</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col s12">
+                                                    <h6><hr class="grey"></h6>
+                                                </div>
+                                                
+                                                <div class="col l4">
+                                                        <div class="input-field">
+                                                            <i class="material-icons prefix">person</i>
+                                                            <input type="text" name="first_name" maxlength="50" required id="id_first_name">
+                                                            <label for="id_first_name">First Name</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col l4">
+                                                        <div class="input-field">
+                                                            <input type="text" name="middle_name" maxlength="50" id="id_middle_name">
+                                                            <label for="id_middle_name">Middle Name</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col l4">
+                                                        <div class="input-field">
+                                                            <input type="text" name="last_name" maxlength="50" required id="id_last_name">
+                                                            <label for="id_last_name">Last Name</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col l12">
+                                                        <div class="input-field">
+                                                            <i class="material-icons prefix">mail</i>
+                                                            <input type="email" name="email" maxlength="255" required id="id_email">
+                                                            <label for="id_email">Email</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col s3">
+                                                        <div class="input-field">
+                                                            <i class="material-icons prefix">perm_contact_calendar</i>
+                                                            <input type="text" name="age" maxlength="255" required id="id_age">
+                                                            <label for="id_age">Age</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col s9">
+                                                        <div class="input-field">
+                                                            <i class="material-icons prefix">cake</i>
+                                                            <input type="text" name="birthday" class="datepicker" required id="id_birthday">
+                                                            <label for="id_birthday">Birthday</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col s12">
+                                                        <label for="id_gender">Gender:</label> 
+                                                        <select name="gender" id="id_gender">
+                                                            <option value=""selected>---------</option>
+                                                            <option value="male">Male</option>
+                                                            <option value="female">Female</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col s12">
+                                                        <div class="input-field">
+                                                            <i class="material-icons prefix">location_on</i>
+                                                            <input type="text" name="address" maxlength="255" required id="id_address">
+                                                            <label for="id_address">Address</label>
+                                                        </div>
+                                                    </div>
+        
+                                                
+                                                
+                                                <div class="col s12">
+                                                    <h6><hr class="grey"></h6>
+                                                </div>
+                                                <div class="col s12">
+                                                    <div class="input-field ">
+                                                        <i class="material-icons prefix">face</i>
+                                                        <input type="text" name="guardian" maxlength="50" required id="id_guardian">
+                                                        <label for="id_guardian">Guardian</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col s6">
+                                                    <div class="input-field ">
+                                                        <i class="material-icons prefix">group</i>
+                                                        <input type="text" name="relationship" maxlength="50" required id="id_relationship">
+                                                        <label for="id_relationship">Relationship</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col s6">
+                                                    <div class="input-field ">
+                                                        <i class="material-icons prefix">smartphone</i>
+                                                        <input type="text" name="contact_number" maxlength="15" id="id_contact_number">
+                                                        <span class="helptext">Please use the format: 0999-999-9999</span>
+                                                        <label for="id_contact_number">Contact No.</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col s12">
+                                                    
+                                                    <button class="btn btn-large disabled" id="send" type="submit" style="width:100%">Submit <i class="material-icons right">send</i></button>
+                                                    
+                                                </div>
+        
+                                            </div>
+                                            
+                                            
+                                        </form>
+                                        <div class="center">
+                                            <label>
+                                                <input type="checkbox" id="confirm" onclick="confirmation()">
+                                                <span>I confirm that the information given in this form is true, complete and accurate.</span>
+                                            </label>
+                                        </div>
                             </div>
                         </div>
                         
@@ -113,6 +233,21 @@
                         twelveHour: false
                     });
                   })
+<<<<<<< HEAD
+        </script>
+        <script>
+            function confirmation() {
+                var send = document.getElementById("send");
+                if (send.classList.contains('disabled')){
+                    alert("Please come 10-15mins before your scheduled appointment");
+                    send.classList.remove("disabled");
+                }
+                else{
+                    send.classList.add("disabled");
+                }
+            }
+=======
+>>>>>>> master
         </script>
 </body>
 

@@ -13,9 +13,9 @@
             {% if request.user.profile.photo.url is not None %}
             <center><img class="circle" src="{{ request.user.profile.photo.url }}" style="height: 200px; width:200px; object-fit: cover; " /></center>
             {% elif request.user.gender == "female" %}
-            <center><img class="circle" src="{% static "img/girl.svg" %}" style="height: 200px; width:200px; object-fit: cover; " /></center>
+            <center><img class="circle" src="{% static "img/girl.png" %}" style="height: 200px; width:200px; object-fit: cover; " /></center>
             {% elif request.user.gender == "male" %}
-            <center><img class="circle" src="{% static "img/boy.svg" %}" style="height: 200px; width:200px; object-fit: cover; " /></center>
+            <center><img class="circle" src="{% static "img/boy.png" %}" style="height: 200px; width:200px; object-fit: cover; " /></center>
             {% endif %}
 
             <h6 class="center"><u><b>{{ request.user.get_full_name }}</b></u></h6>
@@ -68,9 +68,9 @@
                                             {% if comment.author.profile.photo.url is not None %}
                                             <center><img class="circle" src="{{ comment.author.profile.photo.url }}" style="height:50px; width:50px;object-fit: cover; " /></center>
                                             {% elif comment.author.user.gender == "female" %}
-                                            <center><img class="circle" src="{% static "img/girl.svg" %}" style="height:50px; width:50px;object-fit: cover; " /></center>
+                                            <center><img class="circle" src="{% static "img/girl.png" %}" style="height:50px; width:50px;object-fit: cover; " /></center>
                                             {% elif comment.author.user.gender == "male" %}
-                                            <center><img class="circle" src="{% static "img/boy.svg" %}" style="height:50px; width:50px;object-fit: cover; " /></center>
+                                            <center><img class="circle" src="{% static "img/boy.png" %}" style="height:50px; width:50px;object-fit: cover; " /></center>
                                             {% endif %}
                                         </div>
                                         <div class="grey lighten-3 col s8 m9 l10">
@@ -105,26 +105,26 @@
                                 <textarea class="materialize-textarea" name="body" cols="60" rows="1" required id="id_body"></textarea>
                                 <label for="id_body">Add a Comment</label>
                             </div>
-                            <input type="submit" role="button" value="Submit"/>
+                            <input class="btn btn-large" type="submit" role="button" value="Post Comment" style="width: 100%;"/>
                         </form>
 
-                        <div class="pagination">
-                            <span class="">
+                        <ul class="pagination">
+                   
                                 {% if comments.has_previous %}
-                                    <a href="?page=1">&laquo; first</a>
-                                    <a href="?page={{ comments.previous_page_number }}">previous</a>
+                                <li class="waves-effect"><a href="?page=1"><i class="material-icons">first_page</i></a></li>
+                                <li class="waves-effect"><a href="?page={{ comments.previous_page_number }}"><i class="material-icons">chevron_left</i></a></li>
                                 {% endif %}
-                                
-                                <span class="current">
-                                    Page {{ comments.number }} of {{ comments.paginator.num_pages }}.
-                                </span>
-                                
+                                <li>
+                                    <a class="current">
+                                        Page {{ comments.number }} of {{ comments.paginator.num_pages }}.
+                                    </a>
+                                </li>
                                 {% if comments.has_next %}
-                                    <a href="?page={{ comments.next_page_number }}">next</a>
-                                    <a href="?page={{ comments.paginator.num_pages }}">last &raquo;</a>
+                                <li class="waves-effect"><a href="?page={{ comments.next_page_number }}"><i class="material-icons">chevron_right</i></a></li>
+                                <li class="waves-effect"><a href="?page={{ comments.paginator.num_pages }}"><i class="material-icons">last_page</i></a></li>
                                 {% endif %}
-                            </span>
-                        </div>
+                    
+                        </ul>
                         <div>
                                 See Also {% get_announcements_with_similar_tags announcement.id %}
                             </div>

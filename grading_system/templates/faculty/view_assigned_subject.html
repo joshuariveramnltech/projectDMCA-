@@ -2,27 +2,30 @@
 {% load staticfiles %}
 {% block title %} {{ current_school_year }} | Subjects | {{ request.user.get_short_name }} {% endblock title %}
 {% block content %}
-    <div>
-        <table>
-            <th>Subject</th>
-            <th>Year and Section</th>
-            <th>Schedule</th>
-            <th>Start Time</th>
-            <th>End Time</th>
-            {% for subject in assigned_subjects %}
-            <tr>
-                <td><a style="color: #FFFFFF" href="{% url 'grading_system:view_students_per_subject' subject.level_and_section.id subject.id %}" title="View Students Enrolled to this Subject" >{{ subject.subject_name }}</a></td>
-                <td>{{ subject.level_and_section }}</td>
-                <td>{{ subject.schedule }}</td>
-                <td>{{ subject.start_time }}</td>
-                <td>{{ subject.end_time }}</td>
-            </tr>
-            {% empty %}
-                No Assigned Subjects for this Account Yet...
-            {% endfor %}
-        </table>
-        <div>
-            <a href="{% url 'grading_system:view_students_finalgrade' %}" style="color: #FFFFFF">Final Grade</a>
+    <div class="white">
+        <div class="container">
+                <table class="responsive-table highlight">
+                        <th>Subject</th>
+                        <th>Year and Section</th>
+                        <th>Schedule</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        {% for subject in assigned_subjects %}
+                        <tr>
+                            <td><a  href="{% url 'grading_system:view_students_per_subject' subject.level_and_section.id subject.id %}" title="View Students Enrolled to this Subject" >{{ subject.subject_name }}</a></td>
+                            <td>{{ subject.level_and_section }}</td>
+                            <td>{{ subject.schedule }}</td>
+                            <td>{{ subject.start_time }}</td>
+                            <td>{{ subject.end_time }}</td>
+                        </tr>
+                        {% empty %}
+                            No Assigned Subjects for this Account Yet...
+                        {% endfor %}
+                    </table>
+                    <div>
+                        <a href="{% url 'grading_system:view_students_finalgrade' %}" >Final Grade</a>
+                    </div>
         </div>
+        <br><br>
     </div>
 {% endblock content %}

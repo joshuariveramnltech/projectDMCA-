@@ -119,7 +119,6 @@
           <a href="#!" class="brand-logo"><img src="{% static "img/DMCA logo.png" %}" alt="" class="left" style="width:43px"><span
               class="black-text hide-on-med-and-down">&nbsp; Divine Miracle Christian Academy</span> </a>
           <ul class="right hide-on-med-and-down">
-            <li class="tooltipped" data-tooltip="Home"> <a href="{% url 'account:dashboard' %}" class="nav-link center black-text"><i class="material-icons black-text left">home</i></a></li>
             <li class="tooltipped" data-tooltip="Announcements"> <a href="{% url 'announcement:view_announcement' %}" class="nav-link center black-text"><i class="material-icons black-text left">email</i></a></li>
             <li class="tooltipped" data-tooltip="Dashboard"> <a href="{% url 'account:dashboard' %}" class="nav-link center black-text"><i class="material-icons black-text left">dvr</i></a></li>
             {% if request.user.is_student %}
@@ -151,12 +150,14 @@
 
   <ul id='adminTools' class='dropdown-content'>
     <li> <a href="" class="nav-link center black-text"><i class="material-icons black-text left">build</i>Admin Tools</a></li>
-    <li> <a href="{% url 'administrator:view_users' %}" class="nav-link center black-text"><i class="material-icons black-text left">search</i>View Users</a></li>
-    <li> <a href="{% url 'administrator:view_appointment_request' %}" class="nav-link center black-text"><i class="material-icons black-text left">search</i>Appointment Requests</a></li>
-    <li> <a href="{% url 'administrator:create_user' %}" class="nav-link center black-text"><i class="material-icons black-text left">add</i>Create User</a></li>
-    <li> <a href="{% url 'administrator:view_create_year_level' %}" class="nav-link center black-text"><i class="material-icons black-text left">search</i>Manage Year Levels</a></li>
-    <li> <a href="{% url 'administrator:view_level_section' %}" class="nav-link center black-text"><i class="material-icons black-text left">search</i>Manage Year & Sections</a></li>
-    <li> <a href="{% url 'administrator:create_subject' 0 %}" class="nav-link center black-text"><i class="material-icons black-text left">add</i>Manage Subjects</a></li>
+    <li> <a href="{% url 'administrator:view_appointment_request' %}" class="nav-link center black-text"><i class="material-icons black-text left">schedule</i>Appointment Requests</a></li>
+    <li> <a href="{% url 'administrator:create_user' %}" class="nav-link center black-text"><i class="material-icons black-text left">person_add</i>Create User</a></li>
+    <li> <a href="{% url 'administrator:view_users' %}" class="nav-link center black-text"><i class="material-icons black-text left">people</i>View Users</a></li>
+    <li> <a href="{% url 'administrator:create_subject' 0 %}" class="nav-link center black-text"><i class="material-icons black-text left">note_add</i>Manage Subjects</a></li>
+    <li> <a href="{% url 'administrator:view_level_section' %}" class="nav-link center black-text"><i class="material-icons black-text left">people_outline</i>Manage Sections</a></li>
+    <li> <a href="{% url 'administrator:view_create_year_level' %}" class="nav-link center black-text"><i class="material-icons black-text left">menu</i>Manage Year Levels</a></li>
+    
+    
   </ul>
 
   <ul id="slide-out" class="sidenav">

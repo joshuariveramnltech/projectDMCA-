@@ -1,9 +1,19 @@
 {% load staticfiles %}
 <div>
-    <ul>
+    <ul class="collection">
         {% for announcement in latest_school_announcements %}
-        <li><a href="{% url 'announcement:view_announcement_detail' announcement.id announcement.slug %}">
-                {{announcement.title }}</a> &nbsp; <small> Date Posted: {{ announcement.publish_date }}</small></li>
+        <li class="collection-item avatar">
+            {% if announcement.author.profile.photo.url is not None %}
+                <img class="circle" src="{{ announcement.author.profile.photo.url }}" alt="{{ announcement.author.get_full_name }}" style="object-fit: cover; ">
+            {% elif announcement.author.gender == "female" %}
+                <img src="{% static "img/girl.png" %}" alt="{{ announcement.author.get_full_name }}" style="max-width:100%; object-fit:cover">
+            {% elif announcement.author.gender == "male" %}
+                <img src="{% static "img/boy.png" %}" alt="{{ announcement.author.get_full_name }}" style="max-width:100%; object-fit:cover">
+            {% endif %}
+            <span class="title"><a href="{% url 'announcement:view_announcement_detail' announcement.id announcement.slug %}">
+                    {{announcement.title }}</a></span>
+            <p><small> Date Posted: {{ announcement.publish_date }}</small></p>
+        </li>
         {% endfor %}
     </ul>
 </div>

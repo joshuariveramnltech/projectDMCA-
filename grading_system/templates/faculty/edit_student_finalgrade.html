@@ -1,16 +1,10 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>SY: {{ final_LevelGrade.school_year }} | Final Grade |{{student_user.get_full_name}}|{{ student_user.student_profile.level_and_section }}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <script src="main.js"></script>
-</head>
-
-<body>
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}SY: {{ final_LevelGrade.school_year }} | Final Grade |{{student_user.get_full_name}}|{{ student_user.student_profile.level_and_section }}{% endblock title %}
+{% block content %}
+<div class="white">
+<br><br>
+<div>
     <div>
         <p>Student: {{ student_user.get_full_name }}</p>
         <p>Section: {{ student_user.student_profile.level_and_section }}</p>
@@ -82,6 +76,7 @@
     </form>
     <a href="{% url 'grading_system:view_assigned_subject' %}" >Subjects</a>
     <a href="{% url 'grading_system:view_students_finalgrade' %}" >Back</a>
-</body>
+</div>
 
-</html>
+</div>
+{% endblock content %}

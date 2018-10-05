@@ -12,9 +12,9 @@
                     {% if request.user.profile.photo.url is not None %}
                     <center><img class="circle" src="{{ request.user.profile.photo.url }}" style="height: 200px; width:200px; object-fit: cover; " /></center>
                     {% elif request.user.gender == "female" %}
-                    <center><img class="circle" src="{% static "img/girl.svg" %}" style="height: 200px; width:200px; object-fit: cover; " /></center>
+                    <center><img class="circle" src="{% static "img/girl.png" %}" style="height: 200px; width:200px; object-fit: cover; " /></center>
                     {% elif request.user.gender == "male" %}
-                    <center><img class="circle" src="{% static "img/boy.svg" %}" style="height: 200px; width:200px; object-fit: cover; " /></center>
+                    <center><img class="circle" src="{% static "img/boy.png" %}" style="height: 200px; width:200px; object-fit: cover; " /></center>
                     {% endif %}
 
                     <h6 class="center"><u><b>{{ request.user.get_full_name }}</b></u></h6>

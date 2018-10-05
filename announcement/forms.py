@@ -11,7 +11,7 @@ class AnnouncementForm(forms.ModelForm):
         model = Announcement
         fields = [
             'title', 'tags',
-            'body', 'send_to_group',
+            'body', 'file', 'send_to_group',
             'send_to_all',
         ]
 

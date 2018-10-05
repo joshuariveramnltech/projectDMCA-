@@ -12,9 +12,9 @@
                         {% if request.user.profile.photo.url is not None %}
                             <img src="{{ user.profile.photo.url }}" style="height:100%; object-fit: cover;">
                         {% elif request.user.gender == "female" %}
-                            <img src="{% static "img/girl.svg" %}" style="object-fit:cover">
+                            <img src="{% static "img/girl.png" %}" style="object-fit:cover">
                         {% elif request.user.gender == "male" %}
-                        <img src="{% static "img/boy.svg" %}" style="object-fit:cover">
+                        <img src="{% static "img/boy.png" %}" style="object-fit:cover">
                         {% endif %}
                     </div>
                     <div class="card-content">
@@ -75,9 +75,9 @@
                             {% if announcement.author.profile.photo.url is not None %}
                                 <img class="circle" src="{{ announcement.author.profile.photo.url }}" alt="{{ announcement.author.get_full_name }}" style="object-fit: cover; ">
                             {% elif announcement.author.gender == "female" %}
-                                <img src="{% static "img/girl.svg" %}" alt="{{ announcement.author.get_full_name }}" style="object-fit:cover">
+                                <img src="{% static "img/girl.png" %}" alt="{{ announcement.author.get_full_name }}" style="object-fit:cover">
                             {% elif announcement.author.gender == "male" %}
-                                <img src="{% static "img/boy.svg" %}" alt="{{ announcement.author.get_full_name }}" style="object-fit:cover">
+                                <img src="{% static "img/boy.png" %}" alt="{{ announcement.author.get_full_name }}" style="object-fit:cover">
                             {% endif %}
                             <span class="title">
                                 <a href=""><h5>{{ announcement.title }}</h5></a> <a class="black-text" href="{{ announcement.get_absolute_url }}"><i class="material-icons left">forum</i>Join Discussion</a>
@@ -110,25 +110,25 @@
                     {% empty %}  <center><img src="{% static 'img/kitty.svg' %}" style="object-fit: fill; height: 300px"> <br> <h5> Your School Inbox is empty.</h5> </center> {% endfor %}
                 </ul>
             </div>
-            <div class="school-pagination">
-                <span class="step-links">
+            <ul class="pagination">
                     {% if school_announcement.has_previous %}
-                        <a href="?school_page=1">&laquo; first</a>
-                        <a href="?school_page={{ school_announcement.previous_page_number }}">previous</a>
+                    <li class="waves-effect"><a href="?school_page=1"><i class="material-icons">chevron_left</i></a></li>
+                    <li class="waves-effect"><a href="?school_page={{ school_announcement.previous_page_number }}"><i class="material-icons">first_page</i></a></li>
                     {% endif %}
-
-                    {% if school_announcement %}
-                    <span class="current right">
-                        School Announcement(s) - Page {{ school_announcement.number }} of {{ school_announcement.paginator.num_pages }}.
-                    </span>
-                    {% endif %}
+                    <li>
+                        {% if school_announcement %}
+                        <a class="current right">
+                            School Announcement(s) - Page {{ school_announcement.number }} of {{ school_announcement.paginator.num_pages }}.
+                        </a>
+                        {% endif %}
+                    </li>
+                    
                 
                     {% if school_announcement.has_next %}
-                        <a href="?school_page={{ school_announcement.next_page_number }}">next</a>
-                        <a href="?school_page={{ school_announcement.paginator.num_pages }}">last &raquo;</a>
+                    <li class="waves-effect"><a href="?school_page={{ school_announcement.next_page_number }}"><i class="material-icons">chevron_right</i></a></li>
+                    <li class="waves-effect"><a href="?school_page={{ school_announcement.paginator.num_pages }}"><i class="material-icons">last_page</i></a></li>
                     {% endif %}
-                </span>
-            </div><br>
+            </ul><br>
            
             <b><h6><hr class="grey"></h6></b>
 <br>
@@ -146,9 +146,9 @@
                             {% if  announcement.author.profile.photo.url is not None %}
                                 <img class="circle" src="{{ announcement.author.profile.photo.url }}" alt="" style="object-fit: cover; ">
                             {% elif  announcement.author.gender == "female" %}
-                                <img class="circle" src="{% static "img/girl.svg" %}" alt="" style="object-fit: cover; ">
+                                <img class="circle" src="{% static "img/girl.png" %}" alt="" style="object-fit: cover; ">
                             {% elif  announcement.author.gender == "male" %}
-                                <img class="circle" src="{% static "img/boy.svg" %}" alt="" style="object-fit: cover; ">
+                                <img class="circle" src="{% static "img/boy.png" %}" alt="" style="object-fit: cover; ">
                             {% endif %}
                             <span class="title">
                                 <a href=""><h5>{{ announcement.title }}</h5></a> <a class="black-text" href="{{ announcement.get_absolute_url }}"><i class="material-icons left">forum</i>Join Discussion</a>

@@ -2,35 +2,43 @@
 {% load staticfiles %}
 {% block title %}Profile|{{ target_user.get_full_name }}{% endblock title %}
 {% block content %}
-<div class="row">
-    <div class="card">
-    <div class="card-image" style="height: 300px; overflow:hidden;">
-        {% if target_user.profile.photo.url is not None %}
-            <img src="{{ target_user.profile.photo.url }}" style="height:100%; object-fit: cover;">
-        {% elif target_user.gender == "female" %}
-            <img src="{% static "img/girl.svg" %}" style="object-fit: cover;">
-        {% elif target_user.gender == "male" %}
-            <img src="{% static "img/boy.svg" %}" style="object-fit: cover;">
-        {% endif %}
+<div class="white">
+        <br><br>
+    <div class="container">
+            <div>
+                   
+                    <div style="height: 300px; overflow:hidden;">
+                        {% if target_user.profile.photo.url is not None %}
+                        <center><img class="circle materialboxed" src="{{ target_user.profile.photo.url }}" style="height: 300px; width:300px; object-fit: cover; " /></center> 
+                        {% elif target_user.gender == "female" %}
+                            <img src="{% static "img/girl.png" %}" style="height: 300px; width:300px; object-fit: cover; ">
+                        {% elif target_user.gender == "male" %}
+                            <img src="{% static "img/boy.png" %}" style="height: 300px; width:300px; object-fit: cover; ">
+                        {% endif %}
+                    </div>
+                    </div>
+                    <ul class="center">
+                        <li><h4><b>{{ target_user.get_full_name }}</b> </h4></li>
+                        <li><h5> {{ target_user.email }}</h5></li>
+                    {% if target_user.is_teacher %}
+                        <li><h6> Account: Faculty/Teacher</h6></li>
+                        <li><h6>Designated Year Level: {{ target_user.faculty_profile.designated_year_level }}</h6> </li>
+                        <li><h6>Additional Information: {{ target_user.faculty_profile.additional_information }}</h6> </li>
+                    {% elif target_user.is_student %}
+                        <li><h6> Account: Student</h6></li>
+                        <li><h6>Parent/Guardian: {{ target_user.student_profile.guardian }}</h6> </li>
+                        <li><h6>Year and Section: {{ target_user.student_profile.level_and_section }}</h6> </li>
+                    {% elif target_user.is_staff %}
+                        <li><h6> Account: Staff</h6></li>
+                        <li><h6>Position: {{ target_user.staff_profile.position }}</h6> </li>
+                        <li><h6> Additional Information: {{ target_user.staff_profile.additional_information }}</h6></li>
+                    </ul>
+                    {% endif %}
+                    <h6><b><hr></b></h6>
+                    <a href="{{ announcement.get_absolute_url }}"><h6>Back</h6></a>
     </div>
-    </div>
-    <ul>
-        <li>Name: {{ target_user.get_full_name }}</li>
-        <li>Email: {{ target_user.email }}</li>
-    {% if target_user.is_teacher %}
-        <li>Account: Faculty/Teacher</li>
-        <li>Designated Year Level: {{ target_user.faculty_profile.designated_year_level }}</li>
-        <li>Additional Information: {{ target_user.faculty_profile.additional_information }}</li>
-    {% elif target_user.is_student %}
-        <li>Account: Student</li>
-        <li>Parent/Guardian: {{ target_user.student_profile.guardian }}</li>
-        <li>Year and Section: {{ target_user.student_profile.level_and_section }}</li>
-    {% elif target_user.is_staff %}
-        <li>Account: Staff</li>
-        <li>Position: {{ target_user.staff_profile.position }}</li>
-        <li>Additional Information: {{ target_user.staff_profile.additional_information }}</li>
-    </ul>
-    {% endif %}
-    <a href="{{ announcement.get_absolute_url }}">Back</a>
+    
+    
+    <br><br><br><br>
 </div>
 {% endblock content %}

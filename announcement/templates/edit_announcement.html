@@ -1,27 +1,43 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Page Title</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <script src="main.js"></script>
-</head>
-<body>
-    {% if messages %}
-        {% for message in messages %}
-            <h4>{{ message }}</h4>
-        {% endfor %}
-    {% endif %}
-    <h3>Author: {{ announcement.author.get_full_name }}</h3>
-   
-    <form method="POST" action="{% url 'announcement:edit_announcement' announcement.id announcement.slug %}" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ announcement_edit_form.as_p }}
-        <input type="submit" value="Submit"/>
-    </form>
-    <a href="{% url 'announcement:view_announcement' %}">View Announcements</a>
-    <a href="{% url 'account:dashboard' %}">Dashboard</a>
-</body>
-</html>
+{% extends 'base.html' %}
+{% block title %}{{ request.user.get_full_name }} | Messages{% endblock title %}
+{% block content%}
+{% load staticfiles %}
+<div class="white">
+    <br><br>
+    <div class="row">
+        <div class="col s4">
+            <br><br>
+            {% if request.user.profile.photo.url is not None %}
+            <center><img class="circle" src="{{ request.user.profile.photo.url }}" style="height: 200px; width:200px; object-fit: cover; " /></center>
+            {% elif request.user.gender == "female" %}
+            <center><img class="circle" src="{% static "img/girl.png" %}" style="height: 200px; width:200px; object-fit: cover; " /></center>
+            {% elif request.user.gender == "male" %}
+            <center><img class="circle" src="{% static "img/boy.png" %}" style="height: 200px; width:200px; object-fit: cover; " /></center>
+            {% endif %}
+
+            <h6 class="center"><u><b>{{ request.user.get_full_name }}</b></u></h6>
+            <center><h6>Author</h6></center>
+        </div>
+        <div class="col s8">
+            <div class="card">
+                <div class="card-content">
+                        {% if messages %}
+                        {% for message in messages %}
+                            <h4>{{ message }}</h4>
+                        {% endfor %}
+                    {% endif %}
+                
+                    <form method="POST" action="{% url 'announcement:edit_announcement' announcement.id announcement.slug %}" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ announcement_edit_form.as_p }}
+                        <input type="submit" value="Submit"/>
+                    </form>
+                    <a href="{% url 'announcement:view_announcement' %}">View Announcements</a>
+                    <a href="{% url 'account:dashboard' %}">Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br><br>
+</div>
+{% endblock content %}
