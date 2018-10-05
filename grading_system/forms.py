@@ -49,9 +49,8 @@ class FinalGradeCreateForm(forms.ModelForm):
             'grade': 'Final Grade'
         }
 
+
 # for faculty use only
-
-
 class FinalGradeEditForm(forms.ModelForm):
     class Meta:
         model = FinalGrade
