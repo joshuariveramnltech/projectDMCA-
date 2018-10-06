@@ -2,104 +2,108 @@
 <!DOCTYPE html>
 <html>
 
-        <head>
-                <meta charset="utf-8" />
-                <meta http-equiv="X-UA-Compatible" content="IE=edge">
-                <link rel="shortcut icon" href="{% static "img/DMCA logo.png" %}">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-                <!--Import Google Icon Font-->
-                <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-                <!-- Compiled and minified CSS -->
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
-                <!--OVERWRITE DEFAULT CSS PROPERTIES-->
-                <style>
-                  #landing {
-                    height: 100vh;
-                    background-image: url('{% static "img/education.jpg" %}');
-                    background-position: center;
-                    background-size: cover;
-                    background-repeat: no-repeat;
-                    background-attachment: fixed;
-                    z-index: -1;
-                  }
-                  #landing1 {
-                    height: 100vh;
-                    background-image: url('{% static "img/classroom1.jpg" %}');
-                    background-position: center;
-                    background-size: cover;
-                    background-repeat: no-repeat;
-                    background-attachment: fixed;
-                    z-index: -1;
-                  }
-                  #landing2 {
-                    height: 100vh;
-                    background-image: url('{% static "img/pencils.jpg" %}');
-                    background-position: center;
-                    background-size: cover;
-                    background-repeat: no-repeat;
-                    background-attachment: fixed;
-                    z-index: -1;
-                  }
-                  #landing3 {
-                    height: 100vh;
-                    background-image: url('{% static "img/group1.jpg" %}');
-                    background-position: center;
-                    background-size: cover;
-                    background-repeat: no-repeat;
-                    background-attachment: fixed;
-                    z-index: -1;
-                  }
-                </style>
-                <title>DMCA | Home</title>
-              </head>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" href="{% static " img/DMCA logo.png" %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+    <!--OVERWRITE DEFAULT CSS PROPERTIES-->
+    <style>
+        #landing {
+            height: 100vh;
+            background-image: url('{% static "img/education.jpg" %}');
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            z-index: -1;
+        }
+
+        #landing1 {
+            height: 100vh;
+            background-image: url('{% static "img/classroom1.jpg" %}');
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            z-index: -1;
+        }
+
+        #landing2 {
+            height: 100vh;
+            background-image: url('{% static "img/pencils.jpg" %}');
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            z-index: -1;
+        }
+
+        #landing3 {
+            height: 100vh;
+            background-image: url('{% static "img/group1.jpg" %}');
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            z-index: -1;
+        }
+    </style>
+    <title>DMCA | Home</title>
+</head>
 
 <body>
-        <nav>
-                <div class="navbar-fixed ">
-                  <nav>
-                    <div class="nav-wrapper white">
-                      &nbsp; &nbsp; &nbsp;
-                      <a style="font-size:24px" href="#!" class="brand-logo"><img src="{% static "img/DMCA logo.png" %}" alt="" class="left" style="max-width:100px"><span
-                          class="black-text hide-on-med-and-down">&nbsp; Divine Miracle Christian Academy</span> </a>
-                      <ul class="right hide-on-med-and-down">
-                          <li><a href="{% url 'admission:appointment_request' %}"class="btn-flat waves-effect"><h6>Admission</h6></a></li>
-                          <li><a href="#about" class="btn-flat waves-effect"><h6>About Us</h6></a></li>
-                          <li><a href="{% url 'login' %}" class="btn-flat waves-effect"><h6>Log In</h6></a></li>
+    <nav>
+        <div class="navbar-fixed ">
+            <nav>
+                <div class="nav-wrapper white">
+                    &nbsp; &nbsp; &nbsp;
+                    <a style="font-size:24px" href="#!" class="brand-logo"><img src="{% static " img/DMCA logo.png" %}"
+                            alt="" class="left" style="max-width:100px"><span class="black-text hide-on-med-and-down">&nbsp;
+                            Divine Miracle Christian Academy</span> </a>
+                    <ul class="right hide-on-med-and-down">
+                        <li><a href="{% url 'admission:appointment_request' %}" class="btn-flat waves-effect">
+                                <h6>Admission</h6>
+                            </a></li>
+                        <li><a href="#about" class="btn-flat waves-effect">
+                                <h6>About Us</h6>
+                            </a></li>
+                        <li><a href="{% url 'login' %}" class="btn-flat waves-effect">
+                                <h6>Log In</h6>
+                            </a></li>
                         <li>&nbsp &nbsp;&nbsp;</li>
-                      </ul>
-                    </div>
-                  </nav>
+                    </ul>
                 </div>
-              </nav>
-    <div class="carousel carousel-slider center" style="height: 100vh;">
-     
-        <div class="carousel-item green white-text" href="#one!">
-                <div id="landing2" class="row">
-                    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-                    <div class="col s5 offset-s6">
-                        <h3 class="center white-text"><b>Molding Future Leaders Since 1980</b> </h3>
-                    </div>
-                </div>
+            </nav>
         </div>
-        <div class="carousel-item white-text" href="#two!">
-           <div id="landing" class="row">
-               <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-               <div class="col s5 offset-s1">
-                    <h3 class="center white-text"><b style="opacity: 1">Over Decades of Excellent Community Service</b> </h3>
-                    
+    </nav>
+    <div class="carousel carousel-slider center" style="height: 100vh;">
+
+        <div class="carousel-item green white-text" href="#one!">
+            <div id="landing2" class="row">
+                <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                <div class="col s5 offset-s6">
+                    <h3 class="center white-text"><b>Molding Future Leaders Since 1980</b> </h3>
                 </div>
             </div>
         </div>
-
-
-        
-
+        <div class="carousel-item white-text" href="#two!">
+            <div id="landing" class="row">
+                <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                <div class="col s5 offset-s1">
+                    <h3 class="center white-text"><b style="opacity: 1">Over Decades of Excellent Community Service</b>
+                    </h3>
+                </div>
+            </div>
+        </div>
     </div>
-    
+
     <div class="row">
-        
     </div>
-    
     <br><br><br>
     <div class="row">
         <div class="col s5">
@@ -107,97 +111,99 @@
         </div>
         <div class="col s6">
             <h4 class="center grey-text text-darken-3">We Believe that each child is created in the image of God.</h4>
-            <h6 class="center grey-text text-darken-1">We recognize that each child has God-given potentials and these potentials must be harnessed to the fullest</h6>
+            <h6 class="center grey-text text-darken-1">We recognize that each child has God-given potentials and these
+                potentials must be harnessed to the fullest</h6>
         </div>
     </div>
     <div id="about" class="col s12 grey lighten-3">
         <br><br><br>
         <center><img class="responsive-image center" src="{% static 'img/school.svg' %}" style="max-width: 20%"></center>
         <h4 class="center grey-text text-darken-3">Who are We?</h4>
-        <h6 class="center container grey-text text-darken-1">DMCA is a non-stock, non-profit, non-secretarian learning institution for children, where every child is accepted and
-                given the oppurtunity to quality educatio regardless of race, naionality, religion and socio-economic status.  <br>
-                DMCA is a Methodist Church-related school, a mission arm of nature. It aims to develop the child&#39;s potentials to the
-                maximum through an integrated and coordinated plan of work and play activities suited to te child&#39;s age, interests,
-                talents and abilities.
-                <br>
-                DMCA offers conducive classrooms, educational devices and materials especially prepared for the intellectual, emotional,
-                physical, social and spiritual development of the children.
-                <br>
-                DMCA is recognized by the government through the Department of Education.</h6>
-                <br><br><br>
+        <h6 class="center container grey-text text-darken-1">DMCA is a non-stock, non-profit, non-secretarian learning
+            institution for children, where every child is accepted and
+            given the oppurtunity to quality educatio regardless of race, naionality, religion and socio-economic
+            status. <br>
+            DMCA is a Methodist Church-related school, a mission arm of nature. It aims to develop the child&#39;s
+            potentials to the
+            maximum through an integrated and coordinated plan of work and play activities suited to te child&#39;s
+            age, interests,
+            talents and abilities.
+            <br>
+            DMCA offers conducive classrooms, educational devices and materials especially prepared for the
+            intellectual, emotional,
+            physical, social and spiritual development of the children.
+            <br>
+            DMCA is recognized by the government through the Department of Education.</h6>
+        <br><br><br>
     </div>
     <div class="row">
         <br>
         <div class="col s6">
             <br><br><br>
-            <h4 class="center grey-text text-darken-3">We Strive to provide young children experiences in Christian Living</h4>
-            <h6 class="center grey-text text-darken-1">through balance program of development, and to simulate them to develop their optimum potential.</h6>
+            <h4 class="center grey-text text-darken-3">We Strive to provide young children experiences in Christian
+                Living</h4>
+            <h6 class="center grey-text text-darken-1">through balance program of development, and to simulate them to
+                develop their optimum potential.</h6>
         </div>
         <div class="col s6">
-                <img class="responsive-image" src="{% static 'img/business.svg' %}" style="max-width: 60%">
-            </div>
+            <img class="responsive-image" src="{% static 'img/business.svg' %}" style="max-width: 60%">
+        </div>
     </div>
-
-
-
-
-
-
-
     <footer class="page-footer blue-grey darken-4">
         <div class="container">
             <div class="row">
-            <div class="col l6 s12">
-                <h5 class="white-text">Divine Miracle Christian Academy of Hermosa (Bataan) Inc.</h5>
-                <p class="grey-text text-lighten-4">
-                Train up a child in the way he should go: and when he is old, he will not depart from it. -Proverbs 22:6
-                </p>
-            </div>
-            <div class="col l4 offset-l2 s12">
-                <h5 class="white-text">Offerings</h5>
-                <ul>
-                <li><a class="grey-text text-lighten-3" href="#!">Nursery</a></li>
-                <li><a class="grey-text text-lighten-3" href="#!">Kindergarten</a></li>
-                <li><a class="grey-text text-lighten-3" href="#!">Grade 1</a></li>
-                <li><a class="grey-text text-lighten-3" href="#!">Grade 2</a></li>
-                <li><a class="grey-text text-lighten-3" href="#!">Grade 3</a></li>
-                <li><a class="grey-text text-lighten-3" href="#!">Grade 4</a></li>
-                <li><a class="grey-text text-lighten-3" href="#!">Grade 5</a></li>
-                </ul>
-            </div>
+                <div class="col l6 s12">
+                    <h5 class="white-text">Divine Miracle Christian Academy of Hermosa (Bataan) Inc.</h5>
+                    <p class="grey-text text-lighten-4">
+                        Train up a child in the way he should go: and when he is old, he will not depart from it.
+                        -Proverbs 22:6
+                    </p>
+                </div>
+                <div class="col l4 offset-l2 s12">
+                    <h5 class="white-text">Offerings</h5>
+                    <ul>
+                        <li><a class="grey-text text-lighten-3" href="#!">Nursery</a></li>
+                        <li><a class="grey-text text-lighten-3" href="#!">Kindergarten</a></li>
+                        <li><a class="grey-text text-lighten-3" href="#!">Grade 1</a></li>
+                        <li><a class="grey-text text-lighten-3" href="#!">Grade 2</a></li>
+                        <li><a class="grey-text text-lighten-3" href="#!">Grade 3</a></li>
+                        <li><a class="grey-text text-lighten-3" href="#!">Grade 4</a></li>
+                        <li><a class="grey-text text-lighten-3" href="#!">Grade 5</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
         <div class="footer-copyright">
             <div class="container">
-            DMCA of Hermosa Inc.© 2018-2019
-            <a class="grey-text text-lighten-4 right" href="#!">Government Recognition No. E-092 s.2007</a>
+                DMCA of Hermosa Inc.© 2018-2019
+                <a class="grey-text text-lighten-4 right" href="#!">Government Recognition No. E-092 s.2007</a>
             </div>
         </div>
     </footer>
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-    crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
-<script>
-        document.addEventListener('DOMContentLoaded', function() {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
             var elems = document.querySelectorAll('.carousel');
             var instances = M.Carousel.init(elems, {
                 indicators: true
             });
-          });
-          var instance = M.Carousel.init({
-            fullWidth: true
-          });
-</script>
-<script>
-        $('.carousel').carousel({
-           padding: 200    
         });
-       setTimeout(autoplay, 4500);
-      function autoplay() {
-          $('.carousel').carousel('next');
-           setTimeout(autoplay, 4500);
+        var instance = M.Carousel.init({
+            fullWidth: true
+        });
+    </script>
+    <script>
+        $('.carousel').carousel({
+            padding: 200
+        });
+        setTimeout(autoplay, 4500);
+        function autoplay() {
+            $('.carousel').carousel('next');
+            setTimeout(autoplay, 4500);
         }
-</script>
+    </script>
 
 </body>
 
