@@ -20,7 +20,8 @@ def get_announcements_with_similar_tags(announcement_id):
     if announcement.send_to_all:
         similar_announcements = Announcement.objects.filter(
             status='published',
-            tags__in=announcement_tags_id
+            tags__in=announcement_tags_id,
+            send_to_group=None
         ).exclude(id=announcement_id)
     elif announcement.send_to_group is not None:
         similar_announcements = Announcement.objects.filter(
