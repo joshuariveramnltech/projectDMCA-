@@ -5,135 +5,158 @@
 
 <div class="white">
    <br>
-    <form method="POST" action="." enctype="multipart/form-data">
-        {% csrf_token %}
-
-        <center><img src="{% static 'img/user.svg' %}" style="object-fit: fill; max-height: 100px"></center>
-        <h4 class="center"><b>Create New User</b></h4>
+    
         <div class="container">
-                {{ profile_form.photo.errors }}
-                <div class="file-field input-field">
-                    <div class="btn">
-                        <span><i class="material-icons left">image</i> Profile Picture</span>
-                        <input type="file" name="photo" id="id_photo">
-                    </div>
-                    <div class="file-path-wrapper">
-                        <input class="file-path validate" type="text">
-                    </div>
-                </div>
-            </div>
-        <div class="container">
+                <form method="POST" action="." enctype="multipart/form-data">
+                {% csrf_token %}
+            <br><br>
             <div class="row">
-                {{ user_form.first_name.errors }}
-                <div class="input-field col s4">
-                    <i class="material-icons prefix">account_circle</i>
-                    <input id="id_first_name" type="text" class="validate" name="first_name" maxlength="255" required>
-                    <label for="id_first_name">First Name</label>
+                <div class="col s12 m3 l3">
+                    <center><img src="{% static 'img/user.svg' %}" style="object-fit: fill; max-height: 100px"></center>
+                    <h4 class="center"><b>Create New User</b></h4>
+                    <br><b><h6><hr class="grey"></h6></b><br>
+                    <center><a href="{% url 'administrator:view_users' %}"><img class="tooltipped" data-tooltip="Manage Users" src="{% static 'img/management.svg' %}" style="object-fit: fill; width:30%"><br><small>Manage Users</small></a> </center><br>
+                    <center><a href="{% url 'administrator:view_appointment_request' %}"><img class="tooltipped" data-tooltip="Appointment Requests" src="{% static 'img/schedule.svg' %}" style="object-fit: fill; width:30%"><br><small>Appoint Requests</small></a> </center>
                 </div>
-                <div class="input-field col s4">
-                    <input id="id_middle_name" type="text" class="validate" name="middle_name" maxlength="255">
-                    <label for="id_middle_name">Middle Name</label>
-                </div>
-                {{ user_form.last_name.errors }}
-                <div class="input-field col s4">
-                    <input id="id_last_name" type="text" class="validate" name="last_name" maxlength="255" required>
-                    <label for="id_last_name">Last Name</label>
-                </div>
-                {{ user_form.email.errors }}
-                <div class="input-field col s12">
-                    <i class="material-icons prefix">mail</i>
-                    <input id="id_email" type="email" class="validate" name="email" required maxlength="255">
-                    <label for="id_email">Email</label>
-                </div>
-                {{ user_form.date_of_birth.errors }}
-                <div class="input-field col s4">
-                    <i class="material-icons prefix">event</i>
-                    <input id="id_date_of_birth" type="text" class="datepicker" name="date_of_birth" required>
-                    <label for="id_date_of_birth">Birthdate</label>
-                </div>
-                {{ user_form.address.errors }}
-                <div class="input-field col s8">
-                    <i class="material-icons prefix">location_on</i>
-                    <input type="text" name="address" maxlength="255" id="id_address" required />
-                    <label for="id_address">Address</label>
-                </div>
-                <div class="col s12">
-                    <br>
-                    <hr>
-                    <br>
-                </div>
-                <div class="col s2">
-                    <label>
-                        <input type="checkbox" name="is_active" id="id_is_active" checked />
-                        <span>Active</span>
-                    </label>
-                </div>
-                <div class="col s2">
-                    <label>
-                        <input type="checkbox" name="is_student" id="id_is_student" />
-                        <span>Student</span>
-                    </label>
-                </div>
-                <div class="col s2">
-                    <label>
-                        <input type="checkbox" name="is_teacher" id="id_is_teacher" />
-                        <span>Teacher</span>
-                    </label>
-                </div>
-                <div class="col s2">
-                    <label>
-                        <input type="checkbox" name="is_staff" id="id_is_staff" />
-                        <span>Staff</span>
-                    </label>
-                </div>
-                <div class="col s2">
-                    <label>
-                        <input type="checkbox" name="is_superuser" id="id_is_superuser" />
-                        <span>Superuser</span>
-                    </label>
-                </div>
-                <div class="col s12">
-                    <br>
-                    <hr>
-                    <br>
-                </div>
-                {{ user_form.password2.errors }}
-                <div class="input-field col s6">
-                    <i class="material-icons prefix">vpn_key</i>
-                    <input type="password" name="password1" required id="id_password1" />
-                    <label for="id_password1">Password</label>
-                </div>
-                <div class="input-field col s6">
-                    <i class="material-icons prefix">vpn_key</i>
-                    <input type="password" name="password2" required id="id_password2" />
-                    <label for="id_password2">Password(again)</label>
-                </div>
-                {{ profile_form.phone_number.errors }}
-                <div class="input-field col s6">
-                    <input id="id_phone_number" type="text" name="phone_number" maxlength="13" placeholder="0912-345-6789" />
-                    <label for="id_phone_number">Phone number:</label>
-                </div>
-                <div class="input-field col s2">
-                    <input type="text" name="age" maxlength="3" id="id_age">
-                    <label for="id_age">Age:</label>
-                </div>
-                <div class="input-field col s4">
-                    <select name="gender" id="id_gender">
-                        <option value="" selected>---------</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                    </select>
-                    <label for="id_gender">Gender:</label> 
+                <div class="col s12 m9 l9">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="file-field input-field">
+                                <div class="btn  light-green accent-4">
+                                    <span><i class="material-icons left">image</i> Profile Picture</span>
+                                    <input type="file" name="photo" id="id_photo">
+                                </div>
+                                <div class="file-path-wrapper">
+                                    <input class="file-path validate" type="text">
+                                    <span class="helper-text red-text">{{ profile_form.photo.errors }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="row">
+                                    <div class="input-field col s4">
+                                        <i class="material-icons prefix">account_circle</i>
+                                        <input id="id_first_name" type="text" class="validate" name="first_name" maxlength="255" required>
+                                        <label for="id_first_name">First Name</label>
+                                        
+                                    </div>
+                                    <div class="input-field col s4">
+                                        <input id="id_middle_name" type="text" class="validate" name="middle_name" maxlength="255">
+                                        <label for="id_middle_name">Middle Name</label>
+                                    </div>
+                                    <div class="input-field col s4">
+                                        <input id="id_last_name" type="text" class="validate" name="last_name" maxlength="255" required>
+                                        <label for="id_last_name">Last Name</label>
+                                        <span class="helper-text red-text">{{ user_form.last_name.errors }}</span>
+                                    </div>
+                                    <div class="input-field col s12">
+                                        <i class="material-icons prefix">mail</i>
+                                        <input id="id_email" type="email" class="validate" name="email" required maxlength="255">
+                                        <label for="id_email">Email</label>
+                                        <span class="helper-text red-text">{{ user_form.email.errors }}</span>
+                                    </div>
+                                    <div class="input-field col s4">
+                                        <i class="material-icons prefix">event</i>
+                                        <input id="id_date_of_birth" type="text" class="datepicker" name="date_of_birth" required>
+                                        <label for="id_date_of_birth">Birthdate</label>
+                                        <span class="helper-text red-text">{{ user_form.date_of_birth.errors }}</span>
+                                    </div>
+                                    <div class="input-field col s8">
+                                        <i class="material-icons prefix">location_on</i>
+                                        <input type="text" name="address" maxlength="255" id="id_address" required />
+                                        <label for="id_address">Address</label>
+                                        <span class="helper-text red-text">{{ user_form.address.errors }}</span>
+                                    </div>
+                                    <div class="col s12">
+                                        <br>
+                                        <hr>
+                                        <br>
+                                    </div>
+                                    <div class="col s2">
+                                        <label>
+                                            <input type="checkbox" name="is_active" id="id_is_active" checked />
+                                            <span>Active</span>
+                                        </label>
+                                    </div>
+                                    <div class="col s2">
+                                        <label>
+                                            <input type="checkbox" name="is_student" id="id_is_student" />
+                                            <span>Student</span>
+                                        </label>
+                                    </div>
+                                    <div class="col s2">
+                                        <label>
+                                            <input type="checkbox" name="is_teacher" id="id_is_teacher" />
+                                            <span>Teacher</span>
+                                        </label>
+                                    </div>
+                                    <div class="col s2">
+                                        <label>
+                                            <input type="checkbox" name="is_staff" id="id_is_staff" />
+                                            <span>Staff</span>
+                                        </label>
+                                    </div>
+                                    <div class="col s2">
+                                        <label>
+                                            <input type="checkbox" name="is_superuser" id="id_is_superuser" />
+                                            <span>Superuser</span>
+                                        </label>
+                                    </div>
+                                    <div class="col s12">
+                                        <br>
+                                        <hr>
+                                        <br>
+                                    </div>
+                                    <div class="input-field col s6">
+                                        <i class="material-icons prefix">vpn_key</i>
+                                        <input type="password" name="password1" required id="id_password1" />
+                                        <label for="id_password1">Password</label>
+                                    </div>
+                                    <div class="input-field col s6">
+                                        <i class="material-icons prefix">vpn_key</i>
+                                        <input type="password" name="password2" required id="id_password2" />
+                                        <label for="id_password2">Password(again)</label>
+                                        <span class="helper-text red-text">{{ user_form.password2.errors }}</span>
+                                    </div>
+                                   
+                                    <div class="input-field col s6">
+                                        <input id="id_phone_number" type="text" name="phone_number" maxlength="13" placeholder="0912-345-6789" />
+                                        <label for="id_phone_number">Phone number:</label>
+                                        <span class="helper-text red-text" > {{ profile_form.phone_number.errors }}</span>
+                                    </div>
+                                    <div class="input-field col s2">
+                                        <input type="text" name="age" maxlength="3" id="id_age">
+                                        <label for="id_age">Age:</label>
+                                    </div>
+                                    <div class="input-field col s4">
+                                        <select name="gender" id="id_gender">
+                                            <option value="" selected>---------</option>
+                                            <option value="male">Male</option>
+                                            <option value="female">Female</option>
+                                        </select>
+                                        <label for="id_gender">Gender:</label> 
+                                    </div>
+                            </div>
+                            <div class="center">
+                                    <button class="btn btn-large waves-green waves-teal light-blue" type="submit"><i class="material-icons right">send</i>
+                                        Submit</button>
+                                    <button class="btn btn-large waves-green waves-teal red" type="reset"><i class="material-icons right">refresh</i>Reset</button>
+                                </div>
+                        </div>
+                    </div>
+                   
                 </div>
             </div>
-            
-            <div class="center">
-                <button class="btn btn-large waves-green waves-teal orange accent-3" type="submit"><i class="material-icons right">send</i>
-                    Submit</button>
-                <button class="btn btn-large waves-green waves-teal indigo" type="reset"><i class="material-icons right">refresh</i>Reset</button>
-            </div>
+        </form>
         </div>
-    </form>
+        <div class="container">
+          
+            
+            
+        </div>
+    
 
     
     <div>

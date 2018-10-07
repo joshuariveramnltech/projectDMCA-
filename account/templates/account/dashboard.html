@@ -68,16 +68,14 @@
             <p><h6>Position: &nbsp; <b>{{ request.user.staff_profile.position }}</b> </h6></p>
           {% endif %}
         </div>
-        <div class="card-action center">
+        <div class="center">
           <div class="row">
               {% if request.user.is_student and request.user.student_profile.level_and_section.level.level%}
-                <a 
-                href="{% url 'grading_system:student_level_section_subject' request.user.student_profile.level_and_section.level.level request.user.student_profile.level_and_section.section %}" 
-                class="col s12">Subjects</a>
+              <center><a href="{% url 'grading_system:student_level_section_subject' request.user.student_profile.level_and_section.level.level request.user.student_profile.level_and_section.section %}"><img class="tooltipped" data-tooltip="View Subjects" src="{% static 'img/language.svg' %}" style="object-fit: fill; width:30%"><br><small>View Subjects</small></a> </center>
               {% elif request.user.is_teacher %}
-                <a href="{% url 'grading_system:view_assigned_subject' %}" class="col s12">Subjects</a>
+              <center><a href="{% url 'grading_system:view_assigned_subject' %}"><img class="tooltipped" data-tooltip="View Schedule" src="{% static 'img/schedule.svg' %}" style="object-fit: fill; width:30%"><br><small>View Schedule</small></a> </center>
               {% endif %}
-
+<br>
           </div>
         </div>
       </div>

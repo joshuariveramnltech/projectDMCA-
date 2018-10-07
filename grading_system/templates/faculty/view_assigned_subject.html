@@ -3,28 +3,56 @@
 {% block title %} {{ current_school_year }} | Subjects | {{ request.user.get_short_name }} {% endblock title %}
 {% block content %}
     <div class="white">
+        <br><br>
         <div class="container">
-                <table class="responsive-table highlight">
-                        <th>Subject</th>
-                        <th>Year and Section</th>
-                        <th>Schedule</th>
-                        <th>Start Time</th>
-                        <th>End Time</th>
-                        {% for subject in assigned_subjects %}
-                        <tr>
-                            <td><a  href="{% url 'grading_system:view_students_per_subject' subject.level_and_section.id subject.id %}" title="View Students Enrolled to this Subject" >{{ subject.subject_name }}</a></td>
-                            <td>{{ subject.level_and_section }}</td>
-                            <td>{{ subject.schedule }}</td>
-                            <td>{{ subject.start_time }}</td>
-                            <td>{{ subject.end_time }}</td>
-                        </tr>
-                        {% empty %}
-                            No Assigned Subjects for this Account Yet...
-                        {% endfor %}
-                    </table>
+            <div class="row">
+                <div class="col l3">
+                    <br><br><br>
+                    <center><img src="{% static 'img/grammar.svg' %}" style="object-fit: fill; max-height: 100px"></center>
+                    <h5 class="center"><b>Teacher {{ request.user.get_full_name }} </b></h5>
+                    <br>
+                    <br><b><h6><hr class="grey"></h6></b>
+                    <br>
                     <div>
                         <a href="{% url 'grading_system:view_students_finalgrade' %}" >Final Grade</a>
                     </div>
+                </div>
+                <div class="col l9">
+                    <div class="card hoverable">
+                        <div class="card-content">
+                            <h5 class="center"><b>Your Schedule </b></h5>
+                            <table class="responsive-table highlight centered">
+                                <thead>
+                                    <tr>
+                                        <th>Subject</th>
+                                        <th>Year and Section</th>
+                                        <th>Schedule</th>
+                                        <th>Start Time</th>
+                                        <th>End Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for subject in assigned_subjects %}
+                                    <tr>
+                                        <td><a  href="{% url 'grading_system:view_students_per_subject' subject.level_and_section.id subject.id %}" title="View Students Enrolled to this Subject" >{{ subject.subject_name }}</a></td>
+                                        <td>{{ subject.level_and_section }}</td>
+                                        <td>{{ subject.schedule }}</td>
+                                        <td>{{ subject.start_time }}</td>
+                                        <td>{{ subject.end_time }}</td>
+                                    </tr>
+                                    {% empty %}
+                                    <center><img src="{% static 'img/finish-line.svg' %}" style="object-fit: fill; height: 150px"> <br><h6>Oooops!<br>It seems you haven&#39;t been assigned any subjects..</h6></center>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                </div>
+                   
+                    
+            </div>
+              
         </div>
         <br><br>
     </div>

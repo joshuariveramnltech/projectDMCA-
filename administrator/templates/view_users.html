@@ -21,14 +21,14 @@
                         {% for student in students %}
                         <div class="col s6 m3 l2">
                             <div>
-                                <div class="card">
-                                    <div class="card-image" style="max-height:200px; overflow:hidden;">
+                                <div class="card hoverable">
+                                    <div class="card-image" style="height:200px; overflow:hidden;">
                                         {% if student.profile.photo.url is not None %}
-                                        <img class="responsive-image" src="{{ student.profile.photo.url }}" style="height:100%; object-fit: cover;">
+                                        <img src="{{ student.profile.photo.url }}" style="height:100%; object-fit: cover;">
                                         {% elif student.gender == "female" %}
-                                        <img src="{% static "img/girl.svg" %}" style="object-fit: cover;">
+                                        <img src="{% static 'img/girl.png' %}" style="height:100%; object-fit: cover;">
                                         {% elif student.gender == "male" %}
-                                        <img src="{% static "img/boy.svg" %}" style="object-fit: cover;">
+                                        <img src="{% static 'img/boy.png' %}" style="height:100%; object-fit: cover;">
                                         {% endif %}
                                     </div>
                                     <div class="card-content">
@@ -94,14 +94,14 @@
                         {% for teacher in faculty %}
                         <div class="col s6 m3 l2">
                             <div>
-                                <div class="card">
+                                <div class="card hoverable">
                                     <div class="card-image" style="height:200px; overflow:hidden;">
                                         {% if teacher.profile.photo.url is not None %}
                                         <img src="{{ teacher.profile.photo.url }}" style="height:100%; object-fit: cover;">
                                         {% elif teacher.gender == "female" %}
-                                        <img src="{% static "img/girl.svg" %}" style="object-fit: cover;">
+                                        <img src="{% static 'img/girl.png' %}" style="height:100%; object-fit: cover;">
                                         {% elif teacher.gender == "male" %}
-                                        <img src="{% static "img/boy.svg" %}" style="object-fit: cover;">
+                                        <img src="{% static 'img/boy.png' %}" style="height:100%; object-fit: cover;">
                                         {% endif %}
                                     </div>
                                     <div class="card-content">
@@ -167,14 +167,14 @@
                             {% for staff in staffs %}
                         <div class="col s6 m3 l2">
                             <div>
-                                <div class="card">
+                                <div class="card hoverable">
                                     <div class="card-image" style="height:200px; overflow:hidden;">
                                         {% if staff.profile.photo.url is not None %}
                                         <img src="{{ staff.profile.photo.url }}" style="height:100%; object-fit: cover;">
                                         {% elif staff.gender == "female" %}
-                                        <img src="{% static "img/girl.svg" %}" style="object-fit: cover;">
+                                        <img src="{% static 'img/girl.png' %}" style="height:100%; object-fit: cover;">
                                         {% elif staff.gender == "male" %}
-                                        <img src="{% static "img/boy.svg" %}" style="object-fit: cover;">
+                                        <img src="{% static 'img/boy.png' %}" style="height:100%; object-fit: cover;">
                                         {% endif %}
                                     </div>
                                     <div class="card-content">

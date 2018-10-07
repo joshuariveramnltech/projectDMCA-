@@ -6,16 +6,17 @@
         <div class="row">
         <br>
 
-    <div class="col s3">
+    <div class="col s12 m12 l3">
         <div class="col s12">
           <div class="card darken-1">
             <div class="card-content white-text">
-              <span class="card-title"><h4 class="center black-text"><b>Create Subject</b></h4></span>
+                <center><img src="{% static 'img/language.svg' %}" style="object-fit: fill; height: 150px"><h5><b> Edit Section</b></h5></center>
+                <span class="card-title"><h4 class="center black-text"><b>Create Subject</b></h4></span>
                 <div>
                     <form method="POST" action="{% url 'administrator:create_subject' user_id %}">
                         {% csrf_token %}
                         {{ create_subject_form.as_p }}
-                        <button type="submit">Submit</button>
+                        <button class="btn waves-effect" style="width:100%" type="submit"><i class="material-icons left">add</i> Create Subject</button>
                     </form>
                 </div>
             </div>
@@ -24,52 +25,61 @@
       </div>
 
 
-      <div class="card col s9">
+      <div class="card col s12 m12 l9">
           <div class="card-content">
               <span class="card-title"><h4 class="center black-text"><b>Subjects</b></h4></span>
-              <table border="1">
-                    <th>Subject</th>
-                    <th>Ref. Code</th>
-                    <th>Year and Section</th>
-                    <th>Designated Instructor</th>
-                    <th>Option</th>
-                    {% for subject in subjects %}
+              <table class="highlight responsive-table centered" border="1">
+                  <thead>
+                      <tr>
+                        <th>Subject</th>
+                        <th>Ref. Code</th>
+                        <th>Year and Section</th>
+                        <th>Designated Instructor</th>
+                        <th>Option</th>
+                      </tr>
+                  </thead>
+                    
+                    
+                    <tbody>
+                        {% for subject in subjects %}
                         <tr>
                             <td> {{ subject.subject_name }}</td>
                             <td> {{ subject.slug }}</td>
                             <td> {{ subject.level_and_section }}</td>
                             <td> {{ subject.designated_instructor }}</td>
-                            <td><a href="{% url 'administrator:edit_subject' subject.slug 0 %}">
-                                <button>Edit</button></a> 
-                                <a href="{% url 'administrator:delete_subject' subject.slug 0 %}" 
+                            <td><a class="btn-flat" href="{% url 'administrator:edit_subject' subject.slug 0 %}">
+                                <i class="material-icons center">edit</i></a> 
+                                <a class="btn-flat" href="{% url 'administrator:delete_subject' subject.slug 0 %}" 
                                 onclick="return confirm('Are you sure you want to DELETE {{subject.subject_name}} for {{subject.level_and_section}}?')">
-                                <button>Delete</button>
+                                <i class="material-icons center">delete</i>
                                 </a>
                             </td>
                         </tr>
-                    {% endfor %}
+                        {% endfor %}
+                    </tbody>
+                        
                 </table>
-                
-                <div class="pagination">
+                <b><h6><hr class="grey"></h6></b>
+                <div class="pagination right">
                     <span class="step-links">
                         {% if subjects.has_previous %}
-                            <a href="?page=1">&laquo; first</a>
-                            <a href="?page={{ subjects.previous_page_number }}">previous</a>
+                        <li class="waves-effect"><a href="?page={{ subjects.previous_page_number }}"><i class="material-icons">chevron_left</i></a></li>
+                        <li class="waves-effect"><a href="?page=1"><i class="material-icons">first_page</i></a></li>
                         {% endif %}
-                        
-                    <span class="current">
-                        Page {{ subjects.number }} of {{ subjects.paginator.num_pages }}.
-                    </span>
-                        
+                        <li>
+                        <a class="current">
+                            Page {{ subjects.number }} of {{ subjects.paginator.num_pages }}.
+                        </a>
+                        </li>
                         {% if subjects.has_next %}
-                            <a href="?page={{ subjects.next_page_number }}">next</a>
-                            <a href="?page={{ subjects.paginator.num_pages }}">last &raquo;</a>
+                        <li class="waves-effect"><a href="?page={{ subjects.next_page_number }}"><i class="material-icons">chevron_right</i></a></li>
+                        <li class="waves-effect"><a href="?page={{ subjects.paginator.num_pages }}"><i class="material-icons">last_page</i></a></li>
                         {% endif %}
                     </span>
                 </div>
           </div>
             
-
+<br>
       </div>
     
 </div>

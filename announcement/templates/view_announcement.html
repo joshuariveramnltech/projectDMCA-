@@ -7,51 +7,55 @@
         <div class="col s12 m12 l3">
             <br><br>
             <div>
-                <div class="card">
-                    <div class="card-image" style=" overflow:hidden;">
+                <div>
+                    <div >
                         {% if request.user.profile.photo.url is not None %}
-                            <img src="{{ user.profile.photo.url }}" style="height:100%; object-fit: cover;">
+                        <center><img class="circle" src="{{ user.profile.photo.url }}" style="height:240px; width:240px; object-fit: cover;"></center>
                         {% elif request.user.gender == "female" %}
-                            <img src="{% static "img/girl.png" %}" style="object-fit:cover">
+                        <center><img src="{% static 'img/girl.png' %}" style="height:240px; width:240px; object-fit: cover;"></center>
+                            
                         {% elif request.user.gender == "male" %}
-                        <img src="{% static "img/boy.png" %}" style="object-fit:cover">
+                        <center><img src="{% static 'img/boy.png' %}" style="height:240px; width:240px; object-fit: cover;"></center>
                         {% endif %}
                     </div>
-                    <div class="card-content">
+                    <div class="center">
                         <p>
-                            <h6>Name: &nbsp; <b>{{ request.user.get_full_name }}</b> </h6>
+                            <h6><b>{{ request.user.get_full_name }}</b> </h6>
                         </p>
                         {% if request.user.is_student %}
                         <p>
-                            <h6>Level: &nbsp; <b>{{ request.user.student_profile.level_and_section.level }}</b> </h6>
+                            <h6>Level: &nbsp; {{ request.user.student_profile.level_and_section.level }} </h6>
                         </p>
                         <p>
-                            <h6>Section: &nbsp; <b>{{ request.user.student_profile.level_and_section.section }}</b> </h6>
+                            <h6>Section: &nbsp; {{ request.user.student_profile.level_and_section.section }} </h6>
                         </p>
                         <p>
-                            <h6>Adviser &nbsp; <b>{{ request.user.student_profile.level_and_section.adviser.user.get_full_name }}</b> </h6>
+                            <h6>Adviser &nbsp; {{ request.user.student_profile.level_and_section.adviser.user.get_full_name }} </h6>
                         </p>
                         {% elif request.user.is_teacher %}
                         <p>
-                            <h6><b>Year and Section:</b></h6>
+                            <h6>Year and Section:</h6>
                             {% for each in level_and_section %}
-                            {{ each }} &nbsp;
+                            <h6>{{ each }} &nbsp;</h6>
                             {% endfor %}
                         </p>
                         {% elif request.user.is_staff %}
                         <p>
-                            <h6>Position: &nbsp; <b>{{ request.user.staff_profile.position }}</b> </h6>
+                            <h6>{{ request.user.staff_profile.position }}</h6>
                         </p>
                         {% endif %}
                     </div>
-                    <div class="card-action center">
+                    <b><h6><hr class="grey"></h6></b><br>
+                    <div class="center">
                         <div class="row">
                             {% if request.user.is_student and request.user.student_profile.level_and_section.level.level %}
-                            <a href="{% url 'grading_system:student_level_section_subject' request.user.student_profile.level_and_section.level.level request.user.student_profile.level_and_section.section %}" class="col s12">
-                                Subjects
-                            </a>
+                            <div class="col s6">
+                                <center><a href="{% url 'grading_system:student_level_section_subject' request.user.student_profile.level_and_section.level.level request.user.student_profile.level_and_section.section %}"><img class="tooltipped" data-tooltip="View Subjects" src="{% static 'img/language.svg' %}" style="object-fit: fill; width:40%"><br><small>View Subjects</small></a> </center>
+                            </div>
                             {% elif request.user.is_teacher %}
-                                <a href="{% url 'grading_system:view_assigned_subject' %}" class="col s12">Subjects</a>
+                            <div class="col s6">
+                                <center><a href="{% url 'grading_system:view_assigned_subject' %}"><img class="tooltipped" data-tooltip="View Subjects" src="{% static 'img/language.svg' %}" style="object-fit: fill; width:40%"><br><small>View Subjects</small></a> </center>
+                            </div>
                             {% endif %}
                         </div>
                     </div>
@@ -75,12 +79,12 @@
                             {% if announcement.author.profile.photo.url is not None %}
                                 <img class="circle" src="{{ announcement.author.profile.photo.url }}" alt="{{ announcement.author.get_full_name }}" style="object-fit: cover; ">
                             {% elif announcement.author.gender == "female" %}
-                                <img src="{% static "img/girl.png" %}" alt="{{ announcement.author.get_full_name }}" style="object-fit:cover">
+                                <img class="circle" src="{% static "img/girl.png" %}" alt="{{ announcement.author.get_full_name }}" style="object-fit:cover">
                             {% elif announcement.author.gender == "male" %}
-                                <img src="{% static "img/boy.png" %}" alt="{{ announcement.author.get_full_name }}" style="object-fit:cover">
+                                <img class="circle" src="{% static "img/boy.png" %}" alt="{{ announcement.author.get_full_name }}" style="object-fit:cover">
                             {% endif %}
                             <span class="title">
-                                <a href=""><h5>{{ announcement.title }}</h5></a> <a class="black-text" href="{{ announcement.get_absolute_url }}"><i class="material-icons left">forum</i>Join Discussion</a>
+                                <a href=""><h6><b>{{ announcement.title }}</b></h6></a> <a  style="font-size: .9rem;" class="black-text" href="{{ announcement.get_absolute_url }}"><i class="material-icons left">forum</i>Join Discussion</a>
                             </span>
                         </div>
 
@@ -151,7 +155,7 @@
                                 <img class="circle" src="{% static "img/boy.png" %}" alt="" style="object-fit: cover; ">
                             {% endif %}
                             <span class="title">
-                                <a href=""><h5>{{ announcement.title }}</h5></a> <a class="black-text" href="{{ announcement.get_absolute_url }}"><i class="material-icons left">forum</i>Join Discussion</a>
+                                <a href=""><h6><b>{{ announcement.title }}</b> </h6></a> <a style="font-size: .9rem;" class="black-text" href="{{ announcement.get_absolute_url }}"><i class="material-icons left">forum</i>Join Discussion</a>
                             </span>
                         </div>
 
@@ -183,25 +187,23 @@
                 </ul> {% endfor %}
             </div>
 
-            <div class="group-pagination">
-                <span class="step-links">
+            <ul class="group-pagination">
                     {% if group_announcement.has_previous %}
-                        <a href="?group_page=1">&laquo; first</a>
-                        <a href="?group_page={{ group_announcement.previous_page_number }}">previous</a>
+                    <li class="waves-effect"><a href="?group_page={{ group_announcement.previous_page_number }}"><i class="material-icons">chevron_left</i></a></li>
+                    <li class="waves-effect"><a href="?group_page=1"><i class="material-icons">first_page</i></a></li>
                     {% endif %}
-                    
+                    <li>
                     {% if group_announcement %}
-                    <span class="current">
+                    <a class="current">
                         <em>Group Announcement </em> Page {{ group_announcement.number }} of {{ group_announcement.paginator.num_pages }}.
-                    </span>
+                    </a>
                     {% endif %}
-                
+                    </li>
                     {% if group_announcement.has_next %}
-                        <a href="?group_page={{ group_announcement.next_page_number }}">next</a>
-                        <a href="?group_page={{ group_announcement.paginator.num_pages }}">last &raquo;</a>
+                    <li class="waves-effect"><a href="?group_page={{ group_announcement.next_page_number }}"><i class="material-icons">chevron_right</i></a></li>
+                    <li class="waves-effect"><a href="?group_page={{ group_announcement.paginator.num_pages }}"><i class="material-icons">last_page</i></a></li>
                     {% endif %}
-                </span>
-            </div>    
+            </ul>    
 
         </div>
     </div>
