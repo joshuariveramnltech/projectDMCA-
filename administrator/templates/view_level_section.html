@@ -5,7 +5,7 @@
 <div class="white">
     <br>
     <div class="row">
-        <div class="col s3">
+        <div class="col s12 m12 l3">
             <div class="card">
                 <div class="card-content">
                     <center><img src="{% static 'img/desk.svg' %}" style="object-fit: fill; max-width: 60%"></center>
@@ -25,7 +25,7 @@
                 </div>
             </div>
         </div>
-        <div class="col s9">
+        <div class="col s12 m12 l9">
             <div class="card">
                     <div class="card-content">
                             <span class="card-title"><h4 class="center"><b>Current Level and Section</b></h4></span>
@@ -53,8 +53,8 @@
                                         </tr>
                                      {% endfor %}
                                 </table>
-                                <br/>
-                                <ul class="pagination">
+                                <br/><b><h6><hr class="grey"></h6></b>
+                                <ul class="pagination right">
                                     <span class="step-links">
                                         {% if level_section.has_previous %}
                                         <li class="waves-effect"><a href="?page=1"><i class="material-icons">first_page</i></a></li>
@@ -73,8 +73,9 @@
                                         {% endif %}
                                     </span>
                                 </ul>
-                            
+                            <br><br>
                         </div>
+                        
             </div>
             
         </div>

@@ -5,83 +5,113 @@
     <div class="white">
         <br><br>
         <div class="container">
-                <div>
-                        <h5>Students of {{ year_section }}</h5>
-                        <form action="" method="GET">
-                            <input type="text" placeholder="Search Students" name="yearSection_query" value="{{ request.GET.yearSection_query }}"/>
-                            <input type="submit" value="Search"/>
-                        </form>
-                        {% if yearSectionStudents %}
-                            {% for student in yearSectionStudents %}
-                            <p> 
-                                {{ student.user.get_full_name }} 
-                                <a  href="{% url 'grading_system:view_student_profile' student.user.id student.user.get_short_name %}">
-                                    View Profile
-                                </a>
-                            </p>    
-                            {% endfor %}
-                        {% else %}
-                            No Results...
-                        {% endif %}
-                    </div>
-                    
-                    <div class="pagination">
-                        <span class="step-links">
-                            {% if yearSectionStudents.has_previous %}
-                                <a href="?yearSection_page=1&yearSection_query={{ request.GET.yearSection_query }}">&laquo; first</a>
-                                <a href="?yearSection_page={{ yearSectionStudents.previous_page_number }}&yearSection_query={{ request.GET.yearSection_query }}">previous</a>
-                            {% endif %}
+            <div class="row">
+                <div class="col l6">
+                    <div class="card hoverable">
+                        <div class="card-content">
+                            <div>
+                                <h5 class="center">Students of<b> {{ year_section }}</b> </h5>
+                                <form action="" method="GET">
+                                    <div class="row">
+                                        <div class="col l9">
+                                            <input type="text" placeholder="Search Students" name="yearSection_query" value="{{ request.GET.yearSection_query }}"/>
+                                        </div>
+                                        <div class="col l3">
+                                            <input class="btn btn-large" type="submit" value="Search"/>
+                                        </div>
+                                    </div>
+                                </form>
+                                {% if yearSectionStudents %}
+                                <ul class="collection">
+                                    {% for student in yearSectionStudents %}
+                                    <li class="collection-item"> 
+                                        
+                                        <a  href="{% url 'grading_system:view_student_profile' student.user.id student.user.get_short_name %}">
+                                            <h6>{{ student.user.get_full_name }} </h6>
+                                        </a>
+                                    </li>    
+                                    {% endfor %}
+                                </ul>
                                     
-                            {% if yearSectionStudents %}
-                                <span class="current">
+                                {% else %}
+                                    No Results...
+                                {% endif %}
+                            </div>
+                                
+                            <ul class="pagination">
+                                {% if yearSectionStudents.has_previous %}
+                                <li class="waves-effect"><a href="?yearSection_page={{ yearSectionStudents.previous_page_number }}&yearSection_query={{ request.GET.yearSection_query }}"><i class="material-icons">chevron_left</i></a></li>
+                                <li class="waves-effect"><a href="?yearSection_page=1&yearSection_query={{ request.GET.yearSection_query }}"><i class="material-icons">first_page</i></a></li>
+                                {% endif %}
+                                <li>
+                                {% if yearSectionStudents %}
+                                <a class="current">
                                     Page {{ yearSectionStudents.number }} of {{ yearSectionStudents.paginator.num_pages }}.
-                                </span>
-                            {% endif %}
-                        
-                            {% if yearSectionStudents.has_next %}
-                                <a href="?yearSection_page={{ yearSectionStudents.next_page_number }}&yearSection_query={{ request.GET.yearSection_query }}">next</a>
-                                <a href="?yearSection_page={{ yearSectionStudents.paginator.num_pages }}&yearSection_query={{ request.GET.yearSection_query }}">last &raquo;</a>
-                            {% endif %}
-                        </span>
+                                </a>
+                                {% endif %}
+                                </li>    
+                                {% if yearSectionStudents.has_next %}
+                                <li class="waves-effect"><a href="?yearSection_page={{ yearSectionStudents.next_page_number }}&yearSection_query={{ request.GET.yearSection_query }}"><i class="material-icons">chevron_right</i></a></li>
+                                <li class="waves-effect"><a href="?yearSection_page={{ yearSectionStudents.paginator.num_pages }}&yearSection_query={{ request.GET.yearSection_query }}"><i class="material-icons">last_page</i></a></li>
+                                {% endif %}
+                            </ul>
                         </div>
-                        <center><b><h6><hr class="grey"></h6></b></center>
-            
-                    <div>
-                        <h5>Students Enrolled in {{ subject.subject_name }} </h5>
-                        <form action="" method="GET">
-                            <input type="text" placeholder="Search Students" name="enrolledStudent_query" value="{{ request.GET.enrolledStudent_query }}"/>
-                            <input type="submit" value="Search"/>
-                        </form>
-                        {% if enrolledStudentsPerSubject %}
-                            {% for instance in enrolledStudentsPerSubject %}
-                                <p>
-                                    {{ instance.student.user.get_full_name }}
-                                    <a href="{% url 'grading_system:edit_student_subjectGrade' instance.student.user.id instance.student.user.get_full_name instance.id %}">
-                                        Update Grade
-                                    </a>
-                                </p>
-                            {% endfor %}
-                        {% endif %}
-                    </div> 
-                    <div class="pagination">
-                        <span class="step-links">
-                            {% if enrolledStudentsPerSubject.has_previous %}
-                                <a href="?enrolledStudent_page=1&enrolledStudent_query={{ request.GET.enrolledStudent_query }}">&laquo; first</a>
-                                <a href="?enrolledStudent_page={{ enrolledStudentsPerSubject.previous_page_number }}&enrolledStudent_query={{ request.GET.enrolledStudent_query }}">previous</a>
-                            {% endif %}
-                                    
-                            {% if enrolledStudentsPerSubject %}
-                                <span class="current">
-                                    Page {{ enrolledStudentsPerSubject.number }} of {{ enrolledStudentsPerSubject.paginator.num_pages }}.
-                                </span>
-                            {% endif %}
-                        
-                            {% if enrolledStudentsPerSubject.has_next %}
-                                <a href="?enrolledStudent_page={{ enrolledStudentsPerSubject.next_page_number }}&enrolledStudent_query={{ request.GET.enrolledStudent_query }}">next</a>
-                                <a href="?enrolledStudent_page={{ enrolledStudentsPerSubject.paginator.num_pages }}&enrolledStudent_query={{ request.GET.enrolledStudent_query }}">last &raquo;</a>
-                            {% endif %}
-                            </span>
                     </div>
+                </div>
+                <div class="col l6">
+                    <div class="card hoverable">
+                        <div class="card-content">
+                            <div>
+                                <h5 class="center">Students Enrolled in<b> {{ subject.subject_name }}</b> </h5>
+                                <form action="" method="GET">
+                                    <div class="row">
+                                        <div class="col l9">
+                                            <input type="text" placeholder="Search Students" name="enrolledStudent_query" value="{{ request.GET.enrolledStudent_query }}"/>
+                                        </div>
+                                        <div class="col l3">
+                                            <input class="btn btn-large" type="submit" value="Search"/>
+                                        </div>
+                                    </div>
+                                </form>
+                                {% if enrolledStudentsPerSubject %}
+                                <ul class="collection">
+                                    {% for instance in enrolledStudentsPerSubject %}
+                                        <li class="collection-item">
+                                            <h6>{{ instance.student.user.get_full_name }}</h6>
+                                            <a href="{% url 'grading_system:edit_student_subjectGrade' instance.student.user.id instance.student.user.get_full_name instance.id %}">
+                                                Update Grade
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                                    {% else %}
+                                    <center><img src="{% static 'img/fishing.svg' %}" style="object-fit: fill; width: 50%"> <br><h6>Oooops!<br>There are currently no students enrolled in this subject.</h6></center>
+                                {% endif %}
+                            </div> 
+                            <ul class="pagination">
+                                {% if enrolledStudentsPerSubject.has_previous %}
+                                <li class="waves-effect"><a href="?enrolledStudent_page={{ enrolledStudentsPerSubject.previous_page_number }}&enrolledStudent_query={{ request.GET.enrolledStudent_query }}"><i class="material-icons">chevron_left</i></a></li>
+                                <li class="waves-effect"><a href="?enrolledStudent_page=1&enrolledStudent_query={{ request.GET.enrolledStudent_query }}"><i class="material-icons">first_page</i></a></li>
+                                {% endif %}
+                                <li>  
+                                {% if enrolledStudentsPerSubject %}
+                                    <a class="current">
+                                        Page {{ enrolledStudentsPerSubject.number }} of {{ enrolledStudentsPerSubject.paginator.num_pages }}.
+                                    </a>
+                                {% endif %}
+                                </li> 
+                                {% if enrolledStudentsPerSubject.has_next %}
+                                <li class="waves-effect"><a href="?enrolledStudent_page={{ enrolledStudentsPerSubject.next_page_number }}&enrolledStudent_query={{ request.GET.enrolledStudent_query }}"><i class="material-icons">chevron_right</i></a></li>
+                                <li class="waves-effect"><a href="?enrolledStudent_page={{ enrolledStudentsPerSubject.paginator.num_pages }}&enrolledStudent_query={{ request.GET.enrolledStudent_query }}"><i class="material-icons">last_page</i></a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                
+        
+                    
                     <center><b><h6><hr class="grey"></h6></b></center>
                 <a  href="{% url 'grading_system:view_assigned_subject' %}" class="col s12">Back</a>
         </div>
