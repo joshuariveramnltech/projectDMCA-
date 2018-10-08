@@ -30,7 +30,7 @@ def view_announcement(request):
     except EmptyPage:
         school_announcement = school_paginator.page(school_paginator.num_pages)
     context = {'request': request, 'school_announcement': school_announcement}
-    group_announcement = level_and_section = None
+    group_announcement = level_and_section = group_announcement_list = None
     if request.user.is_staff:
         group_announcement_list = Announcement.objects.filter(
             send_to_all=False, status='published', author=request.user,

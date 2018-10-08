@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'gdstorage',
+    'cloudinary',
     'phonenumber_field',
     'taggit',
     # custom applications
