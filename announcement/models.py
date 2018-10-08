@@ -6,6 +6,8 @@ from django.contrib.auth import get_user_model
 from account.models import LevelAndSection
 from django.utils.text import slugify
 from datetime import datetime
+from gdstorage.storage import GoogleDriveStorage
+gd_storage = GoogleDriveStorage()
 # Create your models here.
 User = get_user_model()
 
@@ -22,6 +24,7 @@ class Announcement(models.Model):
     title = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250, unique_for_date='publish_date')
     body = models.TextField()
+    # upload_to='dmca/files/', storage=gd_storage
     file = models.FileField(
         upload_to='file/announcement/%Y/%m/%d/', blank=True, null=True)
     publish_date = models.DateTimeField(null=True, blank=True)

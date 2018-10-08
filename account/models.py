@@ -7,8 +7,6 @@ from django.db.models.signals import (pre_save, post_save)
 from django.dispatch import receiver
 from django.utils.text import slugify
 from django.urls import reverse
-# from gdstorage.storage import GoogleDriveStorage
-# gd_storage = GoogleDriveStorage()
 # Create your models here.
 
 phone_regex = RegexValidator(
