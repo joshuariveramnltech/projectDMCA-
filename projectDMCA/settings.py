@@ -69,16 +69,16 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'account/templates'),
-            os.path.join(BASE_DIR, 'account/templates/account'),
+            os.path.join(BASE_DIR, 'account/templates/'),
+            os.path.join(BASE_DIR, 'account/templates/account/'),
             os.path.join(
-                BASE_DIR, 'account/templates/account/registration'),
-            os.path.join(BASE_DIR, 'administrator/templates'),
-            os.path.join(BASE_DIR, 'announcement/templates'),
-            os.path.join(BASE_DIR, 'grading_system/templates/student'),
-            os.path.join(BASE_DIR, 'grading_system/templates/faculty'),
-            os.path.join(BASE_DIR, 'accounting_transaction/templates'),
-            os.path.join(BASE_DIR, 'admission/templates'),
+                BASE_DIR, 'account/templates/account/registration/'),
+            os.path.join(BASE_DIR, 'administrator/templates/'),
+            os.path.join(BASE_DIR, 'announcement/templates/'),
+            os.path.join(BASE_DIR, 'grading_system/templates/student/'),
+            os.path.join(BASE_DIR, 'grading_system/templates/faculty/'),
+            os.path.join(BASE_DIR, 'accounting_transaction/templates/'),
+            os.path.join(BASE_DIR, 'admission/templates/'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
