@@ -25,7 +25,7 @@ SECRET_KEY = '=f4+!%730tokqts67vbbrbayp)(66vwmsez%89wj)m_m$nxh-j'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['dmca-edu-ph.herokuapp.com', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['https://dmca-edu-ph.herokuapp.com/', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -156,7 +156,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static/'),
-    os.path.join(BASE_DIR, 'static/img')
+    os.path.join(BASE_DIR, 'static/img/')
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
 LOGIN_URL = 'login'
