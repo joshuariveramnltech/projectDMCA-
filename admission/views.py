@@ -12,8 +12,7 @@ from io import BytesIO
 
 def home(request):
     context = {'request': request}
-    print("Hello", request.get_host)
-    return render(request, 'home.html', context)
+    return render(request, 'index.html', context)
 
 
 def appointment_request_pdf(request, appointment_request_id, appointment_request_slug):

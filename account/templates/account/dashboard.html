@@ -40,9 +40,9 @@
           {% if request.user.profile.photo.url is not None %}
             <img src="{{ request.user.profile.photo.url }}" style="height:100%; object-fit: cover;">
           {% elif request.user.gender == "female" %}
-            <img src="{% static "img/girl.svg" %}" style="object-fit: cover;">
+            <img src="{% static 'img/girl.png' %}" style="object-fit: cover;">
           {% elif request.user.gender == "male" %}
-            <img src="{% static "img/boy.svg" %}" style="object-fit: cover;">
+            <img src="{% static 'img/boy.png' %}" style="object-fit: cover;">
           {% endif %}
         </div>
         <div class="card-content">
