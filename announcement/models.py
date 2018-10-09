@@ -6,8 +6,8 @@ from django.contrib.auth import get_user_model
 from account.models import LevelAndSection
 from django.utils.text import slugify
 from datetime import datetime
-from gdstorage.storage import GoogleDriveStorage
-gd_storage = GoogleDriveStorage()
+# from gdstorage.storage import GoogleDriveStorage
+# gd_storage = GoogleDriveStorage()
 # Create your models here.
 User = get_user_model()
 

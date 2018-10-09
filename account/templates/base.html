@@ -6,7 +6,7 @@
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <link rel="shortcut icon" href="{% static "img/DMCA logo.png" %}">
+  <link rel="shortcut icon" href="{% static 'img/DMCA logo.png' %}">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <!--Import Google Icon Font-->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -116,7 +116,7 @@
       <nav>
         <div class="nav-wrapper white">
           <button class="btn-flat sidenav-trigger button-collapse" data-target="slide-out" style="top: -8px;"><i class="material-icons">menu</i></button>
-          <a href="#!" class="brand-logo"><img src="{% static "img/DMCA logo.png" %}" alt="" class="left" style="width:43px"><span
+          <a href="#!" class="brand-logo"><img src="{% static 'img/DMCA logo.png' %}" alt="" class="left" style="width:43px"><span
               class="black-text hide-on-med-and-down">&nbsp; DMCA SIS</span> </a>
           <ul class="right hide-on-med-and-down">
             <li class="tooltipped" data-tooltip="Announcements"> <a href="{% url 'announcement:view_announcement' %}" class="nav-link center black-text"><i class="material-icons black-text left">email</i></a></li>
@@ -169,9 +169,9 @@
         <a href="{% url 'account:dashboard' %}"><img class="circle responsive-img" src="{{ request.user.profile.photo.url }}"
             style="object-fit: cover; "></a>
         {% elif request.user.gender == "female" %}
-          <a href="{% url 'account:dashboard' %}"><img class="circle" src="{% static "img/girl.svg" %}" style="object-fit: cover;"></a>
+          <a href="{% url 'account:dashboard' %}"><img class="circle" src="{% static 'img/girl.svg' %}" style="object-fit: cover;"></a>
         {% elif request.user.gender == "male" %}
-          <a href="{% url 'account:dashboard' %}"><img class="circle" src="{% static "img/boy.svg" %}" style="object-fit: cover;"></a>
+          <a href="{% url 'account:dashboard' %}"><img class="circle" src="{% static 'img/boy.svg' %}" style="object-fit: cover;"></a>
         {% endif %}
         <a href="{% url 'account:view_edit_profile' %}"><span class="white-text name"><b>{{ request.user.get_full_name }}</b></span></a>
         <span class="white-text email">{{ request.user.email }}</span>

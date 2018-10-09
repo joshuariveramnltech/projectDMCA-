@@ -22,9 +22,11 @@ def appointment_request_pdf(request, appointment_request_id, appointment_request
     context = {'appointment_request': appointment_request,
                'request': request, 'protocol': protocol}
     html = render_to_string(
-        'pdf.html', context)
+        'pdf.html',
+        context
+    )
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'filename=\"appoinment_request_{}.pdf"'.format(
+    response['Content-Disposition'] = 'filename=\"appoinment_request_{}.pdf\"'.format(
         appointment_request.id)
     weasyprint.HTML(string=html).write_pdf(response, stylesheets=[
         weasyprint.CSS(settings.STATIC_ROOT + '/main.css')])
@@ -52,7 +54,6 @@ def appointment_request(request):
         appointment_request_form = AppointmentRequestForm()
     elif request.method == 'POST':
         appointment_request_form = AppointmentRequestForm(data=request.POST)
-        print(appointment_request_form)
         if appointment_request_form.is_valid():
             new_appointment = appointment_request_form.save(commit=False)
             new_appointment.is_active = True
@@ -62,7 +63,7 @@ def appointment_request(request):
                 new_appointment.id, new_appointment.slug)
             message = 'Please see the attached PDF File for your recent Appointment Request.'
             email = EmailMessage(
-                subject, message, ' https://dmca-edu-ph.herokuapp.com/', [new_appointment.email, ])
+                subject, message, 'https://dmca-edu-ph.herokuapp.com/', [new_appointment.email, ])
             # generate PDF
             html = render_to_string(
                 'pdf.html', {'appointment_request': new_appointment})

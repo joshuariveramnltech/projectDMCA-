@@ -12,9 +12,9 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 import django_heroku
+# import cloudinary
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
@@ -25,8 +25,7 @@ SECRET_KEY = '=f4+!%730tokqts67vbbrbayp)(66vwmsez%89wj)m_m$nxh-j'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://dmca-edu-ph.herokuapp.com/',
-                 '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -38,8 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'gdstorage',
-    'cloudinary',
+    # 'gdstorage',
+    # 'cloudinary',
     'phonenumber_field',
     'taggit',
     # custom applications
@@ -175,6 +174,9 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 PHONENUMBER_DEFAULT_REGION = 'PH'
-GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = os.path.join(
-    BASE_DIR, 'dmca-bataan-5db059fab413.json')
+# GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = os.path.join(
+# BASE_DIR, 'dmca-bataan-5db059fab413.json')
+# cloudinary.config(cloud_name='drkokcmbv',
+#                  api_key='244943981247488',
+#                  api_secret='irZIkeUt4pXlDkd1lG1jT3p427Q')
 # django_heroku.settings(locals())
