@@ -18,12 +18,9 @@ User = get_user_model()
 def dashboard(request):
     context = {'request': request}
     if request.user.is_teacher:
-        try:
-            level_and_section = LevelAndSection.objects.filter(
-                adviser__user__email=request.user.email)
-            context['levels_and_sections'] = level_and_section
-        except LevelAndSection.DoesNotExist:
-            print('No Level and Section Assigned for this Faculty')
+        level_and_section = LevelAndSection.objects.filter(
+            adviser__user__email=request.user.email)
+        context['levels_and_sections'] = level_and_section
     return render(request, 'dashboard.html', context)
 
 

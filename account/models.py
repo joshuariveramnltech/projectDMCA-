@@ -7,6 +7,7 @@ from django.db.models.signals import (pre_save, post_save)
 from django.dispatch import receiver
 from django.utils.text import slugify
 from django.urls import reverse
+# from cloudinary.models import CloudinaryField
 # Create your models here.
 
 phone_regex = RegexValidator(
@@ -275,7 +276,7 @@ class StaffProfile(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="profile")
-    # storage=gd_storage
+    # photo = CloudinaryField('images', blank=True, null=True)
     photo = models.ImageField(
         upload_to='user/profile/%Y/%m/%d/',
         blank=True, null=True,

@@ -13,9 +13,9 @@
             {% if request.user.profile.photo.url is not None %}
             <center><img class="circle" src="{{ request.user.profile.photo.url }}" style="height: 200px; width:200px; object-fit: cover; " /></center>
             {% elif request.user.gender == "female" %}
-            <center><img class="circle" src="{% static "img/girl.png" %}" style="height: 200px; width:200px; object-fit: cover; " /></center>
+            <center><img class="circle" src="{% static 'img/girl.png' %}" style="height: 200px; width:200px; object-fit: cover; " /></center>
             {% elif request.user.gender == "male" %}
-            <center><img class="circle" src="{% static "img/boy.png" %}" style="height: 200px; width:200px; object-fit: cover; " /></center>
+            <center><img class="circle" src="{% static 'img/boy.png' %}" style="height: 200px; width:200px; object-fit: cover; " /></center>
             {% endif %}
 
             <h6 class="center"><u><b>{{ request.user.get_full_name }}</b></u></h6>
@@ -76,13 +76,16 @@
                                         <div class="grey lighten-3 col s8 m9 l10">
                                             <h6><a class="light-blue-text" href="{% url 'announcement:view_user_profile_comment' comment.author.id comment.author.get_short_name announcement.id %}">
                                                 <b>{{ comment.author.get_short_name }}</b></a>
-                                                {{ comment.body|linebreaks }}</h6><small><a href="{% url 'announcement:edit_comment' announcement.id announcement.slug comment.id %}">Edit</a>
-                                                    <a href="{% url 'announcement:delete_comment' announcement.id announcement.slug comment.id %}" 
-                                                    onclick="return confirm('Delete this comment?')" title="Delete this comment">Delete</a></small> 
+                                                {{ comment.body|linebreaks }}</h6>
+                                                    {% if comment.author == request.user %}
+                                                    <small>
+                                                        <a href="{% url 'announcement:edit_comment' announcement.id announcement.slug comment.id %}">Edit</a>
+                                                        <a href="{% url 'announcement:delete_comment' announcement.id announcement.slug comment.id %}" 
+                                                        onclick="return confirm('Delete this comment?')" title="Delete this comment">Delete</a>
+                                                    </small> 
+                                                    {% endif %}
                                                 <strong>{{ comment.date_created|timesince }}</strong> ago.
                                                 <span><small>Date: {{ comment.date_created }}&nbsp; Updated: {{ comment.updated }}</small></span>
-                                                {% if comment.author == request.user %}
-                                                {% endif %}
                                         </div>
                                     </div>
                                 </p>
