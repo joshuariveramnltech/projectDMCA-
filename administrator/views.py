@@ -14,7 +14,6 @@ from admission.models import AppointmentRequest
 from admission.forms import AppointmentRequestForm
 from administrator.forms import AppointmentRequestFormAdmin
 from accounting_transaction.forms import StatementAddForm, StatementCreateForm
-from accounting_transaction.forms import StatementCreateForm
 from accounting_transaction.models import Statement
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from grading_system.models import Subject, SubjectGrade, FinalGrade

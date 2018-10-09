@@ -9,7 +9,6 @@ from .models import Announcement, Comment
 from account.models import LevelAndSection
 from django.utils import timezone
 from datetime import datetime
-from django.contrib import messages
 from django.core.paginator import (PageNotAnInteger, EmptyPage, Paginator)
 from django.db.models import Q
 # Create your views here.
