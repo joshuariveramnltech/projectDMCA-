@@ -1,12 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager)
 from django.conf import settings
-from datetime import date
 from django.core.validators import RegexValidator
-from django.db.models.signals import (pre_save, post_save)
+from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.text import slugify
 from django.urls import reverse
+
 # from cloudinary.models import CloudinaryField
 # Create your models here.
 
@@ -27,12 +27,12 @@ LEVEL_CHOICES = (
 
 class UserManager(BaseUserManager):
     def create_user(
-        self, email=None,
-        first_name=None, last_name=None,
-        middle_name='', password=None,
-        is_active=True, is_staff=False,
-        is_student=False, is_teacher=False,
-        is_superuser=False
+            self, email=None,
+            first_name=None, last_name=None,
+            middle_name='', password=None,
+            is_active=True, is_staff=False,
+            is_student=False, is_teacher=False,
+            is_superuser=False
     ):
         if email is None:
             raise ValueError("Users must have an email address!")
@@ -150,7 +150,7 @@ class Level(models.Model):
     updated = models.DateTimeField(auto_now_add=False, auto_now=True)
 
     class Meta:
-        ordering = ('level', )
+        ordering = ('level',)
 
     def __str__(self):
         return self.level
@@ -196,7 +196,7 @@ class LevelAndSection(models.Model):
 
     class Meta:
         verbose_name_plural = 'Levels and Sections'
-        ordering = ('level', )
+        ordering = ('level',)
         unique_together = ('level', 'section')
 
     def __str__(self):
@@ -290,7 +290,7 @@ class Profile(models.Model):
     )
 
     class Meta:
-        ordering = ('user__email', )
+        ordering = ('user__email',)
         verbose_name_plural = 'User Profile'
 
     def __str__(self):

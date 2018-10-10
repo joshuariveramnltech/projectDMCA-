@@ -6,7 +6,9 @@ from django.utils.safestring import mark_safe
 
 
 def request_pdf(obj):
-    return mark_safe('<a href="{}">PDF</a>'.format(reverse('admission:appointment_request_pdf', args=[obj.id, obj.slug])))
+    return mark_safe(
+        '<a href="{}">PDF</a>'.format(reverse('admission:appointment_request_pdf', args=[obj.id, obj.slug])))
+
 
 request_pdf.short_description = 'Appointment Request Voucher'
 

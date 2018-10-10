@@ -5,15 +5,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from account import forms
-from account.models import (
-    Profile, LevelAndSection,
-    StudentProfile, StaffProfile,
-    FacultyProfile, Level
-)
+from account.models import LevelAndSection, Level
 from admission.models import AppointmentRequest
-from admission.forms import AppointmentRequestForm
 from administrator.forms import AppointmentRequestFormAdmin
-from accounting_transaction.forms import StatementAddForm, StatementCreateForm
+from accounting_transaction.forms import StatementAddForm
 from accounting_transaction.models import Statement
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from grading_system.models import Subject, SubjectGrade, FinalGrade
@@ -23,6 +18,7 @@ from grading_system.forms import (
 )
 from django.db.models import Q
 from datetime import datetime
+
 # Create your views here.
 
 User = get_user_model()
@@ -75,7 +71,7 @@ def view_users(request):
         student_list = student_list.filter(
             Q(first_name__icontains=student_query) |
             Q(last_name__icontains=student_query) |
-            Q(middle_name__icontains=student_query)  |
+            Q(middle_name__icontains=student_query) |
             Q(email__icontains=student_query) |
             Q(student_profile__level_and_section__level__level__icontains=student_query) |
             Q(student_profile__learner_reference_number__icontains=student_query)).distinct()
@@ -306,7 +302,7 @@ def delete_subject(request, **kwargs):
 @login_required
 def enrollment_admission_student(request, user_id, user_full_name):
     current_school_year = str(datetime.now().year) + \
-        "-" + str(datetime.now().year+1)
+                          "-" + str(datetime.now().year + 1)
     context = {}
     if not request.user.is_superuser:
         raise PermissionDenied
@@ -485,7 +481,7 @@ def delete_statement_admin(request, statement_id, student_full_name, student_id)
 
 
 @login_required
-def view_statement_admin(request, user_full_name,  user_id):
+def view_statement_admin(request, user_full_name, user_id):
     if not request.user.is_superuser:
         raise PermissionDenied
     student_user = User.objects.get(id=user_id)
@@ -494,7 +490,6 @@ def view_statement_admin(request, user_full_name,  user_id):
     context = {
         'request': request, 'student_user': student_user,
         'account_statements': account_statements,
-        'account_statements': account_statements
     }
     if request.method == 'GET':
         add_statement_form = StatementAddForm()

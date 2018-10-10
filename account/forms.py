@@ -1,12 +1,13 @@
 from django.contrib.auth import get_user_model
 from django import forms
-from django.forms import DateField, Textarea, FileInput
+from django.forms import Textarea, FileInput
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import (
     Profile, LevelAndSection, Level,
     StudentProfile, StaffProfile, FacultyProfile
 )
+
 User = get_user_model()
 
 
@@ -39,7 +40,7 @@ class UserCreationForm(forms.ModelForm):
     date_of_birth = forms.DateField(
         widget=forms.DateInput(format='%m/%d/%Y',
                                attrs={'class': 'datepicker', 'placeholder': 'mm/dd/yyyy'}),
-        input_formats=('%m/%d/%Y', )
+        input_formats=('%m/%d/%Y',)
     )
 
     def clean_password2(self):
@@ -88,11 +89,11 @@ class UserChangeForm(forms.ModelForm):
     date_of_birth = forms.DateField(
         widget=forms.DateInput(format='%m/%d/%Y',
                                attrs={'class': 'datepicker', 'placeholder': 'mm/dd/yyyy'}),
-        input_formats=('%m/%d/%Y', )
+        input_formats=('%m/%d/%Y',)
     )
-    is_active= forms.BooleanField(
+    is_active = forms.BooleanField(
         widget=forms.CheckboxInput(
-            attrs={'class':'checkbox'}
+            attrs={'class': 'checkbox'}
         )
     )
 
@@ -131,7 +132,7 @@ class UserEditForm(forms.ModelForm):
             format='%m/%d/%Y',
             attrs={'class': 'datepicker', 'placeholder': 'mm/dd/yyyy'}
         ),
-        input_formats=('%m/%d/%Y', )
+        input_formats=('%m/%d/%Y',)
     )
 
     def clean_password(self):
@@ -156,7 +157,7 @@ class UserAdmin(BaseUserAdmin):
         (None, {'fields': ('email', 'password')}),
         ('Personal info', {'fields': (
             'first_name', 'last_name', 'middle_name', 'date_of_birth', 'gender', 'address')}),
-        ('Status', {'fields': ('is_active', ), }),
+        ('Status', {'fields': ('is_active',), }),
         ('Permissions', {'fields': ('is_student',
                                     'is_teacher', 'is_staff', 'is_superuser')}),
     )
@@ -176,7 +177,7 @@ class UserAdmin(BaseUserAdmin):
                 'password2'
             )
         }
-        ),
+         ),
     )
     search_fields = ('email',)
     ordering = ('email',)
@@ -198,7 +199,6 @@ class ProfileCreateForm(forms.ModelForm):
 
 # for students/teachers/staff personal use only
 class ProfileEditForm(forms.ModelForm):
-
     class Meta:
         model = Profile
         fields = ['photo', 'phone_number', 'age']
@@ -227,7 +227,7 @@ class PersonalForm(forms.ModelForm):
             attrs={'class': 'datepicker', 'placeholder': 'mm/dd/yyyy'},
             format='%m/%d/%Y'
         ),
-        input_formats=('%m/%d/%Y', )
+        input_formats=('%m/%d/%Y',)
     )
 
     address = forms.CharField(

@@ -1,11 +1,11 @@
 from django.db import models
 from django.urls import reverse
 from taggit.managers import TaggableManager
-from django.utils import timezone
 from django.contrib.auth import get_user_model
 from account.models import LevelAndSection
 from django.utils.text import slugify
 from datetime import datetime
+
 # from gdstorage.storage import GoogleDriveStorage
 # gd_storage = GoogleDriveStorage()
 # Create your models here.
@@ -17,7 +17,7 @@ class Announcement(models.Model):
         ('draft', 'Draft'),
         ('published', 'Published'),
     )
-    
+
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='created_announcements')
     tags = TaggableManager(blank=True)
@@ -68,7 +68,7 @@ class Announcement(models.Model):
         )
 
     class Meta:
-        ordering = ('-publish_date', )
+        ordering = ('-publish_date',)
 
     def __str__(self):
         return '{} by {}.'.format(self.title, self.author.get_full_name)
@@ -85,7 +85,7 @@ class Comment(models.Model):
     active = models.BooleanField(default=True)
 
     class Meta:
-        ordering = ('-date_created', )
+        ordering = ('-date_created',)
 
     def __str__(self):
         return 'Comment By {} on {}'.format(self.author.get_full_name, self.announcement)

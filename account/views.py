@@ -1,14 +1,14 @@
-from django.shortcuts import render, get_object_or_404, reverse
+from django.shortcuts import render, reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from django.http import HttpResponseRedirect
 from .forms import (ProfileEditForm, PersonalForm, StudentPersonalProfileForm,
                     FacultyPersonalProfileForm, StaffPersonalProfileForm)
 from django.contrib import messages
-from account.models import (Profile, StudentProfile, LevelAndSection,
-                            FacultyProfile, StaffProfile)
+from account.models import LevelAndSection
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
+
 # Create your views here.
 
 User = get_user_model()
@@ -66,7 +66,6 @@ def view_edit_profile(request):
 @login_required
 def change_password(request):
     context = {'request': request}
-    new_pw = None
     if request.method == "GET":
         form = PasswordChangeForm(request.user)
     elif request.method == "POST":

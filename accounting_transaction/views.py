@@ -2,14 +2,13 @@ from django.shortcuts import render, reverse
 from django.http import HttpResponseRedirect
 from .models import Statement
 from django.core.exceptions import PermissionDenied
-from account.models import StudentProfile, StaffProfile
 from django.contrib.auth import get_user_model
-from .forms import StatementCreateForm, StatementAddForm
+from .forms import StatementAddForm
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.contrib import messages
 from django.db.models import Q
-from datetime import datetime
 from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 
 User = get_user_model()
@@ -76,7 +75,7 @@ def update_statement(request, statement_id, student_full_name, student_id):
 
 # staff account only
 @login_required
-def view_statement(request, user_full_name,  user_id):
+def view_statement(request, user_full_name, user_id):
     if not request.user.is_staff:
         raise PermissionDenied
     student_user = User.objects.get(id=user_id)
@@ -85,7 +84,6 @@ def view_statement(request, user_full_name,  user_id):
     context = {
         'request': request, 'student_user': student_user,
         'account_statements': account_statements,
-        'account_statements': account_statements
     }
     if request.method == 'GET':
         add_statement_form = StatementAddForm()
