@@ -1,8 +1,6 @@
 from django import forms
-from django.forms import Textarea, DateField, DateTimeField
+from django.forms import Textarea
 from .models import Announcement, Comment
-from django.utils import timezone
-from datetime import datetime
 # Create your forms here
 
 

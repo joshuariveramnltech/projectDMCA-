@@ -2,14 +2,12 @@ from django.db import models
 from account.models import StudentProfile
 from grading_system.models import SY
 from datetime import datetime
-from django.db.models.signals import post_save
-from django.dispatch import receiver
+
+
 # Create your models here.
-
-
 class Statement(models.Model):
     current_school_year = str(datetime.now().year) + \
-        "-" + str(datetime.now().year+1)
+                          "-" + str(datetime.now().year + 1)
     student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE)
     school_year = models.CharField(
         max_length=25, choices=SY, default=str(current_school_year))

@@ -1,4 +1,4 @@
-from django.shortcuts import render, reverse, redirect, get_object_or_404
+from django.shortcuts import render, reverse, redirect
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth import get_user_model
@@ -10,7 +10,7 @@ from account.models import LevelAndSection
 from django.utils import timezone
 from datetime import datetime
 from django.core.paginator import (PageNotAnInteger, EmptyPage, Paginator)
-from django.db.models import Q
+
 # Create your views here.
 
 User = get_user_model()

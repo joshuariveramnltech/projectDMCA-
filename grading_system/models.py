@@ -2,17 +2,16 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from account.models import LevelAndSection, Level
 from datetime import datetime
-from django.core.validators import RegexValidator
 from django.utils.text import slugify
 from account.models import FacultyProfile, StudentProfile
-from django.db.models.signals import (pre_save, post_save)
+from django.db.models.signals import post_save
 from django.dispatch import receiver
-from random import shuffle
+
 # Create your models here.
 
 SY = []
 for year in range(2010, datetime.now().year + 15):
-    SY.append((str(year) + "-" + str(year+1), str(year) + "-" + str(year+1)))
+    SY.append((str(year) + "-" + str(year + 1), str(year) + "-" + str(year + 1)))
 
 User = get_user_model()
 
@@ -49,7 +48,7 @@ class SubjectGrade(models.Model):
     student = models.ForeignKey(
         StudentProfile, on_delete=models.CASCADE, related_name='grade')
     school_year = models.CharField(
-        max_length=25, choices=SY, default=str(datetime.now().year) + "-" + str(datetime.now().year+1))
+        max_length=25, choices=SY, default=str(datetime.now().year) + "-" + str(datetime.now().year + 1))
     subject = models.ForeignKey(
         Subject, on_delete=models.DO_NOTHING, null=True, blank=True, related_name='subject_grade')
     instructor = models.ForeignKey(
@@ -81,11 +80,11 @@ class SubjectGrade(models.Model):
 
     def save(self, *args, **kwargs):
 
-        if (self.first_quarter and self.second_quarter and self.third_quarter and self.fourth_quarter):
+        if self.first_quarter and self.second_quarter and self.third_quarter and self.fourth_quarter:
             self.final_subject_grade = (
-                self.first_quarter + self.second_quarter +
-                self.third_quarter + self.fourth_quarter
-            )/4
+                                               self.first_quarter + self.second_quarter +
+                                               self.third_quarter + self.fourth_quarter
+                                       ) / 4
         else:
             self.final_subject_grade = 0
         super(SubjectGrade, self).save(*args, **kwargs)
@@ -98,7 +97,7 @@ class FinalGrade(models.Model):
         Level, on_delete=models.SET_NULL, related_name='final', null=True, blank=True)
     school_year = models.CharField(
         max_length=25, choices=SY,
-        default=str(datetime.now().year) + "-" + str(datetime.now().year+1))
+        default=str(datetime.now().year) + "-" + str(datetime.now().year + 1))
     grade = models.DecimalField(
         max_digits=10, decimal_places=4, null=True, blank=True)
     comment = models.TextField(null=True, blank=True)

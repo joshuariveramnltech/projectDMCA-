@@ -3,8 +3,6 @@ from django.core.validators import RegexValidator
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.text import slugify
-from datetime import datetime, date
-from django.utils import timezone
 # Create your models here.
 
 phone_regex = RegexValidator(
@@ -60,7 +58,7 @@ class AppointmentRequest(models.Model):
 
 @receiver(post_save, sender=AppointmentRequest)
 def generate_appointment_slug(sender, **kwargs):
-    if kwargs['created'] or kwargs['instance'].slug == None:
+    if kwargs['created'] or kwargs['instance'].slug is None:
         kwargs['instance'].slug = slugify(str(kwargs['instance'].date_created) + " " +
                                           str(kwargs['instance'].id))
         kwargs['instance'].save()

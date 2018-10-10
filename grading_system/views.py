@@ -1,19 +1,16 @@
-from django.shortcuts import render, reverse, get_object_or_404
+from django.shortcuts import render, reverse
 from django.http import HttpResponseRedirect
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from .models import Subject, SubjectGrade, FinalGrade
-from account.models import (
-    StudentProfile, StaffProfile,
-    FacultyProfile, LevelAndSection,
-    Level
-)
+from account.models import LevelAndSection, StudentProfile
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Q
 from datetime import datetime
 from .forms import SubjectGradeEditForm, FinalGradeEditForm
+
 # Create your views here.
 
 User = get_user_model()
@@ -22,7 +19,7 @@ User = get_user_model()
 # for faculty account
 @login_required
 def view_students_per_subject(request, level_section_id, subject_id):
-    current_school_year = str(datetime.now().year) + "-" + str(datetime.now().year+1)
+    current_school_year = str(datetime.now().year) + "-" + str(datetime.now().year + 1)
     if not request.user.is_teacher:
         raise PermissionDenied
     context = {'request': request, 'current_school_year': current_school_year}
@@ -79,7 +76,7 @@ def view_students_per_subject(request, level_section_id, subject_id):
 # for faculty account
 @login_required
 def view_assigned_subject(request):
-    current_school_year = str(datetime.now().year) + "-" + str(datetime.now().year+1)
+    current_school_year = str(datetime.now().year) + "-" + str(datetime.now().year + 1)
     context = {
         'request': request,
         'current_school_year': current_school_year,
@@ -106,7 +103,7 @@ def view_student_profile(request, user_id, short_name):
 # for faculty account
 @login_required
 def edit_student_subjectgrade(request, user_id, user_full_name, subject_grade_id):
-    current_school_year = str(datetime.now().year) + "-" + str(datetime.now().year+1)
+    current_school_year = str(datetime.now().year) + "-" + str(datetime.now().year + 1)
     if not request.user.is_teacher:
         raise PermissionDenied
     student_user = User.objects.get(id=user_id)
@@ -143,7 +140,7 @@ def edit_student_subjectgrade(request, user_id, user_full_name, subject_grade_id
 # for faculty account only
 @login_required
 def edit_student_finalgrade(request, user_id, level_id):
-    current_school_year = str(datetime.now().year) + "-" + str(datetime.now().year+1)
+    current_school_year = str(datetime.now().year) + "-" + str(datetime.now().year + 1)
     student_user = User.objects.get(id=user_id)
     level_and_section = LevelAndSection.objects.get(
         id=student_user.student_profile.level_and_section.id)
@@ -186,8 +183,7 @@ def edit_student_finalgrade(request, user_id, level_id):
 # for faculty account only
 @login_required
 def view_students_finalgrade(request):
-    current_school_year = str(datetime.now().year) + "-" + str(datetime.now().year+1)
-    student_query = None
+    current_school_year = str(datetime.now().year) + "-" + str(datetime.now().year + 1)
     if not request.user.is_teacher:
         raise PermissionDenied
     student_list = User.objects.filter(
@@ -247,7 +243,7 @@ def student_level_section_subject(request, student_level, student_section):
 # for student account
 @login_required
 def view_all_grades(request):
-    current_school_year = str(datetime.now().year) + "-" + str(datetime.now().year+1)
+    current_school_year = str(datetime.now().year) + "-" + str(datetime.now().year + 1)
     if not request.user.is_student:
         raise PermissionDenied
     context = {
