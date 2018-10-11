@@ -266,7 +266,7 @@ class StaffProfileAdminForm(forms.ModelForm):
 class StudentPersonalProfileForm(forms.ModelForm):
     class Meta:
         model = StudentProfile
-        exclude = ['level_and_section', 'user']
+        exclude = ['level_and_section', 'user', 'learner_reference_number']
         labels = {
             'guardian_contact_number': 'Guardian\'s Contact Number',
         }
