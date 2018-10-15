@@ -113,9 +113,32 @@
                                             <span>Superuser</span>
                                         </label>
                                     </div>
-                                    <div class="col s12">&nbsp;</div>     
-                                    {{ profile_form.as_p }}
+                                    <div class="col s12">&nbsp;</div>
+
+                                    <label for="id_photo">Profile Picture:</label>
+                                    {% if profile_form.photo.value.url is not None %}
+                                    <p>
+                                        Currently: <a href="{{ profile_form.photo.value.url }}">{{ profile_form.photo.value }}</a>
+                                        <input type="checkbox" name="photo-clear" id="photo-clear_id">
+                                        <label for="photo-clear_id">Clear</label><br>
+                                            Change:
+                                        <input type="file" name="photo" accept="image/*" id="id_photo"></p>
+                                    {% else %}
+                                    <p>
+                                        <input type="file" name="photo" accept="image/*" id="id_photo">
+                                    </p>
+                                    {% endif %}
+                                    <p>
+                                        <label for="id_phone_number">Phone number:</label> 
+                                        <textarea name="phone_number" cols="20" rows="1" placeholder="0999-999-9999" maxlength="15" id="id_phone_number">{{ profile_form.phone_number.value }}</textarea> 
+                                        <span class="helptext">Please use the format: 0999-999-9999</span>
+                                    </p>
+                                    <p>
+                                        <label for="id_age">Age:</label> 
+                                        <input type="text" name="age" value="{{ profile_form.age.value }}" maxlength="3" id="id_age">
+                                    </p>     
                                     {{ dynamic_profile_form.as_p }}
+
                                     <button class="btn" style="width:100%" type="submit">Save Changes</button>
                                 </fomrm>
                         </div>
