@@ -90,10 +90,10 @@ Manage Request
                     </label>
                 </p>
                 <p>
-                    <label for="id_schedule">Schedule:</label> <input type="text" name="schedule" value="{{ update_appointment_request_form.schedule.value|date:'SHORT_DATE_FORMAT' }}" id="id_schedule">
+                    <label for="id_schedule">Schedule</label> <input class="datepicker" type="text" name="schedule" value="{{ update_appointment_request_form.schedule.value|date:'SHORT_DATE_FORMAT' }}" id="id_schedule">
                 </p>
                 <p>
-                    <label for="id_time">Time:</label> <input type="text" name="time" value="{{ update_appointment_request_form.time.value|title }}" id="id_time">
+                    <label for="id_time">Time</label> <input class="timepicker" type="text" name="time" value="{{ update_appointment_request_form.time.value|title }}" id="id_time">
                 </p>
                 <input class="btn" type="submit" value="Update" style="width:100%"/>
             </form>
@@ -101,5 +101,24 @@ Manage Request
     </div>
 </div>
 <br>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var elems = document.querySelectorAll('.datepicker');
+        var instances = M.Datepicker.init(elems, {
+          format: 'm/d/yyyy',
+          yearRange: [1980, 2018]
+        });
+      });
+      document.addEventListener('DOMContentLoaded', function () {
+        var elems = document.querySelectorAll('select');
+        var instances = M.FormSelect.init(elems, {});
+      });
+      document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('.timepicker');
+        var instances = M.Timepicker.init(elems, {
+            twelveHour: false
+        });
+      })
+</script>
 </div>
 {% endblock content %}
