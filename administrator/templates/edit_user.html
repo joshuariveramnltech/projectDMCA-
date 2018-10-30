@@ -120,8 +120,11 @@
                                             
                                                 Currently: 
                                                 <a href="{{ profile_form.photo.value.url }}">{{ profile_form.photo.value }}</a>
-                                                <input type="checkbox" name="photo-clear" id="photo-clear_id">
-                                                <label for="photo-clear_id">Clear</label><br>
+                                                <label for="photo-clear_id">
+                                                    <input type="checkbox" name="photo-clear" id="photo-clear_id">
+                                                    <span>Clear</span>
+                                                </label>
+                                                    <br>
                                                     Change:
                                                 <div class="file-field input-field">
                                                     <div class="btn">
