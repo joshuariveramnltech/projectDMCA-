@@ -37,7 +37,8 @@ class Announcement(models.Model):
         related_name='group_announcements', null=True,
         blank=True, verbose_name="Send to what Year and Section"
     )
-    send_to_all = models.BooleanField(default=False, verbose_name="Send to all users?")
+    send_to_all = models.BooleanField(
+        default=False, verbose_name="Send to all users?")
 
     def save(self, *args, **kwargs):
         if not self.slug:
