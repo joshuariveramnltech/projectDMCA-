@@ -301,8 +301,10 @@ def delete_subject(request, **kwargs):
 
 @login_required
 def enrollment_admission_student(request, user_id, user_full_name):
-    current_school_year = str(datetime.now().year) + \
-                          "-" + str(datetime.now().year + 1)
+    # current_school_year = str(datetime.now().year) + "-" + str(datetime.now().year + 1)
+    current_school_year = SubjectGrade.objects.all().values(
+        'school_year').distinct().order_by('-school_year').first()
+    print("Testing Testing", current_school_year)
     context = {}
     if not request.user.is_superuser:
         raise PermissionDenied
@@ -328,13 +330,13 @@ def enrollment_admission_student(request, user_id, user_full_name):
                 SubjectGrade.objects.create(
                     student=student_user.student_profile,
                     instructor=each_subject.designated_instructor,
-                    school_year=current_school_year,
+                    school_year=current_school_year['school_year'],
                     subject=each_subject
                 )
             FinalGrade.objects.get_or_create(
                 student=student_user.student_profile,
                 level=student_user.student_profile.level_and_section.level,
-                school_year=current_school_year
+                school_year=current_school_year['school_year']
             )
             return HttpResponseRedirect(
                 reverse('administrator:enrollment_admission', args=[user_id, user_full_name]))
