@@ -18,11 +18,13 @@ User = get_user_model()
 # for faculty account
 @login_required
 def view_students_per_subject(request, level_section_id, subject_id):
-    current_school_year = str(datetime.now().year) + \
-        "-" + str(datetime.now().year + 1)
+    # current_school_year = str(datetime.now().year) + \
+    #     "-" + str(datetime.now().year + 1)
+    current_school_year = SubjectGrade.objects.all().values(
+        'school_year').distinct().order_by('-school_year').first()
     if not request.user.is_teacher:
         raise PermissionDenied
-    context = {'request': request, 'current_school_year': current_school_year}
+    context = {'current_school_year': current_school_year['school_year']}
     year_section = LevelAndSection.objects.get(id=level_section_id)
     subject = Subject.objects.get(id=subject_id)
     yearSectionStudents_list = StudentProfile.objects.filter(
@@ -76,11 +78,11 @@ def view_students_per_subject(request, level_section_id, subject_id):
 # for faculty account
 @login_required
 def view_assigned_subject(request):
-    current_school_year = str(datetime.now().year) + \
-        "-" + str(datetime.now().year + 1)
+    current_school_year = SubjectGrade.objects.all().values(
+        'school_year').distinct().order_by('-school_year').first()
     context = {
         'request': request,
-        'current_school_year': current_school_year,
+        'current_school_year': current_school_year['school_year'],
     }
     if not request.user.is_teacher:
         raise PermissionDenied
@@ -104,8 +106,8 @@ def view_student_profile(request, user_id, short_name):
 # for faculty account
 @login_required
 def edit_student_subjectgrade(request, user_id, user_full_name, subject_grade_id):
-    current_school_year = str(datetime.now().year) + \
-        "-" + str(datetime.now().year + 1)
+    current_school_year = SubjectGrade.objects.all().values(
+        'school_year').distinct().order_by('-school_year').first()
     if not request.user.is_teacher:
         raise PermissionDenied
     student_user = User.objects.get(id=user_id)
@@ -119,7 +121,7 @@ def edit_student_subjectgrade(request, user_id, user_full_name, subject_grade_id
         'request': request,
         'subjectGrade': subjectGrade,
         'level_and_section': level_and_section,
-        'current_school_year': current_school_year
+        'current_school_year': current_school_year['school_year']
     }
     if request.method == 'GET':
         subjectGrade_edit_form = SubjectGradeEditForm(instance=subjectGrade)
@@ -142,8 +144,8 @@ def edit_student_subjectgrade(request, user_id, user_full_name, subject_grade_id
 # for faculty account only
 @login_required
 def edit_student_finalgrade(request, user_id, level_id):
-    current_school_year = str(datetime.now().year) + \
-        "-" + str(datetime.now().year + 1)
+    current_school_year = SubjectGrade.objects.all().values(
+        'school_year').distinct().order_by('-school_year').first()
     student_user = User.objects.get(id=user_id)
     level_and_section = LevelAndSection.objects.get(
         id=student_user.student_profile.level_and_section.id)
@@ -165,7 +167,7 @@ def edit_student_finalgrade(request, user_id, level_id):
         'level_and_section': level_and_section,
         'year_level_subjects': year_level_subjects,
         'final_LevelGrade': final_LevelGrade,
-        'current_school_year': current_school_year,
+        'current_school_year': current_school_year['school_year'],
     }
     if request.method == 'GET':
         finalGrade_form = FinalGradeEditForm(instance=final_LevelGrade)
@@ -186,8 +188,8 @@ def edit_student_finalgrade(request, user_id, level_id):
 # for faculty account only
 @login_required
 def view_students_finalgrade(request):
-    current_school_year = str(datetime.now().year) + \
-        "-" + str(datetime.now().year + 1)
+    current_school_year = SubjectGrade.objects.all().values(
+        'school_year').distinct().order_by('-school_year').first()
     if not request.user.is_teacher:
         raise PermissionDenied
     student_list = User.objects.filter(
@@ -215,7 +217,7 @@ def view_students_finalgrade(request):
         students = student_paginator.page(student_paginator.num_pages)
 
     context = {'request': request,
-               'students': students, 'current_school_year': current_school_year}
+               'students': students, 'current_school_year': current_school_year['school_year']}
     return render(request, 'view_students_finalgrade.html', context)
 
 
@@ -247,13 +249,13 @@ def student_level_section_subject(request, student_level, student_section):
 # for student account
 @login_required
 def view_all_grades(request):
-    current_school_year = str(datetime.now().year) + \
-        "-" + str(datetime.now().year + 1)
+    current_school_year = SubjectGrade.objects.all().values(
+        'school_year').distinct().order_by('-school_year').first()
     if not request.user.is_student:
         raise PermissionDenied
     context = {
         'request': request,
-        'current_school_year': current_school_year,
+        'current_school_year': current_school_year['school_year'],
         'nursery_subject_grades': SubjectGrade.objects.filter(
             student=request.user.student_profile,
             subject__level_and_section__level__level="Nursery"

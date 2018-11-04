@@ -67,16 +67,16 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'account/templates/'),
-            os.path.join(BASE_DIR, 'account/templates/account/'),
+            os.path.join(BASE_DIR, 'account/templates'),
+            os.path.join(BASE_DIR, 'account/templates/account'),
             os.path.join(
-                BASE_DIR, 'account/templates/account/registration/'),
-            os.path.join(BASE_DIR, 'administrator/templates/'),
-            os.path.join(BASE_DIR, 'announcement/templates/'),
-            os.path.join(BASE_DIR, 'grading_system/templates/student/'),
-            os.path.join(BASE_DIR, 'grading_system/templates/faculty/'),
-            os.path.join(BASE_DIR, 'accounting_transaction/templates/'),
-            os.path.join(BASE_DIR, 'admission/templates/'),
+                BASE_DIR, 'account/templates/account/registration'),
+            os.path.join(BASE_DIR, 'administrator/templates'),
+            os.path.join(BASE_DIR, 'announcement/templates'),
+            os.path.join(BASE_DIR, 'grading_system/templates/student'),
+            os.path.join(BASE_DIR, 'grading_system/templates/faculty'),
+            os.path.join(BASE_DIR, 'accounting_transaction/templates'),
+            os.path.join(BASE_DIR, 'admission/templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -152,10 +152,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static/'),
-    os.path.join(BASE_DIR, 'static/img/')
+    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'static/img')
 ]
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'account:dashboard'
 LOGOUT_REDIRECT_URL = 'login'
@@ -167,7 +167,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 PHONENUMBER_DEFAULT_REGION = 'PH'
 # GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = os.path.join(
