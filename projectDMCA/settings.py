@@ -41,8 +41,8 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'taggit',
     # custom applications
-    'administrator.apps.AdministratorConfig',
     'account.apps.AccountConfig',
+    'administrator.apps.AdministratorConfig',
     'announcement.apps.AnnouncementConfig',
     'grading_system.apps.GradingSystemConfig',
     'accounting_transaction.apps.AccountingTransactionConfig',
