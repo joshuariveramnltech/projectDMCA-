@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
-{% block title %}{{ request.user.get_short_name }}|{{ request.user.staff_profile.position }}{% endblock title %}
+{% block title %}{{ request.user.get_short_name }} | {{ request.user.staff_profile.position }}{% endblock title %}
 {% block content %}
 <div class="white">
     <br>
