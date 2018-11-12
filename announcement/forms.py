@@ -10,7 +10,7 @@ class AnnouncementForm(forms.ModelForm):
         fields = [
             'title', 'tags',
             'body', 'file', 'send_to_group',
-            'send_to_all',
+            'send_to_all', 'status',
         ]
 
         labels = {
