@@ -71,7 +71,9 @@ def appointment_request(request):
                 'pdf.html', {'appointment_request': new_appointment})
             out = BytesIO()
             weasyprint.HTML(string=html).write_pdf(
-                out, stylesheets=[weasyprint.CSS(settings.STATIC_ROOT + '/main.css'), ])
+                out, stylesheets=[weasyprint.CSS(
+                    settings.STATIC_ROOT + '/main.css'), ]
+            )
             # attach PDF file
             email.attach('appointment_request_{}.pdf'.format(
                 new_appointment.id), out.getvalue(), 'application/pdf')
