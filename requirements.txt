@@ -7,7 +7,7 @@ CairoSVG==2.2.1
 certifi==2018.10.15
 cffi==1.11.5
 chardet==3.0.4
-cloudinary==1.14.0
+cloudinary==1.15.0
 colorama==0.4.0
 cssselect2==0.2.1
 cycler==0.10.0
@@ -15,7 +15,7 @@ defusedxml==0.5.0
 diff-match-patch==20121119
 dj-database-url==0.5.0
 dj-static==0.0.6
-Django==2.1.5
+Django==2.1.7
 django-appconf==1.0.2
 django-bootstrap3==11.0.0
 django-bootstrap4==0.0.7
@@ -60,7 +60,7 @@ pdfrw==0.4
 pep8==1.7.1
 phonenumberslite==8.9.10
 Pillow==5.4.1
-pipenv==2018.7.1
+pipenv==2018.11.26
 psycopg2==2.7.5
 pyasn1==0.4.4
 pyasn1-modules==0.2.2
@@ -75,6 +75,7 @@ pyexcel-xlsx==0.5.6
 pyflakes==2.0.0
 pygame==1.9.4
 PyJWT==1.6.4
+pylint==2.2.2
 pyparsing==2.3.0
 Pyphen==0.9.5
 python-dateutil==2.7.5
@@ -83,11 +84,11 @@ pytz==2018.7
 PyYAML==3.13
 requests==2.20.0
 requests-oauthlib==1.0.0
-robotframework==3.0.4
+robotframework==3.1.1
 robotframework-selenium2library==3.0.0
 robotframework-seleniumlibrary==3.2.0
 rsa==4.0
-selenium==3.14.1
+selenium==3.141.0
 six==1.11.0
 social-auth-app-django==2.1.0
 social-auth-core==1.7.0
@@ -99,7 +100,7 @@ typed-ast==1.1.0
 unicodecsv==0.14.1
 uritemplate==3.0.0
 urllib3==1.24.1
-virtualenv==16.0.0
+virtualenv==16.2.0
 virtualenv-clone==0.3.0
 WeasyPrint==44
 webencodings==0.5.1
