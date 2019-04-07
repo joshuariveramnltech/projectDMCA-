@@ -110,7 +110,7 @@ DATABASES = {
         },
         'NAME': 'dmcadb',
         'USER': 'pypert',
-        'PASSWORD': '',
+        'PASSWORD': 'P@ssw0rd',
         'HOST': '127.0.0.1',
         'PORT': ''
     }
