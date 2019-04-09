@@ -7,3 +7,4 @@ migrations/
 .vscode/
 media/user/
 media/file/
+Pipfile.lock
