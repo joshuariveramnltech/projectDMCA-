@@ -107,7 +107,7 @@ et_xmlfile = "==1.0.1"
 Markdown = "==3.0.1"
 MarkupSafe = "==1.1.0"
 Pillow = "==5.2.0"
-PyJWT = "==1.6.4"
+PyJWT = "==2.4.0"
 Pyphen = "==0.9.5"
 PyYAML = "==3.13"
 
